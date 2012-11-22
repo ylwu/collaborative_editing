@@ -4,17 +4,47 @@
 package gui;
 
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 
 import controller.Controller;
 
 public class GUI extends JFrame  {
 	
-	public GUI(){
+	private final JTextField mainTextField;
+	private final Controller c; // in case you need this
+	
+	public GUI(Controller c){
 		this.setTitle("Collaborative Editing");
-		Controller c=new Controller(this);
 		// then write something like
-		//mainTextField.addActionListener(c);
+		this.c=c;
+		mainTextField=new JTextField();
+		mainTextField.setActionCommand("update from viewer");  //shu, this is important for controller, be sure to add this
+		mainTextField.addActionListener(c);
+		
+		//at the end
+		this.pack();
+		this.setVisible(true);
 	}
+
+	/**
+	 * @return
+	 * 
+	 * get text in textField
+	 */
+    public String getText() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	/**
+	 * @param text
+	 * 
+	 * update textField
+	 */
+    public void setText(String text) {
+	    // TODO Auto-generated method stub
+	    
+    }
 	
 	
 
