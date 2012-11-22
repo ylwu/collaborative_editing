@@ -27,12 +27,9 @@ public class GUI extends JFrame  {
 		//at the end
 		this.pack();
 		this.setVisible(true);
-		// don't forget to implement close for gui
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				System.exit(0);
-			}
-		});
+		// implement close for gui without close the whole program
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
 	}
 
 	/**
