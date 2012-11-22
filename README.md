@@ -7,6 +7,6 @@ Deadline: Dec 12 2012
 
 gyz: Multi-threaded
 
-ylwu: controller
+ylwu: model
 
 zhengshu: GUI
