@@ -24,6 +24,7 @@ public class GUI extends JFrame  {
 		//at the end
 		this.pack();
 		this.setVisible(true);
+		// don't forget to implement close for gui
 	}
 
 	/**
