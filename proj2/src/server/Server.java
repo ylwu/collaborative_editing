@@ -59,7 +59,7 @@ public class Server {
     
 	public static void main(final String[] args) {
 		Controller c=new Controller();
-        final int port=4444;
+        final int port=4441;
         try {
             runServer(port,c);
         } catch (IOException e) {

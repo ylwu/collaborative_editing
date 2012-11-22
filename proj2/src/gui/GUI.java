@@ -3,6 +3,9 @@
  */
 package gui;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -25,6 +28,11 @@ public class GUI extends JFrame  {
 		this.pack();
 		this.setVisible(true);
 		// don't forget to implement close for gui
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
 	}
 
 	/**

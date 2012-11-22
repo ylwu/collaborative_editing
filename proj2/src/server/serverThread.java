@@ -62,17 +62,30 @@ public class serverThread extends Thread{
 
         try {
             server.increaseNumPlayers();
-            out.println("Welcome to edictor.  "+server.getNumPlayers()+ " people are editing including you.  Type 'help' for help.");
+            out.println("Welcome to edictor.  "+server.getNumPlayers()+ " people are editing inc" +
+            		"luding you.  ");
             
             
             SwingUtilities.invokeLater(new Runnable() {
     			public void run() {
+    				//testing purpose
+    	            System.out.println("creating new gui");
     				GUI gui=new GUI(controller);
+    				
 
     			}
     		});
+            for (String line =in.readLine(); line!=null; line=in.readLine()) {}
+            //testing purpose
+            System.out.println("should not be here");
         } 
-        finally {        
+        catch (Exception e){
+        	e.printStackTrace();
+        }
+        finally {  
+        	
+        	//testing purpose
+        	System.out.println("connection closed");
             out.close();
             in.close();
             server.decreaseNumPlayers();
