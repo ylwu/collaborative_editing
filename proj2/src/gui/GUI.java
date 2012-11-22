@@ -5,6 +5,7 @@ package gui;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import controller.Controller;
 
@@ -43,6 +44,18 @@ public class GUI extends JFrame  {
     public void setText(String text) {
 	    // TODO Auto-generated method stub
 	    
+    }
+    
+    
+    // for testing single gui (separate user, separate gui)
+    public static void main(final String[] args) {
+    	final Controller controller=new Controller();
+    	SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				GUI gui=new GUI(controller);
+
+			}
+		});
     }
 	
 	
