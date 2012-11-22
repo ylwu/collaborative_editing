@@ -27,28 +27,27 @@ public class Controller implements ActionListener {
 	private List<GUI> views;
 
 	public Controller() {
-		this.model = new Model();
+		this.model = new Model(this);
 	}
 
 	public Model getModel() {
 		return this.model;
 	}
-	
-	public void addView(GUI v){
+
+	public void addView(GUI v) {
 		views.add(v);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("update from viewer")) {
-			BackEndThread thread = new BackEndThread(e, model);
-			thread.start();
-		}else if (e.getActionCommand().equals("update from model")){
-			for (GUI v:views){
-				FrontEndThread thread = new FrontEndThread(v, model);
-				thread.start();
-			}
-		}
-		
+		BackEndThread thread = new BackEndThread(e, model);
+		thread.start();
 
+	}
+
+	public void updateFontEnd() {
+		for (GUI v : views) {
+			FrontEndThread thread = new FrontEndThread(v, model);
+			thread.start();
+		}
 	}
 }

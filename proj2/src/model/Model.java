@@ -3,10 +3,13 @@
  */
 package model;
 
+import controller.Controller;
+
 
 public class Model {
-	public Model(){
-		
+	private final Controller c;
+	public Model(Controller controller){
+		c=controller;
 	}
 
 	/**
@@ -17,6 +20,8 @@ public class Model {
     public void update(String text) {
 	    // TODO Auto-generated method stub
 	    
+    	// at the end 
+    	c.updateFontEnd();
     }
 
 	/**

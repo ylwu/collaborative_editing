@@ -18,7 +18,6 @@ public class GUI extends JFrame  {
 		// then write something like
 		this.c=c;
 		mainTextField=new JTextField();
-		mainTextField.setActionCommand("update from viewer");  //shu, this is important for controller, be sure to add this
 		mainTextField.addActionListener(c);
 		
 		//at the end
