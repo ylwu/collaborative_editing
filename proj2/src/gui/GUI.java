@@ -147,6 +147,7 @@ public class GUI extends JFrame  {
         		.addComponent(guiTitle)
                 .addComponent(documentName)
                 .addComponent(editScrollPane)
+                .addComponent(splitPane)
                 .addComponent(historyScrollPane) 
                 .addComponent(statusPane)); 
         
@@ -154,6 +155,7 @@ public class GUI extends JFrame  {
         		.addComponent(guiTitle)
                 .addComponent(documentName)
                 .addComponent(editScrollPane)
+                .addComponent(splitPane)
                 .addComponent(historyScrollPane)
                 .addComponent(statusPane));
         
@@ -169,7 +171,7 @@ public class GUI extends JFrame  {
 	}
 	
 	
-    //This listens for and reports caret movements.
+    //Listener for Caret movement
     protected class CaretListenerLabel extends JLabel
                                        implements CaretListener {
         public CaretListenerLabel(String label) {
@@ -214,7 +216,7 @@ public class GUI extends JFrame  {
         }
     }
     
-    //This one listens for any changes to the document.
+    //Listener for Document changes
     //TODO: (for yunzhi) please fire the change to the controller (and to the model)
     protected class MyDocumentListener
                     implements DocumentListener {
