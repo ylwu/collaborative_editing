@@ -3,6 +3,7 @@
  */
 package gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.GridLayout;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 
 import javax.swing.Action;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
@@ -52,6 +54,7 @@ public class GUI extends JFrame  {
 	/*zhengshu: added more features to the GUI*/
 	private String newline = "\n";
 	private final JLabel guiTitle; // entitles the GUI
+	private final JLabel guiPicture; // insert picture
 	private final JLabel documentName; //displays document name
 	private final JTextField documentNameField; // displays document name
 	private final JTextPane editArea; // a styled editable area in the GUI
@@ -69,10 +72,15 @@ public class GUI extends JFrame  {
 		this.setTitle("Collaborative Editor");
 		this.c = c;
 
-
 		// create GUI title
 		guiTitle = new JLabel("Welcome to Collaborative Editor!");
 		getContentPane().add(guiTitle);
+		
+		// load GUI picture
+		ImageIcon icon = new ImageIcon("image/writing-2.jpg","Collaborative Editing");
+		guiPicture = new JLabel(icon,JLabel.CENTER);
+		getContentPane().add(guiPicture);
+		
 
 		// display document name
 		documentName = new JLabel("You are editing Document: ");
@@ -140,6 +148,7 @@ public class GUI extends JFrame  {
 
 		layout.setHorizontalGroup(layout.createParallelGroup()
 				.addComponent(guiTitle,GroupLayout.Alignment.CENTER)
+				.addComponent(guiPicture,GroupLayout.Alignment.CENTER)
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(documentName)
 						.addComponent(documentNameField))
@@ -149,6 +158,7 @@ public class GUI extends JFrame  {
 
 		layout.setVerticalGroup(layout.createSequentialGroup()
 				.addComponent(guiTitle)
+				.addComponent(guiPicture)
 				.addGroup(layout.createParallelGroup()
 						.addComponent(documentName)
 						.addComponent(documentNameField))
@@ -157,6 +167,10 @@ public class GUI extends JFrame  {
 				.addComponent(statusPane));
 
 		setSize(getPreferredSize());
+		
+		// set background color
+		getContentPane().setBackground(new Color(255,228,225));
+		
 
 		// at the end
 		this.pack();
