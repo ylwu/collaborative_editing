@@ -53,6 +53,7 @@ public class GUI extends JFrame  {
 	private String newline = "\n";
 	private final JLabel guiTitle; // entitles the GUI
 	private final JLabel documentName; //displays document name
+	private final JTextField documentNameField; // displays document name
 	private final JTextPane editArea; // a styled editable area in the GUI
 	private final JTextArea editHistory; //the edit history for the client	
 	HashMap<Object, Action> actions;
@@ -76,6 +77,9 @@ public class GUI extends JFrame  {
 		// display document name
 		documentName = new JLabel("You are editing Document: ");
 		getContentPane().add(documentName);
+		//TODO: place-holder for now, need to load actual name from the model!
+		documentNameField = new JTextField("Place Holder.doc"); 
+		documentNameField.setEditable(false);
 
 		// create an editor pane
 		editArea = new JTextPane();
@@ -98,12 +102,6 @@ public class GUI extends JFrame  {
 		JScrollPane historyScrollPane = new JScrollPane(editHistory);
 		historyScrollPane.setPreferredSize(new Dimension(300, 100));
 		getContentPane().add(historyScrollPane);
-
-		// split editable area and edit history
-		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-				editScrollPane, historyScrollPane);
-		splitPane.setOneTouchExpandable(true);
-		getContentPane().add(splitPane);
 
 		// Set up the menu bar
 		actions = createActionTable(editArea);
@@ -141,14 +139,22 @@ public class GUI extends JFrame  {
 		layout.setAutoCreateContainerGaps(true);
 
 		layout.setHorizontalGroup(layout.createParallelGroup()
-				.addComponent(guiTitle).addComponent(documentName)
-				.addComponent(editScrollPane).addComponent(splitPane)
-				.addComponent(historyScrollPane).addComponent(statusPane));
+				.addComponent(guiTitle,GroupLayout.Alignment.CENTER)
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(documentName)
+						.addComponent(documentNameField))
+				.addComponent(editScrollPane)
+				.addComponent(historyScrollPane)
+				.addComponent(statusPane));
 
 		layout.setVerticalGroup(layout.createSequentialGroup()
-				.addComponent(guiTitle).addComponent(documentName)
-				.addComponent(editScrollPane).addComponent(splitPane)
-				.addComponent(historyScrollPane).addComponent(statusPane));
+				.addComponent(guiTitle)
+				.addGroup(layout.createParallelGroup()
+						.addComponent(documentName)
+						.addComponent(documentNameField))
+				.addComponent(editScrollPane)
+				.addComponent(historyScrollPane)
+				.addComponent(statusPane));
 
 		setSize(getPreferredSize());
 
