@@ -3,13 +3,39 @@
  */
 package model;
 
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+
 import controller.Controller;
 
 
 public class Model {
 	private final Controller c;
+	private final AbstractDocument doc;
 	public Model(Controller controller){
 		c=controller;
+		doc= new DefaultStyledDocument();
+		initDocument();
+	}
+	
+	public AbstractDocument getDoc(){
+	    return doc;
+	}
+	
+	private void initDocument(){
+	 // put some initial text
+        String initString = "Styled document, please click to!";
+        SimpleAttributeSet attributes = new SimpleAttributeSet();
+        StyleConstants.setBold(attributes, true);
+        StyleConstants.setItalic(attributes, true);
+        try {
+            doc.insertString(0, initString, attributes);
+        } catch (BadLocationException ble) {
+            System.err.println("Text Insertion Failure!");
+        }
 	}
 
 	/**
