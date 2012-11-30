@@ -169,7 +169,7 @@ public class GUI extends JFrame  {
 		setSize(getPreferredSize());
 		
 		// set background color
-		getContentPane().setBackground(new Color(255,228,225));
+		getContentPane().setBackground(new Color(240,255,240));
 		
 
 		// at the end
