@@ -73,6 +73,7 @@ public class GUI extends JFrame  {
 		this.setTitle("Collaborative Editor");
 		this.c = c;
 		this.document = c.getModel().getDoc();
+		this.docName = c.getModel().getDocName();
 
 		// create GUI title
 		guiTitle = new JLabel("Welcome to Collaborative Editor!");
@@ -88,8 +89,9 @@ public class GUI extends JFrame  {
 		documentName = new JLabel("You are editing Document: ");
 		getContentPane().add(documentName);
 		//TODO: place-holder for now, need to load actual name from the model!
+		//Done!
 		documentNameField = new JTextField(docName); 
-		documentNameField.setEditable(false);
+		//documentNameField.setEditable(true);
 
 		// create an editor pane
 		editArea = new JTextPane();
