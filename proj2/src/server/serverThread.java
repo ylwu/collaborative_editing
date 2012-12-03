@@ -67,9 +67,12 @@ public class serverThread extends Thread{
             server.increaseNumPlayers();
             out.println("Welcome to edictor.  "+server.getNumPlayers()+ " people are editing inc" +
             		"luding you.  ");
+
             OutputStream os = socket.getOutputStream();  
             ObjectOutputStream oos = new ObjectOutputStream(os);
             oos.writeObject(controller);
+
+           
 
             for (String line =in.readLine(); line!=null; line=in.readLine()) {}
             //testing purpose
