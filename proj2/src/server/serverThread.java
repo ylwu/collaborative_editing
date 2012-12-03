@@ -8,6 +8,8 @@ import gui.GUI;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -59,25 +61,19 @@ public class serverThread extends Thread{
     private void handleConnection(Socket socket) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+        
 
         try {
             server.increaseNumPlayers();
             out.println("Welcome to edictor.  "+server.getNumPlayers()+ " people are editing inc" +
             		"luding you.  ");
-            
-            
-            SwingUtilities.invokeLater(new Runnable() {
-    			public void run() {
-    				//testing purpose
-    	            System.out.println("creating new gui");
-    				GUI gui=new GUI(controller);
-    				
+            OutputStream os = socket.getOutputStream();  
+            ObjectOutputStream oos = new ObjectOutputStream(os);
+            oos.writeObject(controller);
 
-    			}
-    		});
             for (String line =in.readLine(); line!=null; line=in.readLine()) {}
             //testing purpose
-            System.out.println("should not be here");
+            System.out.println("no more inputs");
         } 
         catch (Exception e){
         	e.printStackTrace();
