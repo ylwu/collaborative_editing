@@ -70,7 +70,7 @@ public class serverThread extends Thread{
     			public void run() {
     				//testing purpose
     	            System.out.println("creating new gui");
-    	            //need change again
+    	            //need change again 1
     				GUI gui=new GUI(controller);
     				
 
