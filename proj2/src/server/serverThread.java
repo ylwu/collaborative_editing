@@ -71,7 +71,7 @@ public class serverThread extends Thread{
 
             OutputStream os = socket.getOutputStream();  
             ObjectOutputStream oos = new ObjectOutputStream(os);
-            oos.writeObject("Today");
+            oos.writeObject(controller);
             oos.flush();
 
            

@@ -3,6 +3,8 @@
  */
 package model;
 
+import java.io.Serializable;
+
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
@@ -12,7 +14,7 @@ import javax.swing.text.StyleConstants;
 import controller.Controller;
 
 
-public class Model {
+public class Model implements Serializable{
 	private final Controller c;
 	private final AbstractDocument doc;
 	private String docName;
