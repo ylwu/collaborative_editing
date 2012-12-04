@@ -25,11 +25,22 @@ import model.Model;
  */
 public class Controller implements ActionListener,Serializable {
 	private final Model model;
+    private Integer docNum;
+	
 	private List<GUI> views;
 
 	public Controller() {
+		this.docNum = 1;
 		this.model = new Model(this);
+
 	}
+	
+	public Controller(Integer docNum) {
+        this.docNum = docNum;
+        this.model = new Model(this);
+	}
+	
+
 
 	public Model getModel() {
 		return this.model;
@@ -37,6 +48,18 @@ public class Controller implements ActionListener,Serializable {
 
 	public void addView(GUI v) {
 		views.add(v);
+	}
+	
+	public void setDocNum(Integer docNum){
+		this.docNum = docNum;
+	}
+	
+	public int getDocNum(){
+		return this.docNum;
+	}
+	
+	public void increaseDocNum(){
+		this.docNum ++;
 	}
 
 	public void actionPerformed(ActionEvent e) {
