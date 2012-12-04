@@ -58,7 +58,7 @@ public class Model implements Serializable{
 	 * 
 	 * update
 	 */
-    public void update(DefaultDocumentEvent chng, 
+    public void insertUpdate(DefaultDocumentEvent chng, 
 			AttributeSet attr) {
 	    doc.insertUpdate(chng, attr);
     }

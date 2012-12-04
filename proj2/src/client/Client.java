@@ -31,24 +31,19 @@ import controller.Controller;
 public class Client {
     private ObjectOutputStream toServer;
     private ObjectInputStream fromServer;
-    private static Controller controller;
-    private static String ip;
+    private Controller controller;
+    private String ip;
     private Socket socket;
     
-    public Client(){
-        
+    public Client(String ip){
+        this.ip = ip;
     }
     
-    public void updateServer(AbstractDocument d) throws IOException{
-        toServer.writeObject(d);
-        toServer.flush();
-        System.out.println("sent update to server");
-    }
-    
-    public void updateRemoval(DefaultDocumentEvent event) throws IOException{
+
+    public void updateServer(DefaultDocumentEvent event) throws IOException{
         toServer.writeObject(event);
         toServer.flush();
-        System.out.println("sent removal update to server");
+        System.out.println("sent update to server");
     }
     
     public void getUpdates(){
@@ -78,15 +73,13 @@ public class Client {
     
     
 	public static void main(final String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
-		ip=args[0];
-		final Client c = new Client();
+		final Client c = new Client(args[0]);
 		c.initialize();
-		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				//testing purpose
 	            System.out.println("creating new gui");
-			    new GUI(controller,c);
+			    new GUI(c.controller,c);
 
 			}
 		});

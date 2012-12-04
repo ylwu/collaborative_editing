@@ -17,6 +17,8 @@ import java.net.Socket;
 import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
 
 
 
@@ -58,7 +60,12 @@ public class serverThread extends Thread{
 
         try {
             initialize(socket);
-            handleConnection(socket);
+            try {
+                handleConnection(socket);
+            } catch (BadLocationException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -81,12 +88,13 @@ public class serverThread extends Thread{
 
     }
     
-    private void handleConnection(Socket socket) throws IOException{
+    private void handleConnection(Socket socket) throws IOException, BadLocationException{
             while(true){
                 try {
                     DefaultDocumentEvent event = (DefaultDocumentEvent)fromClient.readObject();
                     System.out.println("received update from client");
-                    //this.controller.getModel().removeUpdate(event);
+                    this.controller.getModel().insertUpdate(event,new SimpleAttributeSet());
+                    System.out.println(controller.getModel().getDoc().getText(1,100));
                     
                 } catch (ClassNotFoundException e) {
                     // TODO Auto-generated catch block
