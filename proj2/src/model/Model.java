@@ -18,11 +18,13 @@ public class Model implements Serializable{
 	private final Controller c;
 	private final AbstractDocument doc;
 	private String docName;
+	private Integer docNum;
 	public Model(Controller controller){
 		c=controller;
+		docNum = c.getDocNum();
 		doc= new DefaultStyledDocument();
 		initDocument();
-		docName = "New Document";
+		docName = "New Document " + Integer.toString(docNum);
 		
 	}
 	
@@ -38,8 +40,8 @@ public class Model implements Serializable{
         String initString = "Styled document, please click to edit!\n" 
 	 + "This Document is saved in the model from the controller and shared with other GUIs";
         SimpleAttributeSet attributes = new SimpleAttributeSet();
-        StyleConstants.setBold(attributes, true);
-        StyleConstants.setItalic(attributes, true);
+        //StyleConstants.setBold(attributes, true);
+        //StyleConstants.setItalic(attributes, true);
         try {
             doc.insertString(0, initString, attributes);
         } catch (BadLocationException ble) {

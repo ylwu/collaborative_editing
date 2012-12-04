@@ -8,6 +8,8 @@ import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -20,6 +22,7 @@ import javax.swing.Action;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
+import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -59,14 +62,17 @@ public class GUI extends JFrame  {
 	private final JTextField documentNameField; // displays document name
 	private final JTextPane editArea; // a styled editable area in the GUI
 	private final JTextArea editHistory; //the edit history for the client	
+	private final JButton createNew;
 	private String docName;//name of the document(that a user can edit)
 	HashMap<Object, Action> actions;
+	
+    private Integer docNum = 1; // initialize document number to 1
+	
 	
 	
 	//TODO: should grab document from remote server!!! instead of this place-holder doc
 	AbstractDocument document;
 	
-	// private final JTextField mainTextField;
 	private final Controller c; // in case you need this
 
 	public GUI(Controller c) {
@@ -84,6 +90,12 @@ public class GUI extends JFrame  {
 		guiPicture = new JLabel(icon,JLabel.CENTER);
 		getContentPane().add(guiPicture);
 		
+		// creat JButton
+		createNew = new JButton("New File");
+		getContentPane().add(createNew);
+		createNew.addActionListener(new createDocListener());
+		
+		
 
 		// display document name
 		documentName = new JLabel("You are editing Document: ");
@@ -91,7 +103,7 @@ public class GUI extends JFrame  {
 		//TODO: place-holder for now, need to load actual name from the model!
 		//Done!
 		documentNameField = new JTextField(docName); 
-		//documentNameField.setEditable(true);
+		documentNameField.setEditable(false);
 
 		// create an editor pane
 		editArea = new JTextPane();
@@ -154,6 +166,7 @@ public class GUI extends JFrame  {
 		layout.setHorizontalGroup(layout.createParallelGroup()
 				.addComponent(guiTitle,GroupLayout.Alignment.CENTER)
 				.addComponent(guiPicture,GroupLayout.Alignment.CENTER)
+				.addComponent(createNew,GroupLayout.Alignment.CENTER)
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(documentName)
 						.addComponent(documentNameField))
@@ -164,6 +177,7 @@ public class GUI extends JFrame  {
 		layout.setVerticalGroup(layout.createSequentialGroup()
 				.addComponent(guiTitle)
 				.addComponent(guiPicture)
+				.addComponent(createNew)
 				.addGroup(layout.createParallelGroup()
 						.addComponent(documentName)
 						.addComponent(documentNameField))
@@ -183,6 +197,20 @@ public class GUI extends JFrame  {
 		// implement close for gui without close the whole program
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+	}
+	// Listener for creating new document
+	protected class createDocListener implements ActionListener {
+		
+		public void actionPerformed(ActionEvent e){
+			docNum ++;
+			final Controller controller = new Controller(docNum);
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					GUI gui = new GUI(controller);
+
+				}
+			});
+		}
 	}
 
 	// Listener for Caret movement
