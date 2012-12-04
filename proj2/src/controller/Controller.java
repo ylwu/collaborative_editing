@@ -7,6 +7,7 @@ import gui.GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.List;
 
 import model.Model;
@@ -22,7 +23,7 @@ import model.Model;
  * 
  * 
  */
-public class Controller implements ActionListener {
+public class Controller implements ActionListener, Serializable {
 	private final Model model;
 	private List<GUI> views;
 

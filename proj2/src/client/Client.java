@@ -27,9 +27,11 @@ public class Client {
 		System.out.println("connecting to server");
 		final Socket socket=new Socket(ip,4441);
 		System.out.println("connected to server");
+		 
 		InputStream is = socket.getInputStream();  
-		ObjectInputStream ois = new ObjectInputStream(is);  
-		final Controller controller = (Controller)ois.readObject(); 
+		ObjectInputStream ois = new ObjectInputStream(is); 
+		final Controller controller = (Controller)ois.readObject();
+		
 		System.out.println("got controller");
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
