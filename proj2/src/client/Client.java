@@ -33,22 +33,22 @@ public class Client {
         
         String decodedString;
         decodedString = in.readLine();
-        in.close();
+        //in.close();
         System.out.println(decodedString);
 		
 		
 		InputStream is = socket.getInputStream();  
 		ObjectInputStream ois = new ObjectInputStream(is); 
-		Controller controller = (Controller)ois.readObject();
-		String today = (String) ois.readObject();
-		System.out.println(today);
+		final Controller controller = (Controller)ois.readObject();
+		//String today = (String) ois.readObject();
+		//System.out.println(today);
 		
 		System.out.println("got controller");
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				//testing purpose
 	            System.out.println("creating new gui");
-			    //new GUI(controller);
+			    new GUI(controller);
 
 			}
 		});
