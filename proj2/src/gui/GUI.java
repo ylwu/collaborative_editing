@@ -68,9 +68,6 @@ public class GUI extends JFrame  {
 	
     private Integer docNum = 1; // initialize document number to 1
 	
-	
-	
-	//TODO: should grab document from remote server!!! instead of this place-holder doc
 	AbstractDocument document;
 	
 	private final Controller c; // in case you need this
