@@ -43,6 +43,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
+import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Document;
@@ -244,15 +245,21 @@ public class GUI extends JFrame  {
 	protected class MyDocumentListener implements DocumentListener {
 		public void insertUpdate(DocumentEvent e) {
 			displayEditInfo(e);
-			try {
-                client.updateServer((AbstractDocument) e.getDocument());
+//			try {
+//                client.updateServer((AbstractDocument) e.getDocument());
+//            } catch (IOException e1) {
+//                // TODO Auto-generated catch block
+//                e1.printStackTrace();
+//            }
+		}
+
+		public void removeUpdate(DocumentEvent e) {
+		    try {
+                client.updateRemoval((DefaultDocumentEvent) e);
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
-		}
-
-		public void removeUpdate(DocumentEvent e) {
 			displayEditInfo(e);
 		}
 

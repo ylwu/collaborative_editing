@@ -6,6 +6,7 @@ package model;
 import java.io.Serializable;
 
 import javax.swing.text.AbstractDocument;
+import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
@@ -31,6 +32,10 @@ public class Model implements Serializable{
 	
 	public AbstractDocument getDoc(){
 	    return doc;
+	}
+	
+	public void changeDoc(AbstractDocument doc){
+	    this.doc = doc; 
 	}
 	
 	public String getDocName(){
@@ -60,6 +65,12 @@ public class Model implements Serializable{
 	    
     	// at the end 
     	c.updateFontEnd();
+    }
+
+
+    public void removeUpdate(DefaultDocumentEvent event) {
+        doc.postRemoveUpdate(event);
+        
     }
 
 }

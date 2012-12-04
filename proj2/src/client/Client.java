@@ -17,6 +17,7 @@ import java.net.UnknownHostException;
 
 import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
+import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
 import javax.swing.text.Document;
 
 import model.Model;
@@ -44,9 +45,15 @@ public class Client {
         System.out.println("sent update to server");
     }
     
+    public void updateRemoval(DefaultDocumentEvent event) throws IOException{
+        toServer.writeObject(event);
+        toServer.flush();
+        System.out.println("sent removal update to server");
+    }
+    
     public void getUpdates(){
         try {
-            Model m = (Model)fromServer.readObject();
+            DefaultDocumentEvent event = (DefaultDocumentEvent)fromServer.readObject();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

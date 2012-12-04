@@ -16,6 +16,7 @@ import java.net.Socket;
 
 import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
+import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
 
 
 
@@ -83,8 +84,10 @@ public class serverThread extends Thread{
     private void handleConnection(Socket socket) throws IOException{
             while(true){
                 try {
-                    AbstractDocument d = (AbstractDocument) fromClient.readObject();
+                    DefaultDocumentEvent event = (DefaultDocumentEvent)fromClient.readObject();
                     System.out.println("received update from client");
+                    this.controller.getModel().removeUpdate(event);
+                    
                 } catch (ClassNotFoundException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
