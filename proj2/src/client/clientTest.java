@@ -1,7 +1,7 @@
 
 /**
  * 
- * Test Strategy for Client
+ * Testing Strategy for Client
  * (1) test for valid server connection
  * (2) test that controller information can be obtained from Object Input Stream 
  *     from the server to the client

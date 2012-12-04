@@ -1,7 +1,7 @@
 
 
 /**
- * Test Strategy for GUI Test
+ * Testing Strategy for GUI Test
  * 
  * (1) Test JButton "create new file"
  *     check that a new GUI window will pop up with a correct
