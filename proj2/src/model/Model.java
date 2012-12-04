@@ -16,7 +16,7 @@ import controller.Controller;
 
 public class Model implements Serializable{
 	private final Controller c;
-	private final AbstractDocument doc;
+	private AbstractDocument doc;
 	private String docName;
 	private Integer docNum;
 	public Model(Controller controller){
@@ -54,20 +54,11 @@ public class Model implements Serializable{
 	 * 
 	 * update
 	 */
-    public void update(String text) {
-	    // TODO Auto-generated method stub
+    public void update(AbstractDocument doc) {
+	    this.doc = doc;
 	    
     	// at the end 
     	c.updateFontEnd();
-    }
-
-	/**
-	 * @return
-	 * get text saved in model
-	 */
-    public String getText() {
-	    // TODO Auto-generated method stub
-	    return null;
     }
 
 }

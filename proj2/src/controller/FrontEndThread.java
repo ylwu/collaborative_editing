@@ -17,7 +17,7 @@ public class FrontEndThread extends Thread {
 	 * @param model
 	 */
     public FrontEndThread(GUI v, Model model) {
-	    v.setText(model.getText());
+	    
     }
 	
 

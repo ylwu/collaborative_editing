@@ -35,6 +35,7 @@ public class serverThread extends Thread{
     private final Server server;
     private Controller controller;
     
+    
     public serverThread(Server server, Socket socket, Controller c) {
         this.socket = socket;
         this.server=server;

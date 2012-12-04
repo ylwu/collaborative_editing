@@ -27,8 +27,8 @@ public class BackEndThread extends Thread {
 	public void run() {
 		JTextField t=(JTextField)(e.getSource());
 		String text=t.getText();
-		if (text!=model.getText()){
-		model.update(text);}
+//		if (text!=model.getText()){
+//		model.update(text);}
 		
 	}
 }
