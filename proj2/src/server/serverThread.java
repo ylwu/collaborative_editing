@@ -59,15 +59,15 @@ public class serverThread extends Thread{
     }
     
     private void handleConnection(Socket socket) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+//        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         
 
         try {
-            server.increaseNumPlayers();
-            out.println("Welcome to edictor.  "+server.getNumPlayers()+ " people are editing inc" +
-            		"luding you.  ");
-            out.flush();
+//            server.increaseNumPlayers();
+//            out.println("Welcome to edictor.  "+server.getNumPlayers()+ " people are editing inc" +
+//            		"luding you.  ");
+//            out.flush();
 
             OutputStream os = socket.getOutputStream();  
             ObjectOutputStream oos = new ObjectOutputStream(os);
@@ -76,9 +76,9 @@ public class serverThread extends Thread{
 
            
 
-            for (String line =in.readLine(); line!=null; line=in.readLine()) {}
-            //testing purpose
-            System.out.println("no more inputs");
+//            for (String line =in.readLine(); line!=null; line=in.readLine()) {}
+//            //testing purpose
+//            System.out.println("no more inputs");
         } 
         catch (Exception e){
         	e.printStackTrace();
@@ -87,8 +87,9 @@ public class serverThread extends Thread{
         	
         	//testing purpose
         	System.out.println("connection closed");
-            out.close();
-            in.close();
+//            out.close();
+//            in.close();
+//            oos.close();
             server.decreaseNumPlayers();
         }
     }

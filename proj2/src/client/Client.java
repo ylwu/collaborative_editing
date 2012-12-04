@@ -29,20 +29,17 @@ public class Client {
 		System.out.println("connecting to server");
 		final Socket socket=new Socket(ip,4441);
 		System.out.println("connected to server");
-		BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        
-        String decodedString;
-        decodedString = in.readLine();
-        //in.close();
-        System.out.println(decodedString);
+//		BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//        
+//        String decodedString;
+//        decodedString = in.readLine();
+//        //in.close();
+//        System.out.println(decodedString);
 		
 		
 		InputStream is = socket.getInputStream();  
 		ObjectInputStream ois = new ObjectInputStream(is); 
 		final Controller controller = (Controller)ois.readObject();
-		//String today = (String) ois.readObject();
-		//System.out.println(today);
-		
 		System.out.println("got controller");
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
