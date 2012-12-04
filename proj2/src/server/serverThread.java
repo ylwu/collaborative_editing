@@ -86,7 +86,7 @@ public class serverThread extends Thread{
                 try {
                     DefaultDocumentEvent event = (DefaultDocumentEvent)fromClient.readObject();
                     System.out.println("received update from client");
-                    this.controller.getModel().removeUpdate(event);
+                    //this.controller.getModel().removeUpdate(event);
                     
                 } catch (ClassNotFoundException e) {
                     // TODO Auto-generated catch block

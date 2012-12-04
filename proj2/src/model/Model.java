@@ -68,9 +68,9 @@ public class Model implements Serializable{
     }
 
 
-    public void removeUpdate(DefaultDocumentEvent event) {
-        doc.postRemoveUpdate(event);
-        
-    }
+//    public void removeUpdate(DefaultDocumentEvent event) {
+//        doc.postRemoveUpdate(event);
+//        
+//    }
 
 }
