@@ -57,6 +57,7 @@ public class serverThread extends Thread{
 
         try {
             initialize(socket);
+            handleConnection(socket);
             
         } catch (IOException e) {
             e.printStackTrace();
