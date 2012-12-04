@@ -13,11 +13,6 @@ public class Server {
     private int numPlayers;
 	private final Controller controller;
 
-    /**
-     * Make a MinesweeperServer that listens for connections on port.
-     * @param port port number, requires 0 <= port <= 65535.
-     * @param board 
-     */
     public Server(int port, Controller c) throws IOException {
         serverSocket = new ServerSocket(port);
         this.numPlayers=0;
