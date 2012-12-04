@@ -5,8 +5,10 @@ package client;
 
 import gui.GUI;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -27,10 +29,17 @@ public class Client {
 		System.out.println("connecting to server");
 		final Socket socket=new Socket(ip,4441);
 		System.out.println("connected to server");
-		 
+		BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        
+        String decodedString;
+        decodedString = in.readLine();
+        in.close();
+        System.out.println(decodedString);
+		
+		
 		InputStream is = socket.getInputStream();  
 		ObjectInputStream ois = new ObjectInputStream(is); 
-		//Controller controller = (Controller)ois.readObject();
+		Controller controller = (Controller)ois.readObject();
 		String today = (String) ois.readObject();
 		System.out.println(today);
 		
