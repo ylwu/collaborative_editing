@@ -92,12 +92,13 @@ public class GUI extends JFrame  {
 		getContentPane().add(guiTitle);
 		
 		// load GUI picture
-		ImageIcon icon = new ImageIcon("image/writing-2.jpg","Collaborative Editing");
-		guiPicture = new JLabel(icon,JLabel.CENTER);
+		ImageIcon icon1 = new ImageIcon("image/writing-2.jpg","Collaborative Editing");
+		guiPicture = new JLabel(icon1,JLabel.CENTER);
 		getContentPane().add(guiPicture);
 		
 		// creat JButton
-		createNew = new JButton("New File");
+		ImageIcon icon2 = new ImageIcon("image/newFile.png","New File");
+		createNew = new JButton(icon2);
 		getContentPane().add(createNew);
 		createNew.addActionListener(new createDocListener());
 		
