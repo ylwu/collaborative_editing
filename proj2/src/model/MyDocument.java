@@ -11,7 +11,7 @@ import javax.swing.text.DefaultStyledDocument;
  * @author gyz
  *
  */
-public class myDocument extends DefaultStyledDocument{
+public class MyDocument extends DefaultStyledDocument{
 
 	public void insertUpdate(AbstractDocument.DefaultDocumentEvent chng, 
 			AttributeSet attr) {

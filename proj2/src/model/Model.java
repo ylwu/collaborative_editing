@@ -15,24 +15,24 @@ import controller.Controller;
 
 public class Model implements Serializable{
 	private final Controller c;
-	private myDocument doc;
+	private MyDocument doc;
 	private String docName;
 	private Integer docNum;
 	public Model(Controller controller){
 		c=controller;
 		docNum = c.getDocNum();
-		doc= new myDocument();
+		doc= new MyDocument();
 		initDocument();
 		docName = "New Document " + Integer.toString(docNum);
 		
 	}
 	
 	
-	public myDocument getDoc(){
+	public MyDocument getDoc(){
 	    return doc;
 	}
 	
-	public void changeDoc(myDocument doc){
+	public void changeDoc(MyDocument doc){
 	    this.doc = doc; 
 	}
 	
