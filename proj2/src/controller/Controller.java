@@ -23,7 +23,7 @@ import model.Model;
  * 
  * 
  */
-public class Controller implements ActionListener, Serializable {
+public class Controller implements ActionListener,Serializable {
 	private final Model model;
 	private List<GUI> views;
 

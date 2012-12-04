@@ -30,14 +30,16 @@ public class Client {
 		 
 		InputStream is = socket.getInputStream();  
 		ObjectInputStream ois = new ObjectInputStream(is); 
-		final Controller controller = (Controller)ois.readObject();
+		//Controller controller = (Controller)ois.readObject();
+		String today = (String) ois.readObject();
+		System.out.println(today);
 		
 		System.out.println("got controller");
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				//testing purpose
 	            System.out.println("creating new gui");
-			    new GUI(controller);
+			    //new GUI(controller);
 
 			}
 		});

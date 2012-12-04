@@ -33,7 +33,7 @@ public class serverThread extends Thread{
 	
     private final Socket socket;
     private final Server server;
-    private final Controller controller;
+    private Controller controller;
     
     public serverThread(Server server, Socket socket, Controller c) {
         this.socket = socket;
@@ -70,7 +70,7 @@ public class serverThread extends Thread{
 
             OutputStream os = socket.getOutputStream();  
             ObjectOutputStream oos = new ObjectOutputStream(os);
-            oos.writeObject(controller);
+            oos.writeObject("Today");
             oos.flush();
 
            
