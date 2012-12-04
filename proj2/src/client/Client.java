@@ -24,6 +24,14 @@ import controller.Controller;
  *
  */
 public class Client {
+    private ObjectOutputStream toServer;
+    private ObjectInputStream fromServer;
+    
+    public Client(){
+        
+    }
+    
+    
 	public static void main(final String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
 		final String ip=args[0];
 		System.out.println("connecting to server");
