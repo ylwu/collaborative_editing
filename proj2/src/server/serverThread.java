@@ -70,6 +70,7 @@ public class serverThread extends Thread{
             toClient = new ObjectOutputStream(socket.getOutputStream());
             toClient.writeObject(controller);
             toClient.flush();
+            fromClient = new ObjectInputStream(socket.getInputStream());
 
         } 
         catch (Exception e){
