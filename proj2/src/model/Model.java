@@ -5,36 +5,34 @@ package model;
 
 import java.io.Serializable;
 
-import javax.swing.text.AbstractDocument;
 import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
+import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 
 import controller.Controller;
 
 
 public class Model implements Serializable{
 	private final Controller c;
-	private AbstractDocument doc;
+	private myDocument doc;
 	private String docName;
 	private Integer docNum;
 	public Model(Controller controller){
 		c=controller;
 		docNum = c.getDocNum();
-		doc= new DefaultStyledDocument();
+		doc= new myDocument();
 		initDocument();
 		docName = "New Document " + Integer.toString(docNum);
 		
 	}
 	
 	
-	public AbstractDocument getDoc(){
+	public myDocument getDoc(){
 	    return doc;
 	}
 	
-	public void changeDoc(AbstractDocument doc){
+	public void changeDoc(myDocument doc){
 	    this.doc = doc; 
 	}
 	
@@ -60,17 +58,15 @@ public class Model implements Serializable{
 	 * 
 	 * update
 	 */
-    public void update(AbstractDocument doc) {
-	    this.doc = doc;
-	    
-    	// at the end 
-    	c.updateFontEnd();
+    public void update(DefaultDocumentEvent chng, 
+			AttributeSet attr) {
+	    doc.insertUpdate(chng, attr);
     }
 
 
-//    public void removeUpdate(DefaultDocumentEvent event) {
-//        doc.postRemoveUpdate(event);
-//        
-//    }
+    public void removeUpdate(DefaultDocumentEvent event) {
+        doc.removeUpdate(event);
+        
+    }
 
 }
