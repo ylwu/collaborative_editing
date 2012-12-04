@@ -18,6 +18,7 @@ public class Model implements Serializable{
 	private MyDocument doc;
 	private String docName;
 	private Integer docNum;
+	public SimpleAttributeSet attributes;
 	public Model(Controller controller){
 		c=controller;
 		docNum = c.getDocNum();
@@ -43,7 +44,7 @@ public class Model implements Serializable{
 	 // put some initial text
         String initString = "Styled document, please click to edit!\n" 
 	 + "This Document is saved in the model from the controller and shared with other GUIs";
-        SimpleAttributeSet attributes = new SimpleAttributeSet();
+        attributes = new SimpleAttributeSet();
         //StyleConstants.setBold(attributes, true);
         //StyleConstants.setItalic(attributes, true);
         try {

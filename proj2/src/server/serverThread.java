@@ -20,6 +20,8 @@ import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 
+import model.Model;
+
 
 
 import controller.Controller;
@@ -93,8 +95,9 @@ public class serverThread extends Thread{
                 try {
                     DefaultDocumentEvent event = (DefaultDocumentEvent)fromClient.readObject();
                     System.out.println("received update from client");
-                    this.controller.getModel().insertUpdate(event,new SimpleAttributeSet());
-                    System.out.println(controller.getModel().getDoc().getText(1,100));
+                    Model m = controller.getModel();
+                    m.insertUpdate(event,m.attributes);
+                    System.out.println(m.getDoc().getText(1,100));
                     
                 } catch (ClassNotFoundException e) {
                     // TODO Auto-generated catch block
