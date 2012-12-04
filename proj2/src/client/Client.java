@@ -26,34 +26,34 @@ import controller.Controller;
 public class Client {
     private ObjectOutputStream toServer;
     private ObjectInputStream fromServer;
+    private static Controller controller;
+    private static String ip;
+    private Socket socket;
     
     public Client(){
         
     }
     
+    public void initialize() throws UnknownHostException, IOException, ClassNotFoundException{
+        System.out.println("connecting to server");
+        socket=new Socket(ip,4441);
+        System.out.println("connected to server");       
+        fromServer = new ObjectInputStream(socket.getInputStream()); 
+        controller = (Controller)fromServer.readObject();
+        System.out.println("got controller");
+    }
+    
     
 	public static void main(final String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
-		final String ip=args[0];
-		System.out.println("connecting to server");
-		final Socket socket=new Socket(ip,4441);
-		System.out.println("connected to server");
-//		BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//        
-//        String decodedString;
-//        decodedString = in.readLine();
-//        //in.close();
-//        System.out.println(decodedString);
+		ip=args[0];
+		final Client c = new Client();
+		c.initialize();
 		
-		
-		InputStream is = socket.getInputStream();  
-		ObjectInputStream ois = new ObjectInputStream(is); 
-		final Controller controller = (Controller)ois.readObject();
-		System.out.println("got controller");
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				//testing purpose
 	            System.out.println("creating new gui");
-			    new GUI(controller);
+			    new GUI(controller,c);
 
 			}
 		});

@@ -51,6 +51,8 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import client.Client;
+
 import controller.Controller;
 
 public class GUI extends JFrame  {
@@ -68,15 +70,17 @@ public class GUI extends JFrame  {
 	
     private Integer docNum = 1; // initialize document number to 1
 	
-	AbstractDocument document;
+	private AbstractDocument document;
 	
-	private final Controller c; // in case you need this
+	private final Controller controller; // in case you need this
+	private final Client client;
 
-	public GUI(Controller c) {
+	public GUI(Controller controller, Client client) {
 		this.setTitle("Collaborative Editor");
-		this.c = c;
-		this.document = c.getModel().getDoc();
-		this.docName = c.getModel().getDocName();
+		this.client = client;
+		this.controller = controller;
+		this.document = controller.getModel().getDoc();
+		this.docName = controller.getModel().getDocName();
 
 		// create GUI title
 		guiTitle = new JLabel("Welcome to Collaborative Editor!");
@@ -97,8 +101,6 @@ public class GUI extends JFrame  {
 		// display document name
 		documentName = new JLabel("You are editing Document: ");
 		getContentPane().add(documentName);
-		//TODO: place-holder for now, need to load actual name from the model!
-		//Done!
 		documentNameField = new JTextField(docName); 
 		documentNameField.setEditable(false);
 
@@ -106,14 +108,6 @@ public class GUI extends JFrame  {
 		editArea = new JTextPane();
 		editArea.setDocument(document);
 		editArea.setCaretPosition(0); // text-insertion point
-//		StyledDocument styledDoc = editArea.getStyledDocument();
-//		if (styledDoc instanceof AbstractDocument) {
-//			document = (AbstractDocument) styledDoc;
-//		} else {
-//			System.err
-//					.println("Text pane's document isn't an AbstractDocument!");
-//			System.exit(-1);
-//		}
 		JScrollPane editScrollPane = new JScrollPane(editArea);
 		editScrollPane.setPreferredSize(new Dimension(500, 280));
 		getContentPane().add(editScrollPane);
@@ -134,17 +128,6 @@ public class GUI extends JFrame  {
 
 		// Add hot-key commands
 		addHotKey();
-
-//		// put some initial text
-//		String initString = "Styled document, please click to edit!";
-//		SimpleAttributeSet attributes = new SimpleAttributeSet();
-//		StyleConstants.setBold(attributes, true);
-//		StyleConstants.setItalic(attributes, true);
-//		try {
-//			document.insertString(0, initString, attributes);
-//		} catch (BadLocationException ble) {
-//			System.err.println("Text Insertion Failure!");
-//		}
 
 		// add listeners
 		JPanel statusPane = new JPanel(new GridLayout(1, 1));
@@ -203,7 +186,7 @@ public class GUI extends JFrame  {
 			final Controller controller = new Controller(docNum);
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					GUI gui = new GUI(controller);
+					GUI gui = new GUI(controller,client);
 
 				}
 			});
@@ -353,14 +336,4 @@ public class GUI extends JFrame  {
 
 	}
 
-	// for testing single gui (separate user, separate gui)
-	public static void main(final String[] args) {
-		final Controller controller = new Controller();
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				GUI gui = new GUI(controller);
-
-			}
-		});
-	}
 }
