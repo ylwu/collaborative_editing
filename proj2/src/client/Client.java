@@ -40,7 +40,7 @@ public class Client {
     }
     
 
-    public void updateServer(DefaultDocumentEvent event) throws IOException{
+    public void updateServer(AbstractDocument.DefaultDocumentEvent event) throws IOException{
         toServer.writeObject(event);
         toServer.flush();
         System.out.println("sent update to server");
