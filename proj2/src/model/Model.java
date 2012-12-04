@@ -28,6 +28,7 @@ public class Model implements Serializable{
 		
 	}
 	
+	
 	public AbstractDocument getDoc(){
 	    return doc;
 	}

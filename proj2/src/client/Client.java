@@ -16,6 +16,10 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.swing.SwingUtilities;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.Document;
+
+import model.Model;
 
 import controller.Controller;
 
@@ -34,11 +38,33 @@ public class Client {
         
     }
     
+    public void updateServer(AbstractDocument d) throws IOException{
+        toServer.writeObject(d);
+        toServer.flush();
+        System.out.println("sent update to server");
+    }
+    
+    public void getUpdates(){
+        try {
+            Model m = (Model)fromServer.readObject();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return;
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return;
+        }
+    }
+    
     public void initialize() throws UnknownHostException, IOException, ClassNotFoundException{
         System.out.println("connecting to server");
         socket=new Socket(ip,4441);
-        System.out.println("connected to server");       
+        System.out.println("connected to server");
+        toServer = new ObjectOutputStream(socket.getOutputStream());
         fromServer = new ObjectInputStream(socket.getInputStream()); 
+        
         controller = (Controller)fromServer.readObject();
         System.out.println("got controller");
     }

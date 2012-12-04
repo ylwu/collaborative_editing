@@ -51,6 +51,8 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import model.Model;
+
 import client.Client;
 
 import controller.Controller;
@@ -74,13 +76,15 @@ public class GUI extends JFrame  {
 	
 	private final Controller controller; // in case you need this
 	private final Client client;
+	private Model model;
 
 	public GUI(Controller controller, Client client) {
 		this.setTitle("Collaborative Editor");
 		this.client = client;
 		this.controller = controller;
-		this.document = controller.getModel().getDoc();
-		this.docName = controller.getModel().getDocName();
+		this.model= controller.getModel();
+		this.document = model.getDoc();
+		this.docName = model.getDocName();
 
 		// create GUI title
 		guiTitle = new JLabel("Welcome to Collaborative Editor!");
@@ -240,6 +244,12 @@ public class GUI extends JFrame  {
 	protected class MyDocumentListener implements DocumentListener {
 		public void insertUpdate(DocumentEvent e) {
 			displayEditInfo(e);
+			try {
+                client.updateServer((AbstractDocument) e.getDocument());
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
 		}
 
 		public void removeUpdate(DocumentEvent e) {
