@@ -11,7 +11,7 @@ public class Server {
     private final ServerSocket serverSocket;
     /** True if the server should disconnect a client after a BOOM message. */
     private int numPlayers;
-	private final Controller controller;
+	public Controller controller;
 
     public Server(int port, Controller c) throws IOException {
         serverSocket = new ServerSocket(port);

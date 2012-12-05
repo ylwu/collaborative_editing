@@ -68,8 +68,7 @@ public class Model implements Serializable{
 	}
 	private void initDocument(){
 	 // put some initial text
-        String initString = "Styled document, please click to edit!\n" 
-	 + "This Document is saved in the model from the controller and shared with other GUIs";
+        String initString = "Start";
         SimpleAttributeSet attributes = new SimpleAttributeSet();
         //StyleConstants.setBold(attributes, true);
         //StyleConstants.setItalic(attributes, true);

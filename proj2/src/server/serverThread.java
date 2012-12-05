@@ -3,25 +3,15 @@
  */
 package server;
 
-import gui.GUI;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 
-import javax.swing.SwingUtilities;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
 
 import model.EventPackage;
-
-
-
 import controller.Controller;
 
 /**
@@ -88,6 +78,13 @@ public class serverThread extends Thread{
                 try {
                 	EventPackage event = (EventPackage)fromClient.readObject();
                     System.out.println("received update from client");
+                    try {
+                        server.controller.getModel().getDoc().insertString(event.offset, event.inserted, new SimpleAttributeSet());
+                        System.out.println(server.controller.getModel().getDoc().getText(0,100));
+                    } catch (BadLocationException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                     //this.controller.getModel().removeUpdate(event);
                     
                 } catch (ClassNotFoundException e) {
