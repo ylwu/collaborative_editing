@@ -46,12 +46,6 @@ public class Client {
         System.out.println("sent update to server");
     }
     
-    public void updateRemoval(EventPackage eventPackage) throws IOException{
-        toServer.writeObject(eventPackage);
-        toServer.flush();
-        System.out.println("sent removal update to server");
-    }
-    
     public void getUpdates(){
         try {
             DefaultDocumentEvent event = (DefaultDocumentEvent)fromServer.readObject();
