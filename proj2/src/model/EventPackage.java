@@ -11,11 +11,11 @@ import java.io.Serializable;
  *
  */
 public class EventPackage implements Serializable{
-	final EventType eventType;
+	final String eventType;
 	final int len;
 	final int offset;
 	final String inserted;
-	public EventPackage(EventType eventType, int len, int offset, String inserted){
+	public EventPackage(String eventType, int len, int offset, String inserted){
 		this.eventType=eventType;
 		this.len=len;
 		this.offset=offset;

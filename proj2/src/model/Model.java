@@ -41,13 +41,13 @@ public class Model implements Serializable{
 	            // TODO Auto-generated catch block
 	            //e1.printStackTrace();
 	        }
-			return new EventPackage(ee.getType(),ee.getLength(),ee.getOffset(),inserted);
+			return new EventPackage(ee.getType().toString(),ee.getLength(),ee.getOffset(),inserted);
 		}
 		else if (ee.getType()==DocumentEvent.EventType.REMOVE){
-			return new EventPackage(ee.getType(),ee.getLength(),ee.getOffset(),"");
+			return new EventPackage(ee.getType().toString(),ee.getLength(),ee.getOffset(),"");
 		}
 		//shouldn't be here
-		return new EventPackage(ee.getType(),ee.getLength(),ee.getOffset(),"");
+		return new EventPackage(ee.getType().toString(),ee.getLength(),ee.getOffset(),"");
 		
 		// then in client side 
 		//insertString(int offs, String str, AttributeSet a) 
