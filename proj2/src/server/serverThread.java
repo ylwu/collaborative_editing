@@ -80,7 +80,7 @@ public class serverThread extends Thread{
                     System.out.println("received update from client");
                     try {
                         server.controller.getModel().getDoc().insertString(event.offset, event.inserted, new SimpleAttributeSet());
-                        System.out.println(server.controller.getModel().getDoc().getText(0,100));
+                        System.out.println(server.controller.getModel().getDoc().getText(0,5));
                     } catch (BadLocationException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
