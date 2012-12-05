@@ -20,6 +20,7 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
 import javax.swing.text.Document;
 
+import model.EventPackage;
 import model.Model;
 
 import controller.Controller;
@@ -39,14 +40,14 @@ public class Client {
         
     }
     
-    public void updateServer(AbstractDocument d) throws IOException{
-        toServer.writeObject(d);
+    public void updateServer(EventPackage eventPackage) throws IOException{
+        toServer.writeObject(eventPackage);
         toServer.flush();
         System.out.println("sent update to server");
     }
     
-    public void updateRemoval(DefaultDocumentEvent event) throws IOException{
-        toServer.writeObject(event);
+    public void updateRemoval(EventPackage eventPackage) throws IOException{
+        toServer.writeObject(eventPackage);
         toServer.flush();
         System.out.println("sent removal update to server");
     }

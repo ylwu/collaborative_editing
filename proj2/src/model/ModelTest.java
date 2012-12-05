@@ -1,3 +1,13 @@
+package model;
+
+import gui.GUI;
+
+import java.io.IOException;
+
+import client.Client;
+
+import controller.Controller;
+
 
 /**
 * Testing Strategy for the Model
@@ -13,3 +23,12 @@
 *     ii) getDocName (get the name of the document)
 *
 */
+
+public class ModelTest{
+	public static void main(final String[] args) {
+		final Controller c=new Controller();
+		final Client cl = new Client();
+        new GUI(c,cl);
+		
+	}	
+}
