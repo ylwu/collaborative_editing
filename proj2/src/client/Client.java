@@ -48,7 +48,8 @@ public class Client {
     
     public void getUpdates(){
         try {
-            DefaultDocumentEvent event = (DefaultDocumentEvent)fromServer.readObject();
+            EventPackage event = (EventPackage)fromServer.readObject();
+            System.out.println("received!");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

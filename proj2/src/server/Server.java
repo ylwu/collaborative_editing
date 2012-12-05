@@ -2,6 +2,8 @@ package server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 import controller.Controller;
 
@@ -12,11 +14,13 @@ public class Server {
     /** True if the server should disconnect a client after a BOOM message. */
     private int numPlayers;
 	public Controller controller;
+	public List<serverThread> threadlist;
 
     public Server(int port, Controller c) throws IOException {
         serverSocket = new ServerSocket(port);
         this.numPlayers=0;
         this.controller=c;
+        threadlist = new ArrayList<serverThread>();
     }
 
     
@@ -39,6 +43,7 @@ public class Server {
 
             // handle the client
             serverThread thread = new serverThread(this,socket, controller);
+            threadlist.add(thread);
             thread.start();  
         }
     }

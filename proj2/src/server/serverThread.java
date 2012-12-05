@@ -30,14 +30,18 @@ public class serverThread extends Thread{
     private final Socket socket;
     private final Server server;
     private Controller controller;
-    private ObjectOutputStream toClient;
-    private ObjectInputStream fromClient;
+    public ObjectOutputStream toClient;
+    public ObjectInputStream fromClient;
     
     
     public serverThread(Server server, Socket socket, Controller c) {
         this.socket = socket;
         this.server = server;
         this.controller=c;
+    }
+    
+    public Socket getSocket(){
+        return socket;
     }
     
     /**
@@ -79,19 +83,36 @@ public class serverThread extends Thread{
 
     }
     
+    private void updateServer(EventPackage eventPackage) throws BadLocationException{
+        AbstractDocument d = server.controller.getModel().getDoc();
+        if (eventPackage.eventType.equals("INSERT")) {
+            d.insertString(eventPackage.offset, eventPackage.inserted,
+                    new SimpleAttributeSet());
+        } else if (eventPackage.eventType.equals("REMOVE")) {
+
+            d.remove(eventPackage.offset, eventPackage.len);
+        }
+        System.out.println(d.getText(0, d.getLength()));
+    }
+    
+    private void updateClient(EventPackage eventPackage) throws Exception{
+        for (serverThread t:server.threadlist){
+//            ObjectOutputStream tothisClient = new ObjectOutputStream(t.getSocket().getOutputStream());
+//            tothisClient.writeObject(eventPackage);
+//            tothisClient.flush();
+            if (!this.equals(t))
+              t.toClient.writeObject(eventPackage);
+              t.toClient.flush();
+        }
+    }
+    
     private void handleConnection(Socket socket) throws IOException, Exception {
         while (true) {
             EventPackage eventPackage = (EventPackage) fromClient.readObject();
             System.out.println("received update from client");
-            AbstractDocument d = server.controller.getModel().getDoc();
-            if (eventPackage.eventType.equals("INSERT")) {
-                d.insertString(eventPackage.offset, eventPackage.inserted,
-                        new SimpleAttributeSet());
-            } else if (eventPackage.eventType.equals("REMOVE")) {
-
-                d.remove(eventPackage.offset, eventPackage.len);
-            }
-            System.out.println(d.getText(0, d.getLength()));
+            updateServer(eventPackage);
+            updateClient(eventPackage);
+            
 
         }
     }
