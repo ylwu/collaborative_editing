@@ -4,12 +4,13 @@
 package model;
 
 import javax.swing.event.DocumentEvent.EventType;
+import java.io.Serializable;
 
 /**
  * @author gyz
  *
  */
-public class EventPackage {
+public class EventPackage implements Serializable{
 	final EventType eventType;
 	final int len;
 	final int offset;
