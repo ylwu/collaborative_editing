@@ -52,9 +52,12 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import server.serverThread;
+
 import model.Model;
 
 import client.Client;
+import client.UpdateListener;
 
 import controller.Controller;
 
@@ -176,7 +179,8 @@ public class GUI extends JFrame  {
 		// set background color
 		getContentPane().setBackground(new Color(240,255,240));
 		
-
+		//this.client.updateServer(eventPackage)
+		new UpdateListener(client);
 		// at the end
 		this.pack();
 		this.setVisible(true);

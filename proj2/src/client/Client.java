@@ -46,6 +46,7 @@ public class Client {
         System.out.println("sent update to server");
     }
     
+    // change here
     public void getUpdates(){
         try {
             EventPackage event = (EventPackage)fromServer.readObject();
