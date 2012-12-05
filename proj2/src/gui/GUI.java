@@ -182,9 +182,7 @@ public class GUI extends JFrame  {
 		this.setVisible(true);
 		// implement close for gui without close the whole program
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		while(true){
-		    client.getUpdates();
-		}
+		    this.client.getUpdates();
 
 	}
 	// Listener for creating new document
