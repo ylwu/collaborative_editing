@@ -18,6 +18,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
 
+import model.EventPackage;
+
 
 
 import controller.Controller;
@@ -84,7 +86,7 @@ public class serverThread extends Thread{
     private void handleConnection(Socket socket) throws IOException{
             while(true){
                 try {
-                    DefaultDocumentEvent event = (DefaultDocumentEvent)fromClient.readObject();
+                	EventPackage event = (EventPackage)fromClient.readObject();
                     System.out.println("received update from client");
                     //this.controller.getModel().removeUpdate(event);
                     

@@ -5,6 +5,7 @@ package model;
 
 import java.io.Serializable;
 
+import javax.swing.event.DocumentEvent;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
 import javax.swing.text.BadLocationException;
@@ -27,6 +28,30 @@ public class Model implements Serializable{
 		initDocument();
 		docName = "New Document " + Integer.toString(docNum);
 		
+	}
+	
+	public static EventPackage DocumentEventToEventPackage(DocumentEvent e) {
+		DefaultDocumentEvent ee=(DefaultDocumentEvent) e;
+		if(ee.getType()==DocumentEvent.EventType.INSERT){
+			String inserted="";
+			try {
+				inserted=ee.getDocument().
+				getText(ee.getOffset(), ee.getLength());
+	        } catch (BadLocationException e1) {
+	            // TODO Auto-generated catch block
+	            //e1.printStackTrace();
+	        }
+			return new EventPackage(ee.getType(),ee.getLength(),ee.getOffset(),inserted);
+		}
+		else if (ee.getType()==DocumentEvent.EventType.REMOVE){
+			return new EventPackage(ee.getType(),ee.getLength(),ee.getOffset(),"");
+		}
+		//shouldn't be here
+		return new EventPackage(ee.getType(),ee.getLength(),ee.getOffset(),"");
+		
+		// then in client side 
+		//insertString(int offs, String str, AttributeSet a) 
+		//remove(int offs, int len) 
 	}
 	
 	
