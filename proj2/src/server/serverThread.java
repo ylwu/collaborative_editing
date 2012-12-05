@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 
@@ -76,11 +77,16 @@ public class serverThread extends Thread{
     private void handleConnection(Socket socket) throws IOException{
             while(true){
                 try {
-                	EventPackage event = (EventPackage)fromClient.readObject();
+                	EventPackage eventPackage = (EventPackage)fromClient.readObject();
                     System.out.println("received update from client");
                     try {
-                        server.controller.getModel().getDoc().insertString(event.offset, event.inserted, new SimpleAttributeSet());
-                        System.out.println(server.controller.getModel().getDoc().getText(0,5));
+                        if (eventPackage.eventType.equals("INSERT")){
+                            server.controller.getModel().getDoc().insertString(eventPackage.offset, eventPackage.inserted, new SimpleAttributeSet());
+                        } else if (eventPackage.eventType.equals("REMOVE")){
+                            server.controller.getModel().getDoc().remove(eventPackage.offset, eventPackage.len);
+                        }
+                        AbstractDocument d =server.controller.getModel().getDoc();
+                        System.out.println(d.getText(0,d.getLength()));
                     } catch (BadLocationException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();

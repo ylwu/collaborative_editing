@@ -11,8 +11,8 @@ import java.io.Serializable;
  *
  */
 public class EventPackage implements Serializable{
-	final String eventType;
-	final int len;
+	public final String eventType;
+	public final int len;
 	public final int offset;
 	public final String inserted;
 	public EventPackage(String eventType, int len, int offset, String inserted){

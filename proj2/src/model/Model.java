@@ -68,7 +68,7 @@ public class Model implements Serializable{
 	}
 	private void initDocument(){
 	 // put some initial text
-        String initString = "Start";
+        String initString = "Start this document";
         SimpleAttributeSet attributes = new SimpleAttributeSet();
         //StyleConstants.setBold(attributes, true);
         //StyleConstants.setItalic(attributes, true);
