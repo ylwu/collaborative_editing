@@ -23,7 +23,7 @@ import model.Model;
  * 
  * 
  */
-public class Controller implements ActionListener,Serializable {
+public class Controller implements Serializable {
 	private final Model model;
     private Integer docNum;
 	
@@ -62,16 +62,5 @@ public class Controller implements ActionListener,Serializable {
 		this.docNum ++;
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		BackEndThread thread = new BackEndThread(e, model);
-		thread.start();
-
-	}
-
-	public void updateFontEnd() {
-		for (GUI v : views) {
-			FrontEndThread thread = new FrontEndThread(v, model);
-			thread.start();
-		}
-	}
+	
 }

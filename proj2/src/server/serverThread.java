@@ -97,9 +97,6 @@ public class serverThread extends Thread{
     
     private void updateClient(EventPackage eventPackage) throws Exception{
         for (serverThread t:server.threadlist){
-//            ObjectOutputStream tothisClient = new ObjectOutputStream(t.getSocket().getOutputStream());
-//            tothisClient.writeObject(eventPackage);
-//            tothisClient.flush();
             System.out.println(server.threadlist.size());
             if (!this.equals(t)){
             	System.out.println("update client start");

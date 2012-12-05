@@ -17,6 +17,8 @@ import java.net.UnknownHostException;
 
 import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
 import javax.swing.text.Document;
 
@@ -47,10 +49,19 @@ public class Client {
     }
     
     // change here
-    public void getUpdates(){
+    public void getUpdates() throws BadLocationException{
         try {
-            EventPackage event = (EventPackage)fromServer.readObject();
+            EventPackage eventPackage = (EventPackage)fromServer.readObject();
             System.out.println("received!");
+            AbstractDocument d = controller.getModel().getDoc();
+            if (eventPackage.eventType.equals("INSERT")) {
+                d.insertString(eventPackage.offset, eventPackage.inserted,
+                        new SimpleAttributeSet());
+            } else if (eventPackage.eventType.equals("REMOVE")) {
+
+                d.remove(eventPackage.offset, eventPackage.len);
+            }
+            System.out.println("client updated");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

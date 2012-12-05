@@ -79,22 +79,4 @@ public class Model implements Serializable{
         }
 	}
 
-	/**
-	 * @param text
-	 * 
-	 * update
-	 */
-    public void update(AbstractDocument doc) {
-	    this.doc = doc;
-	    
-    	// at the end 
-    	c.updateFontEnd();
-    }
-
-
-//    public void removeUpdate(DefaultDocumentEvent event) {
-//        doc.postRemoveUpdate(event);
-//        
-//    }
-
 }
