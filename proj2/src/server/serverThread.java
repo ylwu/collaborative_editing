@@ -101,9 +101,11 @@ public class serverThread extends Thread{
 //            tothisClient.writeObject(eventPackage);
 //            tothisClient.flush();
             System.out.println(server.threadlist.size());
-            if (!this.equals(t))
+            if (!this.equals(t)){
+            	System.out.println("update client start");
               t.toClient.writeObject(eventPackage);
               t.toClient.flush();
+              System.out.println("update client end");}
         }
     }
     

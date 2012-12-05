@@ -180,7 +180,8 @@ public class GUI extends JFrame  {
 		getContentPane().setBackground(new Color(240,255,240));
 		
 		//this.client.updateServer(eventPackage)
-		new UpdateListener(client);
+		Thread t=new UpdateListener(client);
+		t.start(); 
 		// at the end
 		this.pack();
 		this.setVisible(true);
