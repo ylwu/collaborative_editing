@@ -51,7 +51,12 @@ public class serverThread extends Thread{
 
         try {
             initialize(socket);
-            handleConnection(socket);
+            try {
+                handleConnection(socket);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -74,32 +79,21 @@ public class serverThread extends Thread{
 
     }
     
-    private void handleConnection(Socket socket) throws IOException{
-            while(true){
-                try {
-                	EventPackage eventPackage = (EventPackage)fromClient.readObject();
-                    System.out.println("received update from client");
-                    try {
-                        if (eventPackage.eventType.equals("INSERT")){
-                            server.controller.getModel().getDoc().insertString(eventPackage.offset, eventPackage.inserted, new SimpleAttributeSet());
-                        } else if (eventPackage.eventType.equals("REMOVE")){
-                            server.controller.getModel().getDoc().remove(eventPackage.offset, eventPackage.len);
-                        }
-                        AbstractDocument d =server.controller.getModel().getDoc();
-                        System.out.println(d.getText(0,d.getLength()));
-                    } catch (BadLocationException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    //this.controller.getModel().removeUpdate(event);
-                    
-                } catch (ClassNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-    }
-    
+    private void handleConnection(Socket socket) throws IOException, Exception {
+        while (true) {
+            EventPackage eventPackage = (EventPackage) fromClient.readObject();
+            System.out.println("received update from client");
+            AbstractDocument d = server.controller.getModel().getDoc();
+            if (eventPackage.eventType.equals("INSERT")) {
+                d.insertString(eventPackage.offset, eventPackage.inserted,
+                        new SimpleAttributeSet());
+            } else if (eventPackage.eventType.equals("REMOVE")) {
 
+                d.remove(eventPackage.offset, eventPackage.len);
+            }
+            System.out.println(d.getText(0, d.getLength()));
+
+        }
+    }
 
 }
