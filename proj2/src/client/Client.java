@@ -83,7 +83,6 @@ public class Client {
 				//testing purpose
 	            System.out.println("creating new gui");
 			    new GUI(controller,c);
-			    c.getUpdates();
 
 			}
 		});
