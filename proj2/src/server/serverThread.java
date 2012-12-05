@@ -100,6 +100,7 @@ public class serverThread extends Thread{
 //            ObjectOutputStream tothisClient = new ObjectOutputStream(t.getSocket().getOutputStream());
 //            tothisClient.writeObject(eventPackage);
 //            tothisClient.flush();
+            System.out.println(server.threadlist.size());
             if (!this.equals(t))
               t.toClient.writeObject(eventPackage);
               t.toClient.flush();
