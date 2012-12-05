@@ -15,12 +15,20 @@ public class EventPackage implements Serializable{
 	public final int len;
 	public final int offset;
 	public final String inserted;
+	
 	public EventPackage(String eventType, int len, int offset, String inserted){
 		this.eventType=eventType;
 		this.len=len;
 		this.offset=offset;
 		this.inserted=inserted;
 		
+	}
+	
+	public EventPackage(){
+	    this.eventType = "None";
+	    this.len = -1;
+	    this.offset = -1;
+	    this.inserted = "$$$";
 	}
 	
     public boolean equals(EventPackage that) {

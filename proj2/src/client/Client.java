@@ -40,7 +40,7 @@ public class Client {
     public EventPackage incomingPackage;
     
     public Client(){
-        
+        incomingPackage = new EventPackage();
     }
     
     public void updateServer(EventPackage eventPackage) throws IOException {
