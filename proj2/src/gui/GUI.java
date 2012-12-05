@@ -251,7 +251,7 @@ public class GUI extends JFrame  {
 	protected class MyDocumentListener implements DocumentListener {
 		public void insertUpdate(DocumentEvent e) {
 			try {
-                client.updateServer(Model.DocumentEventToEventPackage(e));
+                client.updateServer(model.DocumentEventToEventPackage(e));
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
@@ -261,7 +261,7 @@ public class GUI extends JFrame  {
 		public void removeUpdate(DocumentEvent e) {
 
 		    try {
-                client.updateServer(Model.DocumentEventToEventPackage(e));
+                client.updateServer(model.DocumentEventToEventPackage(e));
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();

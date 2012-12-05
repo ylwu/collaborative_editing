@@ -30,7 +30,7 @@ public class Model implements Serializable{
 		
 	}
 	
-	public static EventPackage DocumentEventToEventPackage(DocumentEvent e) {
+	public EventPackage DocumentEventToEventPackage(DocumentEvent e) {
 		DefaultDocumentEvent ee=(DefaultDocumentEvent) e;
 		if(ee.getType()==DocumentEvent.EventType.INSERT){
 			String inserted="";
@@ -41,13 +41,13 @@ public class Model implements Serializable{
 	            // TODO Auto-generated catch block
 	            //e1.printStackTrace();
 	        }
-			return new EventPackage(ee.getType().toString(),ee.getLength(),ee.getOffset(),inserted);
+			return new EventPackage(ee.getType().toString(),ee.getLength(),ee.getOffset(),inserted,doc.getLength());
 		}
 		else if (ee.getType()==DocumentEvent.EventType.REMOVE){
-			return new EventPackage(ee.getType().toString(),ee.getLength(),ee.getOffset(),"");
+			return new EventPackage(ee.getType().toString(),ee.getLength(),ee.getOffset(),"",doc.getLength());
 		}
 		//shouldn't be here
-		return new EventPackage(ee.getType().toString(),ee.getLength(),ee.getOffset(),"");
+		return new EventPackage(ee.getType().toString(),ee.getLength(),ee.getOffset(),"",doc.getLength());
 		
 		// then in client side 
 		//insertString(int offs, String str, AttributeSet a) 
