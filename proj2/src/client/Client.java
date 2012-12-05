@@ -37,21 +37,25 @@ public class Client {
     private static Controller controller;
     private static String ip;
     private Socket socket;
+    public EventPackage incomingPackage;
     
     public Client(){
         
     }
     
-    public void updateServer(EventPackage eventPackage) throws IOException{
-        toServer.writeObject(eventPackage);
-        toServer.flush();
-        System.out.println("sent update to server");
+    public void updateServer(EventPackage eventPackage) throws IOException {
+        if (!incomingPackage.equals(eventPackage)) {
+            toServer.writeObject(eventPackage);
+            toServer.flush();
+            System.out.println("sent update to server");
+        }
     }
     
     // change here
     public void getUpdates() throws BadLocationException{
         try {
             EventPackage eventPackage = (EventPackage)fromServer.readObject();
+            incomingPackage = eventPackage;
             System.out.println("received!");
             AbstractDocument d = controller.getModel().getDoc();
             if (eventPackage.eventType.equals("INSERT")) {

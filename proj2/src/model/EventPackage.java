@@ -23,5 +23,10 @@ public class EventPackage implements Serializable{
 		
 	}
 	
+    public boolean equals(EventPackage that) {
+        return ((((this.eventType.equals(that.eventType) && this.len == that.len) && this.offset == that.offset) && this.inserted
+                .equals(that.inserted)));
+    }
+	
 
 }
