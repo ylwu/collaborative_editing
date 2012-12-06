@@ -23,6 +23,7 @@ import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -71,6 +72,7 @@ public class GUI extends JFrame  {
 	private final JTextPane editArea; // a styled editable area in the GUI
 	private final JTextArea editHistory; //the edit history for the client	
 	private final JButton createNew;
+	private final JComboBox fileList;
 	private String docName;//name of the document(that a user can edit)
 	HashMap<Object, Action> actions;
 	
@@ -99,16 +101,23 @@ public class GUI extends JFrame  {
 		guiPicture = new JLabel(icon1,JLabel.CENTER);
 		getContentPane().add(guiPicture);
 		
-		// creat JButton
-		ImageIcon icon2 = new ImageIcon("image/newFile.png","New File");
-		createNew = new JButton(icon2);
+		// create JButton
+		//ImageIcon icon2 = new ImageIcon("image/newFile.png","New File");
+		createNew = new JButton("New File");
 		getContentPane().add(createNew);
 		createNew.addActionListener(new createDocListener());
 		
-		
+		// create drop-down box
+		// TODO: take in a list of files as arguments; ADD LISTENER
+		JLabel dropDownHeader = new JLabel("-Select Document-");
+		fileList = new JComboBox();
+		fileList.addItem(docName);
+		fileList.addActionListener(new dropDownListener());
+		getContentPane().add(dropDownHeader);
+		getContentPane().add(fileList);
 
 		// display document name
-		documentName = new JLabel("You are editing Document: ");
+		documentName = new JLabel("-You are Editing Document-");
 		getContentPane().add(documentName);
 		documentNameField = new JTextField(docName); 
 		documentNameField.setEditable(false);
@@ -118,7 +127,7 @@ public class GUI extends JFrame  {
 		editArea.setDocument(document);
 		editArea.setCaretPosition(0); // text-insertion point
 		JScrollPane editScrollPane = new JScrollPane(editArea);
-		editScrollPane.setPreferredSize(new Dimension(500, 280));
+		editScrollPane.setPreferredSize(new Dimension(500, 300));
 		getContentPane().add(editScrollPane);
 
 		// create a edit history table
@@ -154,30 +163,37 @@ public class GUI extends JFrame  {
 
 		layout.setHorizontalGroup(layout.createParallelGroup()
 				.addComponent(guiTitle,GroupLayout.Alignment.CENTER)
-				.addComponent(guiPicture,GroupLayout.Alignment.CENTER)
-				.addComponent(createNew,GroupLayout.Alignment.CENTER)
 				.addGroup(layout.createSequentialGroup()
-						.addComponent(documentName)
-						.addComponent(documentNameField))
+						.addComponent(createNew)
+						.addGroup(layout.createParallelGroup()
+								.addComponent(dropDownHeader,GroupLayout.Alignment.CENTER)
+								.addComponent(fileList,GroupLayout.Alignment.CENTER))
+						.addGroup(layout.createParallelGroup()
+								.addComponent(documentName,GroupLayout.Alignment.CENTER)
+								.addComponent(documentNameField,GroupLayout.Alignment.CENTER)))
 				.addComponent(editScrollPane)
 				.addComponent(historyScrollPane)
 				.addComponent(statusPane));
 
 		layout.setVerticalGroup(layout.createSequentialGroup()
 				.addComponent(guiTitle)
-				.addComponent(guiPicture)
-				.addComponent(createNew)
 				.addGroup(layout.createParallelGroup()
-						.addComponent(documentName)
-						.addComponent(documentNameField))
+						.addComponent(createNew)
+						.addGroup(layout.createSequentialGroup()
+								.addComponent(dropDownHeader)
+								.addComponent(fileList))
+						.addGroup(layout.createSequentialGroup()
+								.addComponent(documentName)
+								.addComponent(documentNameField)))
 				.addComponent(editScrollPane)
 				.addComponent(historyScrollPane)
 				.addComponent(statusPane));
 
 		setSize(getPreferredSize());
 		
+		
 		// set background color
-		getContentPane().setBackground(new Color(240,255,240));
+		getContentPane().setBackground(new Color(191,239,255));
 		
 		//this.client.updateServer(eventPackage)
 		Thread t=new UpdateListener(client);
@@ -201,6 +217,14 @@ public class GUI extends JFrame  {
 
 				}
 			});
+		}
+	}
+	
+	// Listener for drop-down box of file list
+	protected class dropDownListener implements ActionListener {
+		
+		public void actionPerformed(ActionEvent e){
+			//TODO: implement listener
 		}
 	}
 
