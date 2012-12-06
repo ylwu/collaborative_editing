@@ -38,6 +38,8 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
@@ -63,6 +65,7 @@ import client.UpdateListener;
 import controller.Controller;
 
 public class GUI extends JFrame  {
+
 	/*zhengshu: added more features to the GUI*/
 	private String newline = "\n";
 	private final JLabel guiTitle; // entitles the GUI
@@ -85,6 +88,7 @@ public class GUI extends JFrame  {
 	private Model model;
 
 	public GUI(Controller controller, Client client) {
+
 		this.setTitle("Collaborative Editor");
 		this.client = client;
 		this.controller = controller;
@@ -205,6 +209,7 @@ public class GUI extends JFrame  {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	}
+	
 	// Listener for creating new document
 	protected class createDocListener implements ActionListener {
 		

@@ -16,6 +16,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
@@ -91,6 +94,23 @@ public class Client {
 		ip=args[0];
 		final Client c = new Client();
 		c.initialize();
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (UnsupportedLookAndFeelException e) {
+		    // handle exception
+		} catch (ClassNotFoundException e) {
+		    // handle exception
+		} catch (InstantiationException e) {
+		    // handle exception
+		} catch (IllegalAccessException e) {
+		    // handle exception
+		}
+
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -100,7 +120,7 @@ public class Client {
 
 			}
 		});
-		
+	
 		
 	}
 }
