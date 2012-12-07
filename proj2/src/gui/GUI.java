@@ -3,28 +3,25 @@
  */
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Event;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 
 import javax.swing.Action;
-import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -32,36 +29,26 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
-import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
-
-import server.serverThread;
 
 import model.Model;
-
 import client.Client;
 import client.UpdateListener;
-
 import controller.Controller;
 
 public class GUI extends JFrame  {
@@ -69,7 +56,6 @@ public class GUI extends JFrame  {
 	/*zhengshu: added more features to the GUI*/
 	private String newline = "\n";
 	private final JLabel guiTitle; // entitles the GUI
-	private final JLabel guiPicture; // insert picture
 	private final JLabel documentName; //displays document name
 	private final JTextField documentNameField; // displays document name
 	private final JTextPane editArea; // a styled editable area in the GUI
@@ -100,10 +86,10 @@ public class GUI extends JFrame  {
 		guiTitle = new JLabel("Welcome to Collaborative Editor!");
 		getContentPane().add(guiTitle);
 		
-		// load GUI picture
+		// create GUI Image
 		ImageIcon icon1 = new ImageIcon("image/writing-2.jpg","Collaborative Editing");
-		guiPicture = new JLabel(icon1,JLabel.CENTER);
-		getContentPane().add(guiPicture);
+		JLabel guiPicture = new JLabel(icon1);
+		
 		
 		// create JButton
 		//ImageIcon icon2 = new ImageIcon("image/newFile.png","New File");
@@ -138,7 +124,7 @@ public class GUI extends JFrame  {
 		editHistory = new JTextArea();
 		editHistory.setEditable(false);
 		JScrollPane historyScrollPane = new JScrollPane(editHistory);
-		historyScrollPane.setPreferredSize(new Dimension(300, 100));
+		historyScrollPane.setPreferredSize(new Dimension(500, 50));
 		getContentPane().add(historyScrollPane);
 
 		// Set up the menu bar
@@ -160,50 +146,99 @@ public class GUI extends JFrame  {
 		document.addDocumentListener(new MyDocumentListener());
 
 		// set layout
-		GroupLayout layout = new GroupLayout(getContentPane());
-		getContentPane().setLayout(layout);
-		layout.setAutoCreateGaps(true);
-		layout.setAutoCreateContainerGaps(true);
+		
+		// 1. parent window
+		final JPanel gui = new JPanel(new BorderLayout(5,5));
+		gui.setBorder(new TitledBorder("Azure v1.2"));
+		
+		// top panel
+		JPanel plafComponents = new JPanel(new FlowLayout(FlowLayout.RIGHT, 3,3));
+		plafComponents.setBorder(
+                new TitledBorder("Choose a Theme for your Editor"));
+		
+		final UIManager.LookAndFeelInfo[] plafInfos = UIManager
+				.getInstalledLookAndFeels();
+		String[] plafNames = new String[plafInfos.length];
+		for (int ii = 0; ii < plafInfos.length; ii++) {
+			plafNames[ii] = plafInfos[ii].getName();
+		}
+		final JComboBox plafChooser = new JComboBox(plafNames);
+		plafComponents.add(plafChooser);
 
-		layout.setHorizontalGroup(layout.createParallelGroup()
-				.addComponent(guiTitle,GroupLayout.Alignment.CENTER)
-				.addGroup(layout.createSequentialGroup()
-						.addComponent(createNew)
-						.addGroup(layout.createParallelGroup()
-								.addComponent(dropDownHeader,GroupLayout.Alignment.CENTER)
-								.addComponent(fileList,GroupLayout.Alignment.CENTER))
-						.addGroup(layout.createParallelGroup()
-								.addComponent(documentName,GroupLayout.Alignment.CENTER)
-								.addComponent(documentNameField,GroupLayout.Alignment.CENTER)))
-				.addComponent(editScrollPane)
-				.addComponent(historyScrollPane)
-				.addComponent(statusPane));
+		final JCheckBox pack = new JCheckBox("Pack on the New Theme", true);
+		plafComponents.add(pack);
 
-		layout.setVerticalGroup(layout.createSequentialGroup()
-				.addComponent(guiTitle)
-				.addGroup(layout.createParallelGroup()
-						.addComponent(createNew)
-						.addGroup(layout.createSequentialGroup()
-								.addComponent(dropDownHeader)
-								.addComponent(fileList))
-						.addGroup(layout.createSequentialGroup()
-								.addComponent(documentName)
-								.addComponent(documentNameField)))
-				.addComponent(editScrollPane)
-				.addComponent(historyScrollPane)
-				.addComponent(statusPane));
+		plafChooser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				int index = plafChooser.getSelectedIndex();
+				try {
+					UIManager.setLookAndFeel(plafInfos[index].getClassName());
+					SwingUtilities.updateComponentTreeUI(getRootPane());
+					if (pack.isSelected()) {
+						pack();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		JPanel upperPortion = new JPanel(new BorderLayout());
+		upperPortion.add(guiPicture,BorderLayout.NORTH);
+		upperPortion.add(plafComponents,BorderLayout.SOUTH);
 
-		setSize(getPreferredSize());
+		gui.add(upperPortion, BorderLayout.NORTH);
+
+		// left panel
+		JPanel dynamicLabels = new JPanel(new BorderLayout(4, 150));
+		dynamicLabels.setBorder(new TitledBorder("Control Panel"));
+		gui.add(dynamicLabels, BorderLayout.WEST);
+        
+		JPanel displayDocName = new JPanel(new BorderLayout());
+		displayDocName.add(documentName,BorderLayout.NORTH);
+		displayDocName.add(documentNameField,BorderLayout.SOUTH);
+		
+		JPanel selectDoc = new JPanel(new BorderLayout());
+		selectDoc.add(dropDownHeader,BorderLayout.NORTH);
+		selectDoc.add(fileList,BorderLayout.SOUTH);
+		
+		dynamicLabels.add(createNew, BorderLayout.NORTH);
+		dynamicLabels.add(displayDocName,BorderLayout.CENTER);
+		dynamicLabels.add(selectDoc,BorderLayout.SOUTH);
+		
+            
+		
+		// right panel
+		JSplitPane splitPane = new JSplitPane(
+				JSplitPane.VERTICAL_SPLIT,
+				editScrollPane,
+				historyScrollPane);
+		gui.add(splitPane, BorderLayout.CENTER);
+		
 		
 		
 		// set background color
-		getContentPane().setBackground(new Color(191,239,255));
+		Color color = new Color(240,248,255);
+		dynamicLabels.setBackground(color);
+		gui.setBackground(color);
+		splitPane.setBackground(color);
+		plafComponents.setBackground(color);
 		
 		//this.client.updateServer(eventPackage)
 		Thread t=new UpdateListener(client);
 		t.start(); 
 		// at the end
+		this.setContentPane(gui);
 		this.pack();
+
+        this.setLocationRelativeTo(null);
+        try {
+            // after version 1.6; might have compatibility issue
+            this.setLocationByPlatform(true);
+            this.setMinimumSize(this.getSize());
+        } catch(Throwable ignoreAndContinue) {
+        }
+
 		this.setVisible(true);
 		// implement close for gui without close the whole program
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -339,16 +374,44 @@ public class GUI extends JFrame  {
 	// Create the edit menu.
 	protected JMenu createEditMenu() {
 		JMenu menu = new JMenu("Edit");
+		
+		Action cutAction = new DefaultEditorKit.CutAction();
+		cutAction.putValue(Action.NAME, "Cut");
+		menu.add(cutAction);
 
-		// These actions come from the default editor kit.
-		// Get the ones we want and stick them in the menu.
-		menu.add(getActionByName(DefaultEditorKit.cutAction));
-		menu.add(getActionByName(DefaultEditorKit.copyAction));
-		menu.add(getActionByName(DefaultEditorKit.pasteAction));
+		Action copyAction = new DefaultEditorKit.CopyAction();
+		copyAction.putValue(Action.NAME, "Copy");
+		menu.add(copyAction);
+
+		Action pasteAction = new DefaultEditorKit.PasteAction();
+		pasteAction.putValue(Action.NAME, "Paste");
+		menu.add(pasteAction);
 
 		menu.addSeparator();
+		
+		Action backAction = getActionByName(DefaultEditorKit.backwardAction);
+		backAction.putValue(Action.NAME, "Caret Back");
+		menu.add(backAction);
+		
+		Action forwardAction = getActionByName(DefaultEditorKit.forwardAction);
+		forwardAction.putValue(Action.NAME, "Caret Forward");
+		menu.add(forwardAction);
+		
+		Action upAction = getActionByName(DefaultEditorKit.upAction);
+		upAction.putValue(Action.NAME, "Caret Up");
+		menu.add(upAction);
+		
+		Action downAction = getActionByName(DefaultEditorKit.downAction);
+		downAction.putValue(Action.NAME, "Caret Down");
+		menu.add(downAction);
+		
 
-		menu.add(getActionByName(DefaultEditorKit.selectAllAction));
+		menu.addSeparator();
+		
+		Action selectAllAction = getActionByName(DefaultEditorKit.selectAllAction);
+		selectAllAction.putValue(Action.NAME, "Select All");
+		menu.add(selectAllAction);
+
 		return menu;
 	}
 
@@ -368,6 +431,7 @@ public class GUI extends JFrame  {
 	private Action getActionByName(String name) {
 		return actions.get(name);
 	}
+
 
 	/**
 	 * @return
