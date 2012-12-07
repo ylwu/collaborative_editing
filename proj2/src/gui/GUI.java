@@ -32,6 +32,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -93,7 +94,7 @@ public class GUI extends JFrame  {
 		
 		// create JButton
 		//ImageIcon icon2 = new ImageIcon("image/newFile.png","New File");
-		createNew = new JButton("New File");
+		createNew = new JButton("Create New File");
 		getContentPane().add(createNew);
 		createNew.addActionListener(new createDocListener());
 		
@@ -129,10 +130,49 @@ public class GUI extends JFrame  {
 
 		// Set up the menu bar
 		actions = createActionTable(editArea);
-		JMenu editMenu = createEditMenu();
+		JMenu editmenu = new JMenu("Edit");
+		
+		Action cutAction = new DefaultEditorKit.CutAction();
+		cutAction.putValue(Action.NAME, "Cut");
+		editmenu.add(cutAction);
+
+		Action copyAction = new DefaultEditorKit.CopyAction();
+		copyAction.putValue(Action.NAME, "Copy");
+		editmenu.add(copyAction);
+
+		Action pasteAction = new DefaultEditorKit.PasteAction();
+		pasteAction.putValue(Action.NAME, "Paste");
+		editmenu.add(pasteAction);
+
+		editmenu.addSeparator();
+		
+		Action backAction = getActionByName(DefaultEditorKit.backwardAction);
+		backAction.putValue(Action.NAME, "Caret Back");
+		editmenu.add(backAction);
+		
+		Action forwardAction = getActionByName(DefaultEditorKit.forwardAction);
+		forwardAction.putValue(Action.NAME, "Caret Forward");
+		editmenu.add(forwardAction);
+		
+		Action upAction = getActionByName(DefaultEditorKit.upAction);
+		upAction.putValue(Action.NAME, "Caret Up");
+		editmenu.add(upAction);
+		
+		Action downAction = getActionByName(DefaultEditorKit.downAction);
+		downAction.putValue(Action.NAME, "Caret Down");
+		editmenu.add(downAction);
+		
+
+		editmenu.addSeparator();
+		
+		Action selectAllAction = getActionByName(DefaultEditorKit.selectAllAction);
+		selectAllAction.putValue(Action.NAME, "Select All");
+		editmenu.add(selectAllAction);
+		
 		JMenuBar mb = new JMenuBar();
-		mb.add(editMenu);
+		mb.add(editmenu);
 		setJMenuBar(mb);
+		
 
 		// Add hot-key commands
 		addHotKey();
@@ -151,9 +191,19 @@ public class GUI extends JFrame  {
 		final JPanel gui = new JPanel(new BorderLayout(5,5));
 		gui.setBorder(new TitledBorder("Azure v1.2"));
 		
-		// top panel
-		JPanel plafComponents = new JPanel(new FlowLayout(FlowLayout.RIGHT, 3,3));
-		plafComponents.setBorder(
+		// top panel: document name, create new document, change theme
+		JPanel plafComponents = new JPanel(new FlowLayout(FlowLayout.CENTER, 25,3));
+		
+		JPanel displayDocName = new JPanel(new BorderLayout());
+		displayDocName.add(documentName,BorderLayout.NORTH);
+		displayDocName.add(documentNameField,BorderLayout.SOUTH);
+		
+		plafComponents.add(createNew);
+		plafComponents.add(displayDocName);
+		
+		JPanel plafSubComp = new JPanel(new BorderLayout(3,3));
+		
+		plafSubComp.setBorder(
                 new TitledBorder("Choose a Theme for your Editor"));
 		
 		final UIManager.LookAndFeelInfo[] plafInfos = UIManager
@@ -163,10 +213,13 @@ public class GUI extends JFrame  {
 			plafNames[ii] = plafInfos[ii].getName();
 		}
 		final JComboBox plafChooser = new JComboBox(plafNames);
-		plafComponents.add(plafChooser);
+		plafSubComp.add(plafChooser,BorderLayout.WEST);
 
 		final JCheckBox pack = new JCheckBox("Pack on the New Theme", true);
-		plafComponents.add(pack);
+		plafSubComp.add(pack,BorderLayout.EAST);
+		
+		plafComponents.add(plafSubComp);
+		
 
 		plafChooser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
@@ -190,22 +243,33 @@ public class GUI extends JFrame  {
 		gui.add(upperPortion, BorderLayout.NORTH);
 
 		// left panel
-		JPanel dynamicLabels = new JPanel(new BorderLayout(4, 150));
+		JPanel dynamicLabels = new JPanel(new BorderLayout(4, 4));
 		dynamicLabels.setBorder(new TitledBorder("Control Panel"));
 		gui.add(dynamicLabels, BorderLayout.WEST);
-        
-		JPanel displayDocName = new JPanel(new BorderLayout());
-		displayDocName.add(documentName,BorderLayout.NORTH);
-		displayDocName.add(documentNameField,BorderLayout.SOUTH);
+       
 		
 		JPanel selectDoc = new JPanel(new BorderLayout());
 		selectDoc.add(dropDownHeader,BorderLayout.NORTH);
 		selectDoc.add(fileList,BorderLayout.SOUTH);
 		
-		dynamicLabels.add(createNew, BorderLayout.NORTH);
-		dynamicLabels.add(displayDocName,BorderLayout.CENTER);
-		dynamicLabels.add(selectDoc,BorderLayout.SOUTH);
+		JPanel controlButtons = new JPanel(new GridLayout(0,1));
+		JButton cutButton = new JButton(cutAction);
+		controlButtons.add(cutButton);
 		
+		JButton copyButton = new JButton(copyAction);
+		controlButtons.add(copyButton);
+		
+		JButton pasteButton = new JButton(pasteAction);
+		controlButtons.add(pasteButton);
+		
+		JButton selectAllButton = new JButton(selectAllAction);
+		controlButtons.add(selectAllButton);
+		
+		
+		dynamicLabels.add(selectDoc,BorderLayout.NORTH);
+		dynamicLabels.add(controlButtons,BorderLayout.SOUTH);
+		
+		// toolBar
             
 		
 		// right panel
@@ -219,6 +283,9 @@ public class GUI extends JFrame  {
 		
 		// set background color
 		Color color = new Color(240,248,255);
+		documentName.setBackground(color);
+		plafSubComp.setBackground(color);
+		dropDownHeader.setBackground(color);
 		dynamicLabels.setBackground(color);
 		gui.setBackground(color);
 		splitPane.setBackground(color);
