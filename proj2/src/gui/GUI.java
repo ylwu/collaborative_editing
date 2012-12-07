@@ -249,14 +249,7 @@ public class GUI extends JFrame  {
 	protected class createDocListener implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e){
-			docNum ++;
-			final Controller controller = new Controller(docNum);
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					GUI gui = new GUI(controller,client);
-
-				}
-			});
+        //TODO: implement Create New Document Action
 		}
 	}
 	
@@ -310,14 +303,12 @@ public class GUI extends JFrame  {
 	}
 
 	// Listener for Document changes
-	// TODO: (for yunzhi) please fire the change to the controller (and to the
-	// model)
+
 	protected class MyDocumentListener implements DocumentListener {
 		public void insertUpdate(DocumentEvent e) {
 			try {
                 client.updateServer(model.DocumentEventToEventPackage(e));
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
            }
 		}
@@ -327,7 +318,6 @@ public class GUI extends JFrame  {
 		    try {
                 client.updateServer(model.DocumentEventToEventPackage(e));
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
 			displayEditInfo(e);
@@ -432,25 +422,25 @@ public class GUI extends JFrame  {
 		return actions.get(name);
 	}
 
-
-	/**
-	 * @return
-	 * 
-	 *         get text in textField
-	 */
-	public String getText() {
-		// TODO convert AbstractDocument document to String!
-		return null;
-	}
-
-	/**
-	 * @param text
-	 * 
-	 *            update textField
-	 */
-	public void setText(String text) {
-		// TODO write this part after the controller is finalized
-
-	}
+//
+//	/**
+//	 * @return
+//	 * 
+//	 *         get text in textField
+//	 */
+//	public String getText() {
+//		// TODO convert AbstractDocument document to String!
+//		return null;
+//	}
+//
+//	/**
+//	 * @param text
+//	 * 
+//	 *            update textField
+//	 */
+//	public void setText(String text) {
+//		// TODO write this part after the controller is finalized
+//
+//	}
 
 }
