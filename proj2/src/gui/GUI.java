@@ -360,6 +360,12 @@ public class GUI extends JFrame  {
 				int returnVal = fc.showOpenDialog(gui);
 				if (returnVal == JFileChooser.APPROVE_OPTION){
 					File file = fc.getSelectedFile();
+					try {
+                        client.uploadFiletoServer(file);
+                    } catch (IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
 					log.append("Opening: " + file.getName()+"."+ newline);		
 				}else{
 					log.append("Open command cancelled by user." + newline);

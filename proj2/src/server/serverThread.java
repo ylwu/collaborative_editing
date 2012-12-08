@@ -3,6 +3,7 @@
  */
 package server;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -108,11 +109,16 @@ public class serverThread extends Thread{
     
     private void handleConnection(Socket socket) throws IOException, Exception {
         while (true) {
+            Object o = fromClient.readObject();
+            if (o instanceof EventPackage){
             EventPackage eventPackage = (EventPackage) fromClient.readObject();
             System.out.println("received update from client");
             updateServer(eventPackage);
             updateClient(eventPackage);
-            
+            } else if (o instanceof File){
+                server.fileSystem.addFile((File) o);
+                System.out.println("received file from client");
+            }
 
         }
     }

@@ -5,6 +5,7 @@ package client;
 
 import gui.GUI;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -43,6 +44,12 @@ public class Client {
             toServer.flush();
             System.out.println("sent update to server");
         }
+    }
+    
+    public void uploadFiletoServer(File file) throws IOException{
+        toServer.writeObject(file);
+        toServer.flush();
+        System.out.println("upload file to server");
     }
     
     // change here
