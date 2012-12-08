@@ -136,6 +136,11 @@ public class serverThread extends Thread{
                 updateClient(fp);
                 System.out.println("received file from client");
                 
+            } else if (o instanceof String){
+                if (o.equals("new file")){
+                server.fileSystem.addEmptyFile();
+                System.out.println("New Document");
+                }
             }
 
         }

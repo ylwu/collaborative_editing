@@ -72,6 +72,8 @@ public class Client {
             f.updateDoc(eventPackage);}
         	else if (o instanceof FilePackage){
         		fileSystem.addFile((FilePackage) o);
+        	} else if (o instanceof String){
+        	    fileSystem.addEmptyFile();
         	}
         } catch (IOException e) {
             // TODO Auto-generated catch block
