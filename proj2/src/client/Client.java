@@ -31,12 +31,16 @@ public class Client {
     private ObjectOutputStream toServer;
     private ObjectInputStream fromServer;
     public static FileSystem fileSystem;
-    private static String ip;
+    public static String ip;
     private Socket socket;
     public EventPackage incomingPackage;
     
     public Client(){
         incomingPackage = new EventPackage();
+    }
+    public Client(String ipAddress){
+    	incomingPackage = new EventPackage();
+    	ip = ipAddress;
     }
     
     public void updateServer(EventPackage eventPackage) throws IOException {
@@ -95,7 +99,7 @@ public class Client {
     
     
 	public static void main(final String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
-		ip=args[0];
+		//ip=args[0];
 		final Client c = new Client();
 		c.initialize();
 		try {
