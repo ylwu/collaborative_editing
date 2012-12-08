@@ -78,7 +78,7 @@ public class GUI extends JFrame  {
 		this.setTitle("Collaborative Editor");
 		this.client = client;
 		this.fileSystem = controller;
-		this.model= controller.getModels().get(-1);
+		this.model= controller.getModels().get(controller.getModels().size()-1);
 		this.document = model.getDoc();
 		this.docName = model.getDocName();
 
