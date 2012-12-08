@@ -35,7 +35,7 @@ public class guiTest{
 		final FileSystem f=new FileSystem();
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-			    new GUI(f,c);
+			    new GUI(c);
 
 			}
 		});

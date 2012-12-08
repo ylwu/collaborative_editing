@@ -81,11 +81,11 @@ public class GUI extends JFrame  {
 	private final Client client;
 	private MyFile file;
 
-	public GUI(FileSystem fileSystem, Client client) {
+	public GUI(Client client) {
 
 		this.setTitle("Collaborative Editor");
 		this.client = client;
-		this.fileSystem = fileSystem;
+		this.fileSystem = client.fileSystem;
 		this.file= fileSystem.getFile().get(fileSystem.getFile().size()-1);
 		this.document = file.getDoc();
 		this.docName = file.getDocName();

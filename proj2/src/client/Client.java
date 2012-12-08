@@ -28,7 +28,7 @@ import FileSystem.MyFile;
 public class Client {
     private ObjectOutputStream toServer;
     private ObjectInputStream fromServer;
-    private static FileSystem fileSystem;
+    public static FileSystem fileSystem;
     private static String ip;
     private Socket socket;
     public EventPackage incomingPackage;
@@ -100,7 +100,7 @@ public class Client {
 			public void run() {
 				//testing purpose
 	            System.out.println("creating new gui");
-			    new GUI(fileSystem,c);
+			    new GUI(c);
 
 			}
 		});
