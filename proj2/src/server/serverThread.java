@@ -111,6 +111,7 @@ public class serverThread extends Thread{
         while (true) {
             Object o = fromClient.readObject();
             if (o instanceof EventPackage){
+                System.out.println("got an EventPackage");
             EventPackage eventPackage = (EventPackage) fromClient.readObject();
             System.out.println("received update from client");
             updateServer(eventPackage);
