@@ -108,6 +108,7 @@ public class GUI extends JFrame  {
 		createNew = new JButton(newIcon);
 		getContentPane().add(createNew);
 		createNew.addActionListener(new createDocListener());
+		createNew.setToolTipText("Create New File");
 		
 		// create drop-down box
 		// TODO: take in a list of files as arguments; ADD LISTENER
@@ -195,6 +196,7 @@ public class GUI extends JFrame  {
 		ImageIcon openIcon = new ImageIcon("image/open.png");
 		openButton = new JButton(openIcon);
 		openButton.addActionListener(new loadDocListener());
+		openButton.setToolTipText("Open a New File");
 		
 		
 		
@@ -217,7 +219,7 @@ public class GUI extends JFrame  {
 		gui.setBorder(new TitledBorder("Azure v1.2"));
 		
 		// top panel: document name, create new document, change theme
-		JPanel plafComponents = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JPanel plafComponents = new JPanel(new FlowLayout(FlowLayout.CENTER,3,3));
 		
 		JPanel displayDocName = new JPanel(new BorderLayout());
 		displayDocName.add(documentName,BorderLayout.NORTH);
@@ -280,7 +282,7 @@ public class GUI extends JFrame  {
 		selectDoc.add(fileList,BorderLayout.SOUTH);
 		
 		// left panel: control buttons
-		JPanel controlButtons = new JPanel(new GridLayout(2,2));
+		JPanel controlButtons = new JPanel(new GridLayout(0,1));
 		ImageIcon cutIcon = new ImageIcon("image/cut.png");
 		cutButton = new JButton(cutIcon);
 		cutButton.setAction(cutAction);
@@ -323,6 +325,7 @@ public class GUI extends JFrame  {
 		// set background color
 		Color color = new Color(240,248,255);
 		documentName.setBackground(color);
+		controlButtons.setBackground(color);
 		upperPortion.setBackground(color);
 		plafSubComp.setBackground(color);
 		dropDownHeader.setBackground(color);
