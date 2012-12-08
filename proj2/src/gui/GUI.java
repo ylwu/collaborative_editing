@@ -124,7 +124,7 @@ public class GUI extends JFrame  {
 		editHistory = new JTextArea();
 		editHistory.setEditable(false);
 		JScrollPane historyScrollPane = new JScrollPane(editHistory);
-		historyScrollPane.setPreferredSize(new Dimension(500, 50));
+		historyScrollPane.setPreferredSize(new Dimension(500, 80));
 		getContentPane().add(historyScrollPane);
 
 		// Set up the menu bar
@@ -289,6 +289,7 @@ public class GUI extends JFrame  {
 		gui.setBackground(color);
 		splitPane.setBackground(color);
 		plafComponents.setBackground(color);
+		//guiPicture.setBackground(color);
 		
 		//this.client.updateServer(eventPackage)
 		Thread t=new UpdateListener(client);
