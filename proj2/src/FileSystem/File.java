@@ -3,6 +3,12 @@
  */
 package FileSystem;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 
 import javax.swing.event.DocumentEvent;
@@ -29,6 +35,37 @@ public class File implements Serializable{
 		
 	}
 	
+	public File(FileSystem fileSystem, java.io.File file){
+		f=fileSystem;
+		docNum = f.getCurDocNum();
+		doc= new DefaultStyledDocument();
+		initDocument();
+		docName = "New Document " + Integer.toString(docNum);
+		DataInputStream in = null;
+        try {
+        	docName=file.getName();
+        	String filename=file.getAbsolutePath();
+        
+            final FileInputStream fstream = new FileInputStream(filename);
+            in = new DataInputStream(fstream);
+            String str=in.readUTF();
+            doc.insertString(0, str, new SimpleAttributeSet());
+        } catch (FileNotFoundException e) {
+	        e.printStackTrace();
+        } catch (IOException e) {
+	        e.printStackTrace();
+        } catch (BadLocationException e) {
+	        e.printStackTrace();
+        }finally{
+            try {
+                in.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException("can't close");
+            }
+        }
+
+	}
 	public EventPackage DocumentEventToEventPackage(DocumentEvent e) {
 		DefaultDocumentEvent ee=(DefaultDocumentEvent) e;
 		if(ee.getType()==DocumentEvent.EventType.INSERT){

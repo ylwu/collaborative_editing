@@ -33,6 +33,19 @@ public class FileSystem implements Serializable {
 		File newFile = new File(this);
 		files.add(newFile);
 	}
+	
+	//not used
+	public void AddFile(){
+		docNum++;
+		File newFile = new File(this);
+		files.add(newFile);	
+	}
+	
+	public void AddFile(java.io.File file){
+		docNum++;
+		File newFile = new File(this,file);
+		files.add(newFile);	
+	}
 
 
 
