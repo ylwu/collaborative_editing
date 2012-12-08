@@ -20,6 +20,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 
 import FileSystem.EventPackage;
+import FileSystem.File;
 import FileSystem.FileSystem;
 
 /**
@@ -52,15 +53,8 @@ public class Client {
             EventPackage eventPackage = (EventPackage)fromServer.readObject();
             incomingPackage = eventPackage;
             System.out.println("received!");
-            AbstractDocument d = fileSystem.getModels().get(eventPackage.docNum).getDoc();
-            if (eventPackage.eventType.equals("INSERT")) {
-                d.insertString(eventPackage.offset, eventPackage.inserted,
-                        new SimpleAttributeSet());
-            } else if (eventPackage.eventType.equals("REMOVE")) {
-
-                d.remove(eventPackage.offset, eventPackage.len);
-            }
-            System.out.println("client updated");
+            File f= fileSystem.getModels().get(eventPackage.docNum);
+            f.updateDoc(eventPackage);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -58,6 +58,17 @@ public class File implements Serializable{
 	    return doc;
 	}
 	
+	public void updateDoc(EventPackage eventPackage) throws BadLocationException{
+	    if (eventPackage.eventType.equals("INSERT")) {
+            doc.insertString(eventPackage.offset, eventPackage.inserted,
+                    new SimpleAttributeSet());
+        } else if (eventPackage.eventType.equals("REMOVE")) {
+
+            doc.remove(eventPackage.offset, eventPackage.len);
+        }
+        System.out.println("client updated");
+    }
+	
 	public void changeDoc(AbstractDocument doc){
 	    this.doc = doc; 
 	}
