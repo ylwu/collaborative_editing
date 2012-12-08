@@ -135,7 +135,7 @@ public class serverThread extends Thread{
                 server.fileSystem.addFile(fp);
                 updateClient(fp);
                 System.out.println("received file from client");
-                
+
             }
 
         }
