@@ -35,6 +35,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -99,8 +100,8 @@ public class GUI extends JFrame  {
 		
 		
 		// create JButton
-		//ImageIcon icon2 = new ImageIcon("image/newFile.png","New File");
-		createNew = new JButton("Create New File");
+		ImageIcon newIcon = new ImageIcon("image/new.png");
+		createNew = new JButton(newIcon);
 		getContentPane().add(createNew);
 		createNew.addActionListener(new createDocListener());
 		
@@ -179,6 +180,7 @@ public class GUI extends JFrame  {
 		mb.add(editmenu);
 		setJMenuBar(mb);
 		
+		
 		// set up file chooser
 		log = new JTextArea (5,20);
 		log.setMargin(new Insets(5,5,5,5));
@@ -186,7 +188,8 @@ public class GUI extends JFrame  {
 		JScrollPane logScrollPane = new JScrollPane(log);
 		
 		fc = new JFileChooser(); // FILES_ONLY
-		openButton = new JButton("Open a File");
+		ImageIcon openIcon = new ImageIcon("image/open.png");
+		openButton = new JButton(openIcon);
 		openButton.addActionListener(new loadDocListener());
 		
 		
@@ -288,7 +291,10 @@ public class GUI extends JFrame  {
 		dynamicLabels.add(selectDoc,BorderLayout.NORTH);
 		dynamicLabels.add(controlButtons,BorderLayout.SOUTH);
 		
-		// toolBar
+
+		
+		
+		
             
 		
 		// right panel
