@@ -5,13 +5,9 @@ package client;
 
 import gui.GUI;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -22,13 +18,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
-import javax.swing.text.Document;
 
-import model.EventPackage;
-import model.Model;
-
-import controller.Controller;
+import File.EventPackage;
+import FileSystem.FileSystem;
 
 /**
  * @author gyz
@@ -37,7 +29,7 @@ import controller.Controller;
 public class Client {
     private ObjectOutputStream toServer;
     private ObjectInputStream fromServer;
-    private static Controller controller;
+    private static FileSystem controller;
     private static String ip;
     private Socket socket;
     public EventPackage incomingPackage;
@@ -85,7 +77,7 @@ public class Client {
         toServer = new ObjectOutputStream(socket.getOutputStream());
         fromServer = new ObjectInputStream(socket.getInputStream()); 
         
-        controller = (Controller)fromServer.readObject();
+        controller = (FileSystem)fromServer.readObject();
         System.out.println("got controller");
     }
     

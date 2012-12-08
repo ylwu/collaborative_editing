@@ -12,8 +12,8 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 
-import model.EventPackage;
-import controller.Controller;
+import File.EventPackage;
+import FileSystem.FileSystem;
 
 /**
  * @author gyz
@@ -29,12 +29,12 @@ public class serverThread extends Thread{
 	
     private final Socket socket;
     private final Server server;
-    private Controller controller;
+    private FileSystem controller;
     public ObjectOutputStream toClient;
     public ObjectInputStream fromClient;
     
     
-    public serverThread(Server server, Socket socket, Controller c) {
+    public serverThread(Server server, Socket socket, FileSystem c) {
         this.socket = socket;
         this.server = server;
         this.controller=c;

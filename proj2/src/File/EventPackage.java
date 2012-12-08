@@ -1,7 +1,7 @@
 /**
  * 
  */
-package model;
+package File;
 
 import javax.swing.event.DocumentEvent.EventType;
 import java.io.Serializable;

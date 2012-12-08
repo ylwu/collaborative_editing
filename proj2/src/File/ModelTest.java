@@ -1,12 +1,8 @@
-package model;
+package File;
 
 import gui.GUI;
-
-import java.io.IOException;
-
+import FileSystem.FileSystem;
 import client.Client;
-
-import controller.Controller;
 
 
 /**
@@ -26,7 +22,7 @@ import controller.Controller;
 
 public class ModelTest{
 	public static void main(final String[] args) {
-		final Controller c=new Controller();
+		final FileSystem c=new FileSystem();
 		final Client cl = new Client();
         new GUI(c,cl);
 		

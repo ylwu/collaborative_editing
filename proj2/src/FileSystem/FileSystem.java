@@ -1,16 +1,14 @@
 /**
  * 
  */
-package controller;
+package FileSystem;
 
 import gui.GUI;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.List;
 
-import model.Model;
+import File.File;
 
 /**
  * @author gyz
@@ -23,27 +21,27 @@ import model.Model;
  * 
  * 
  */
-public class Controller implements Serializable {
-	private final Model model;
+public class FileSystem implements Serializable {
+	private final File file;
     private Integer docNum;
 	
 	private List<GUI> views;
 
-	public Controller() {
+	public FileSystem() {
 		this.docNum = 1;
-		this.model = new Model(this);
+		this.file = new File(this);
 
 	}
 	
-	public Controller(Integer docNum) {
+	public FileSystem(Integer docNum) {
         this.docNum = docNum;
-        this.model = new Model(this);
+        this.file = new File(this);
 	}
 	
 
 
-	public Model getModel() {
-		return this.model;
+	public File getModel() {
+		return this.file;
 	}
 
 	public void addView(GUI v) {

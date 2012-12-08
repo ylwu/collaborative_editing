@@ -1,7 +1,7 @@
 /**
  * 
  */
-package model;
+package File;
 
 import java.io.Serializable;
 
@@ -11,17 +11,16 @@ import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 
-import controller.Controller;
+import FileSystem.FileSystem;
 
 
-public class Model implements Serializable{
-	private final Controller c;
+public class File implements Serializable{
+	private final FileSystem c;
 	private AbstractDocument doc;
 	private String docName;
 	private Integer docNum;
-	public Model(Controller controller){
+	public File(FileSystem controller){
 		c=controller;
 		docNum = c.getDocNum();
 		doc= new DefaultStyledDocument();

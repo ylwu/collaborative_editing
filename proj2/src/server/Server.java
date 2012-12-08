@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.Controller;
+import FileSystem.FileSystem;
 
 
 
@@ -13,10 +13,10 @@ public class Server {
     private final ServerSocket serverSocket;
     /** True if the server should disconnect a client after a BOOM message. */
     private int numPlayers;
-	public Controller controller;
+	public FileSystem controller;
 	public List<serverThread> threadlist;
 
-    public Server(int port, Controller c) throws IOException {
+    public Server(int port, FileSystem c) throws IOException {
         serverSocket = new ServerSocket(port);
         this.numPlayers=0;
         this.controller=c;
@@ -48,7 +48,7 @@ public class Server {
         }
     }
     
-    public static void runServer(int port, Controller c)
+    public static void runServer(int port, FileSystem c)
             throws IOException
     {
 
@@ -58,7 +58,7 @@ public class Server {
     
     
 	public static void main(final String[] args) {
-		Controller c=new Controller();
+		FileSystem c=new FileSystem();
         final int port=4441;
         try {
             runServer(port,c);

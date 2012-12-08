@@ -32,7 +32,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -47,10 +46,10 @@ import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 
-import model.Model;
+import File.File;
+import FileSystem.FileSystem;
 import client.Client;
 import client.UpdateListener;
-import controller.Controller;
 
 public class GUI extends JFrame  {
 
@@ -70,11 +69,11 @@ public class GUI extends JFrame  {
 	
 	private AbstractDocument document;
 	
-	private final Controller controller; // in case you need this
+	private final FileSystem controller; // in case you need this
 	private final Client client;
-	private Model model;
+	private File model;
 
-	public GUI(Controller controller, Client client) {
+	public GUI(FileSystem controller, Client client) {
 
 		this.setTitle("Collaborative Editor");
 		this.client = client;
