@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +23,7 @@ import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -55,6 +57,7 @@ public class GUI extends JFrame  {
 
 	/*zhengshu: added more features to the GUI*/
 	private String newline = "\n";
+	private final JPanel gui;
 	private final JLabel guiTitle; // entitles the GUI
 	private final JLabel documentName; //displays document name
 	private final JTextField documentNameField; // displays document name
@@ -62,6 +65,9 @@ public class GUI extends JFrame  {
 	private final JTextArea editHistory; //the edit history for the client	
 	private final JButton createNew;
 	private final JComboBox fileList;
+	private final JFileChooser fc;
+	private final JTextArea log;
+	private final JButton openButton;
 	private String docName;//name of the document(that a user can edit)
 	HashMap<Object, Action> actions;
 	
@@ -172,6 +178,18 @@ public class GUI extends JFrame  {
 		mb.add(editmenu);
 		setJMenuBar(mb);
 		
+		// set up file chooser
+		log = new JTextArea (5,20);
+		log.setMargin(new Insets(5,5,5,5));
+		log.setEditable(false);
+		JScrollPane logScrollPane = new JScrollPane(log);
+		
+		fc = new JFileChooser(); // FILES_ONLY
+		openButton = new JButton("Open a File");
+		openButton.addActionListener(new loadDocListener());
+		
+		
+		
 
 		// Add hot-key commands
 		addHotKey();
@@ -187,7 +205,7 @@ public class GUI extends JFrame  {
 		// set layout
 		
 		// 1. parent window
-		final JPanel gui = new JPanel(new BorderLayout(5,5));
+		gui = new JPanel(new BorderLayout(5,5));
 		gui.setBorder(new TitledBorder("Azure v1.2"));
 		
 		// top panel: document name, create new document, change theme
@@ -198,6 +216,7 @@ public class GUI extends JFrame  {
 		displayDocName.add(documentNameField,BorderLayout.SOUTH);
 		
 		plafComponents.add(createNew);
+		plafComponents.add(openButton);
 		plafComponents.add(displayDocName);
 		
 		JPanel plafSubComp = new JPanel(new BorderLayout(3,3));
@@ -310,6 +329,22 @@ public class GUI extends JFrame  {
 		// implement close for gui without close the whole program
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+	}
+	
+	// Listener for uploading new document
+	protected class loadDocListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			if (e.getSource()==openButton){
+				int returnVal = fc.showOpenDialog(gui);
+				if (returnVal == JFileChooser.APPROVE_OPTION){
+					java.io.File file = fc.getSelectedFile();// confuse File with java.io.fileList
+					log.append("Opening: " + file.getName()+"."+ newline);		
+				}else{
+					log.append("Open command cancelled by user." + newline);
+				}
+				log.setCaretPosition(log.getDocument().getLength());
+			}
+		}
 	}
 	
 	// Listener for creating new document
