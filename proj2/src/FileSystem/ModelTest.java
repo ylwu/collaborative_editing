@@ -24,7 +24,7 @@ public class ModelTest{
 	public static void main(final String[] args) {
 		final FileSystem c=new FileSystem();
 		final Client cl = new Client();
-        new GUI(c,cl);
+        new GUI(cl);
 		
 	}	
 }
