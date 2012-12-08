@@ -114,8 +114,8 @@ public class GUI extends JFrame  {
 		// create drop-down box
 		// TODO: take in a list of files as arguments; ADD LISTENER
 		JLabel dropDownHeader = new JLabel("-Select Document-");
-		fileList = new JComboBox();
-		fileList.addItem(docName);
+		
+		fileList = new JComboBox(fileSystem.files.toArray());
 		fileList.addActionListener(new dropDownListener());
 		getContentPane().add(dropDownHeader);
 		getContentPane().add(fileList);
@@ -165,6 +165,7 @@ public class GUI extends JFrame  {
 		
 		// create edit menu
 		JMenu editmenu = new JMenu("Edit");
+		editmenu.setMnemonic('E');
 		
 		Action cutAction = new DefaultEditorKit.CutAction();
 		cutAction.putValue(Action.NAME, "Cut");
