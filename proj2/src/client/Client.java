@@ -63,11 +63,16 @@ public class Client {
     // change here
     public void getUpdates() throws BadLocationException{
         try {
-            EventPackage eventPackage = (EventPackage)fromServer.readObject();
+        	Object o =fromServer.readObject();
+        	if (o instanceof EventPackage){
+            EventPackage eventPackage = (EventPackage)o;
             incomingPackage = eventPackage;
             System.out.println("received!");
             MyFile f= fileSystem.getFile().get(eventPackage.docNum);
-            f.updateDoc(eventPackage);
+            f.updateDoc(eventPackage);}
+        	else if (o instanceof FilePackage){
+        		fileSystem.addFile((FilePackage) o);
+        	}
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
