@@ -31,6 +31,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -110,12 +111,13 @@ public class GUI extends JFrame  {
 		createNew = new JButton(newIcon);
 		getContentPane().add(createNew);
 		createNew.addActionListener(new createDocListener());
+		createNew.setToolTipText("Create New File");
 		
 		// create drop-down box
 		// TODO: take in a list of files as arguments; ADD LISTENER
 		JLabel dropDownHeader = new JLabel("-Select Document-");
-		fileList = new JComboBox();
-		fileList.addItem(docName);
+		
+		fileList = new JComboBox(fileSystem.files.toArray());
 		fileList.addActionListener(new dropDownListener());
 		getContentPane().add(dropDownHeader);
 		getContentPane().add(fileList);
@@ -143,7 +145,29 @@ public class GUI extends JFrame  {
 
 		// Set up the menu bar
 		actions = createActionTable(editArea);
+		// creat file menu
+		JMenu filemenu = new JMenu("File");
+		filemenu.setMnemonic(KeyEvent.VK_F);
+		JMenuItem newFileMenu = new JMenuItem("New File");
+		newFileMenu.setAccelerator(KeyStroke.getKeyStroke(
+				KeyEvent.VK_1,ActionEvent.ALT_MASK));
+		newFileMenu.addActionListener(new createDocListener());
+		
+		JMenuItem openFileMenu = new JMenuItem("Open...");
+		openFileMenu.setAccelerator(KeyStroke.getKeyStroke(
+				KeyEvent.VK_2,ActionEvent.ALT_MASK));
+		openFileMenu.addActionListener(new loadDocListener());
+		
+		filemenu.add(newFileMenu);
+		filemenu.add(openFileMenu);
+		
+		
+		
+		
+		
+		// create edit menu
 		JMenu editmenu = new JMenu("Edit");
+		editmenu.setMnemonic('E');
 		
 		Action cutAction = new DefaultEditorKit.CutAction();
 		cutAction.putValue(Action.NAME, "Cut");
@@ -183,6 +207,7 @@ public class GUI extends JFrame  {
 		editmenu.add(selectAllAction);
 		
 		JMenuBar mb = new JMenuBar();
+		mb.add(filemenu);
 		mb.add(editmenu);
 		setJMenuBar(mb);
 		
@@ -197,6 +222,7 @@ public class GUI extends JFrame  {
 		ImageIcon openIcon = new ImageIcon("image/open.png");
 		openButton = new JButton(openIcon);
 		openButton.addActionListener(new loadDocListener());
+		openButton.setToolTipText("Open a New File");
 		
 		
 		
@@ -219,7 +245,7 @@ public class GUI extends JFrame  {
 		gui.setBorder(new TitledBorder("Azure v1.2"));
 		
 		// top panel: document name, create new document, change theme
-		JPanel plafComponents = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JPanel plafComponents = new JPanel(new FlowLayout(FlowLayout.CENTER,3,3));
 		
 		JPanel displayDocName = new JPanel(new BorderLayout());
 		displayDocName.add(documentName,BorderLayout.NORTH);
@@ -282,7 +308,7 @@ public class GUI extends JFrame  {
 		selectDoc.add(fileList,BorderLayout.SOUTH);
 		
 		// left panel: control buttons
-		JPanel controlButtons = new JPanel(new GridLayout(2,2));
+		JPanel controlButtons = new JPanel(new GridLayout(0,1));
 		ImageIcon cutIcon = new ImageIcon("image/cut.png");
 		cutButton = new JButton(cutIcon);
 		cutButton.setAction(cutAction);
@@ -325,6 +351,7 @@ public class GUI extends JFrame  {
 		// set background color
 		Color color = new Color(240,248,255);
 		documentName.setBackground(color);
+		controlButtons.setBackground(color);
 		upperPortion.setBackground(color);
 		plafSubComp.setBackground(color);
 		dropDownHeader.setBackground(color);
