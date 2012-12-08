@@ -406,6 +406,7 @@ public class GUI extends JFrame  {
 	protected class createDocListener implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e){
+		    //client.createNewFileOnServer();
         
 		}
 	}

@@ -45,6 +45,10 @@ public class Client {
             System.out.println("sent update to server");
         }
     }
+   
+    public void creatNewFileOnServer(){
+        
+    }
     
     public void uploadFiletoServer(File file) throws IOException{
         toServer.writeObject(file);
