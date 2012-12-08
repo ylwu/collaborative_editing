@@ -30,7 +30,7 @@ import FileSystem.MyFile;
 public class Client {
     private ObjectOutputStream toServer;
     private ObjectInputStream fromServer;
-    public static FileSystem fileSystem;
+    public  FileSystem fileSystem;
     private static String ip;
     private Socket socket;
     public EventPackage incomingPackage;
@@ -76,7 +76,9 @@ public class Client {
         	} else if (o instanceof String){
         	    fileSystem.addEmptyFile();
         	    System.out.println("received empty document");
+        	  
         	}
+        	System.out.println("There are " + fileSystem.files.size() + "files in this client");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
