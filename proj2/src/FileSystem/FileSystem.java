@@ -6,6 +6,8 @@ package FileSystem;
 import gui.GUI;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -20,43 +22,40 @@ import java.util.List;
  * 
  */
 public class FileSystem implements Serializable {
-	private final File file;
-    private Integer docNum;
+	private List<File> files=new ArrayList<File>();
+	private int docNum=-1;
+    
 	
 	private List<GUI> views;
 
 	public FileSystem() {
-		this.docNum = 1;
-		this.file = new File(this);
-
+		docNum++;
+		File newFile = new File(this);
+		files.add(newFile);
 	}
-	
-	public FileSystem(Integer docNum) {
-        this.docNum = docNum;
-        this.file = new File(this);
-	}
-	
 
 
-	public File getModel() {
-		return this.file;
+
+	public List<File> getModels() {
+		return this.files;
 	}
 
 	public void addView(GUI v) {
 		views.add(v);
 	}
 	
-	public void setDocNum(Integer docNum){
-		this.docNum = docNum;
-	}
 	
-	public int getDocNum(){
+	public int getCurDocNum(){
 		return this.docNum;
 	}
 	
-	public void increaseDocNum(){
-		this.docNum ++;
+	
+	//not used
+	public int getNextDocNum(){
+		return this.docNum+1;
 	}
+	
+	
 
 	
 }

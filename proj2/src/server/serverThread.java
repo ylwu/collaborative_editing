@@ -84,7 +84,8 @@ public class serverThread extends Thread{
     }
     
     private void updateServer(EventPackage eventPackage) throws BadLocationException{
-        AbstractDocument d = server.controller.getModel().getDoc();
+    	//need to change eventPackage to include the docNum of the change
+        AbstractDocument d = server.controller.getModels().get(-1).getDoc();
         if (eventPackage.eventType.equals("INSERT")) {
             d.insertString(eventPackage.offset, eventPackage.inserted,
                     new SimpleAttributeSet());

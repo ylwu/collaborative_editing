@@ -22,7 +22,7 @@ public class File implements Serializable{
 	private Integer docNum;
 	public File(FileSystem fileSystem){
 		f=fileSystem;
-		docNum = f.getDocNum();
+		docNum = f.getCurDocNum();
 		doc= new DefaultStyledDocument();
 		initDocument();
 		docName = "New Document " + Integer.toString(docNum);
