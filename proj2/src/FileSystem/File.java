@@ -40,13 +40,13 @@ public class File implements Serializable{
 	            // TODO Auto-generated catch block
 	            //e1.printStackTrace();
 	        }
-			return new EventPackage(ee.getType().toString(),ee.getLength(),ee.getOffset(),inserted,doc.getLength());
+			return new EventPackage(docNum,ee.getType().toString(),ee.getLength(),ee.getOffset(),inserted,doc.getLength());
 		}
 		else if (ee.getType()==DocumentEvent.EventType.REMOVE){
-			return new EventPackage(ee.getType().toString(),ee.getLength(),ee.getOffset(),"",doc.getLength());
+			return new EventPackage(docNum,ee.getType().toString(),ee.getLength(),ee.getOffset(),"",doc.getLength());
 		}
 		//shouldn't be here
-		return new EventPackage(ee.getType().toString(),ee.getLength(),ee.getOffset(),"",doc.getLength());
+		return new EventPackage(docNum,ee.getType().toString(),ee.getLength(),ee.getOffset(),"",doc.getLength());
 		
 		// then in client side 
 		//insertString(int offs, String str, AttributeSet a) 

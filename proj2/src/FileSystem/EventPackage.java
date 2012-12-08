@@ -16,8 +16,10 @@ public class EventPackage implements Serializable{
 	public final int offset;
 	public final String inserted;
 	public final int docLength;
+	public final int docNum;
 	
-	public EventPackage(String eventType, int len, int offset, String inserted, int docLength){
+	public EventPackage(int docNum,String eventType, int len, int offset, String inserted, int docLength){
+		this.docNum=docNum;
 		this.eventType=eventType;
 		this.len=len;
 		this.offset=offset;
@@ -26,6 +28,7 @@ public class EventPackage implements Serializable{
 	}
 	
 	public EventPackage(){
+		this.docNum=-1;
 	    this.eventType = "None";
 	    this.len = -1;
 	    this.offset = -1;
@@ -35,7 +38,7 @@ public class EventPackage implements Serializable{
 	
     public boolean equals(EventPackage that) {
         return (((this.eventType.equals(that.eventType) && this.len == that.len) && this.offset == that.offset) && this.inserted
-                .equals(that.inserted)) && (this.docLength == that.docLength);
+                .equals(that.inserted)) && (this.docLength == that.docLength) && (this.docNum==that.docNum);
     }
 	
 
