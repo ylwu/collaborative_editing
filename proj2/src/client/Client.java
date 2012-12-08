@@ -46,7 +46,7 @@ public class Client {
         }
     }
    
-    public void creatNewFileOnServer(){
+    public void createNewFileOnServer(){
         
     }
     
