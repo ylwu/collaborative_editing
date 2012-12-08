@@ -14,6 +14,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 
 import FileSystem.EventPackage;
+import FileSystem.FilePackage;
 import FileSystem.FileSystem;
 
 /**
@@ -116,8 +117,9 @@ public class serverThread extends Thread{
             System.out.println("received update from client");
             updateServer(eventPackage);
             updateClient(eventPackage);
-            } else if (o instanceof File){
-                server.fileSystem.addFile((File) o);
+            } else if (o instanceof FilePackage){
+ 
+                server.fileSystem.addFile((FilePackage) o);
                 System.out.println("received file from client");
             }
 
