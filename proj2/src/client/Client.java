@@ -29,7 +29,7 @@ import FileSystem.FileSystem;
 public class Client {
     private ObjectOutputStream toServer;
     private ObjectInputStream fromServer;
-    private static FileSystem controller;
+    private static FileSystem fileSystem;
     private static String ip;
     private Socket socket;
     public EventPackage incomingPackage;
@@ -52,7 +52,7 @@ public class Client {
             EventPackage eventPackage = (EventPackage)fromServer.readObject();
             incomingPackage = eventPackage;
             System.out.println("received!");
-            AbstractDocument d = controller.getModel().getDoc();
+            AbstractDocument d = fileSystem.getModel().getDoc();
             if (eventPackage.eventType.equals("INSERT")) {
                 d.insertString(eventPackage.offset, eventPackage.inserted,
                         new SimpleAttributeSet());
@@ -77,7 +77,7 @@ public class Client {
         toServer = new ObjectOutputStream(socket.getOutputStream());
         fromServer = new ObjectInputStream(socket.getInputStream()); 
         
-        controller = (FileSystem)fromServer.readObject();
+        fileSystem = (FileSystem)fromServer.readObject();
         System.out.println("got controller");
     }
     
@@ -108,7 +108,7 @@ public class Client {
 			public void run() {
 				//testing purpose
 	            System.out.println("creating new gui");
-			    new GUI(controller,c);
+			    new GUI(fileSystem,c);
 
 			}
 		});

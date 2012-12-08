@@ -16,13 +16,13 @@ import FileSystem.FileSystem;
 
 
 public class File implements Serializable{
-	private final FileSystem c;
+	private final FileSystem f;
 	private AbstractDocument doc;
 	private String docName;
 	private Integer docNum;
-	public File(FileSystem controller){
-		c=controller;
-		docNum = c.getDocNum();
+	public File(FileSystem fileSystem){
+		f=fileSystem;
+		docNum = f.getDocNum();
 		doc= new DefaultStyledDocument();
 		initDocument();
 		docName = "New Document " + Integer.toString(docNum);

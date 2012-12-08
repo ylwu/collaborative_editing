@@ -24,12 +24,12 @@ public class serverThread extends Thread{
 	/**
 	 * @param server
 	 * @param socket
-	 * @param controller
+	 * @param fileSystem
 	 */
 	
     private final Socket socket;
     private final Server server;
-    private FileSystem controller;
+    private FileSystem fileSystem;
     public ObjectOutputStream toClient;
     public ObjectInputStream fromClient;
     
@@ -37,7 +37,7 @@ public class serverThread extends Thread{
     public serverThread(Server server, Socket socket, FileSystem c) {
         this.socket = socket;
         this.server = server;
-        this.controller=c;
+        this.fileSystem=c;
     }
     
     public Socket getSocket(){
@@ -71,7 +71,7 @@ public class serverThread extends Thread{
 
         try {
             toClient = new ObjectOutputStream(socket.getOutputStream());
-            toClient.writeObject(controller);
+            toClient.writeObject(fileSystem);
             toClient.flush();
             fromClient = new ObjectInputStream(socket.getInputStream());
 

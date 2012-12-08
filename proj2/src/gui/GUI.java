@@ -69,7 +69,7 @@ public class GUI extends JFrame  {
 	
 	private AbstractDocument document;
 	
-	private final FileSystem controller; // in case you need this
+	private final FileSystem fileSystem; // in case you need this
 	private final Client client;
 	private File model;
 
@@ -77,7 +77,7 @@ public class GUI extends JFrame  {
 
 		this.setTitle("Collaborative Editor");
 		this.client = client;
-		this.controller = controller;
+		this.fileSystem = controller;
 		this.model= controller.getModel();
 		this.document = model.getDoc();
 		this.docName = model.getDocName();
