@@ -58,7 +58,7 @@ public class File implements Serializable{
 	    return doc;
 	}
 	
-	public synchronized void  updateDoc(EventPackage eventPackage) throws BadLocationException{
+	public void  updateDoc(EventPackage eventPackage) throws BadLocationException{
 	    doc.readLock();
 	    if (eventPackage.eventType.equals("INSERT")) {
             doc.insertString(eventPackage.offset, eventPackage.inserted,
