@@ -5,6 +5,7 @@ package FileSystem;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,12 +22,12 @@ import javax.swing.text.SimpleAttributeSet;
 import FileSystem.FileSystem;
 
 
-public class File implements Serializable{
+public class MyFile implements Serializable{
 	private final FileSystem f;
 	private AbstractDocument doc;
 	private String docName;
 	private Integer docNum;
-	public File(FileSystem fileSystem){
+	public MyFile(FileSystem fileSystem){
 		f=fileSystem;
 		docNum = f.getCurDocNum();
 		doc= new DefaultStyledDocument();
@@ -35,7 +36,7 @@ public class File implements Serializable{
 		
 	}
 	
-	public File(FileSystem fileSystem, java.io.File file){
+	public MyFile(FileSystem fileSystem, File file){
 		f=fileSystem;
 		docNum = f.getCurDocNum();
 		doc= new DefaultStyledDocument();
