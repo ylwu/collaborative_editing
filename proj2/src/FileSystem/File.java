@@ -59,7 +59,7 @@ public class File implements Serializable{
 	}
 	
 	public synchronized void  updateDoc(EventPackage eventPackage) throws BadLocationException{
-	    doc.readLock();
+	    //doc.readLock();
 	    if (eventPackage.eventType.equals("INSERT")) {
             doc.insertString(eventPackage.offset, eventPackage.inserted,
                     new SimpleAttributeSet());
@@ -68,7 +68,7 @@ public class File implements Serializable{
             doc.remove(eventPackage.offset, eventPackage.len);
         }
         System.out.println("client updated");
-        doc.readUnlock();
+        //doc.readUnlock();
     }
 	
 	public void changeDoc(AbstractDocument doc){
