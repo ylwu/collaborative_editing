@@ -65,6 +65,10 @@ public class GUI extends JFrame  {
 	private final JTextPane editArea; // a styled editable area in the GUI
 	private final JTextArea editHistory; //the edit history for the client	
 	private final JButton createNew;
+	private final JButton cutButton;
+	private final JButton copyButton;
+	private final JButton pasteButton;
+	private final JButton selectAllButton;
 	private final JComboBox fileList;
 	private final JFileChooser fc;
 	private final JTextArea log;
@@ -264,6 +268,7 @@ public class GUI extends JFrame  {
 		gui.add(upperPortion, BorderLayout.NORTH);
 
 		// left panel
+		// left panel: drop down file list
 		JPanel dynamicLabels = new JPanel(new BorderLayout(4, 4));
 		dynamicLabels.setBorder(new TitledBorder("Control Panel"));
 		gui.add(dynamicLabels, BorderLayout.WEST);
@@ -273,17 +278,26 @@ public class GUI extends JFrame  {
 		selectDoc.add(dropDownHeader,BorderLayout.NORTH);
 		selectDoc.add(fileList,BorderLayout.SOUTH);
 		
-		JPanel controlButtons = new JPanel(new GridLayout(0,1));
-		JButton cutButton = new JButton(cutAction);
+		// left panel: control buttons
+		JPanel controlButtons = new JPanel(new GridLayout(2,2));
+		ImageIcon cutIcon = new ImageIcon("image/cut.png");
+		cutButton = new JButton(cutIcon);
+		cutButton.setAction(cutAction);
 		controlButtons.add(cutButton);
 		
-		JButton copyButton = new JButton(copyAction);
+		ImageIcon copyIcon = new ImageIcon("image/copy.png");
+		copyButton = new JButton(copyIcon);
+		copyButton.setAction(copyAction);
 		controlButtons.add(copyButton);
 		
-		JButton pasteButton = new JButton(pasteAction);
+		ImageIcon pasteIcon = new ImageIcon("image/paste.png");
+		pasteButton = new JButton(pasteIcon);
+		pasteButton.setAction(pasteAction);
 		controlButtons.add(pasteButton);
 		
-		JButton selectAllButton = new JButton(selectAllAction);
+		ImageIcon selectAllIcon = new ImageIcon("image/selectAll.png");
+		selectAllButton = new JButton(selectAllIcon);
+		selectAllButton.setAction(selectAllAction);
 		controlButtons.add(selectAllButton);
 		
 		
