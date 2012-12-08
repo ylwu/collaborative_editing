@@ -47,7 +47,10 @@ public class Client {
         }
     }
    
-    public void createNewFileOnServer(){
+    public void createNewFileOnServer() throws IOException{
+        toServer.writeObject(("new file"));
+        toServer.flush();
+        System.out.println("create new file on server");
         
     }
     
