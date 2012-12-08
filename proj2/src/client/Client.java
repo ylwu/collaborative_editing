@@ -19,6 +19,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.BadLocationException;
 
 import FileSystem.EventPackage;
+import FileSystem.FilePackage;
 import FileSystem.FileSystem;
 import FileSystem.MyFile;
 
@@ -50,8 +51,8 @@ public class Client {
         
     }
     
-    public void uploadFiletoServer(File file) throws IOException{
-        toServer.writeObject(file);
+    public void uploadFiletoServer(File file, String content) throws IOException{
+        toServer.writeObject(new FilePackage(file, content));
         toServer.flush();
         System.out.println("upload file to server");
     }

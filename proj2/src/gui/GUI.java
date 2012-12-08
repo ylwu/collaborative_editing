@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -360,8 +362,36 @@ public class GUI extends JFrame  {
 				int returnVal = fc.showOpenDialog(gui);
 				if (returnVal == JFileChooser.APPROVE_OPTION){
 					File file = fc.getSelectedFile();
+					String content="";
+					FileReader in = null;
+			        try {
+			        	String filename=file.getAbsolutePath();
+			        
+			            final FileInputStream fstream = new FileInputStream(filename);
+			            in = new FileReader(filename);
+			            StringBuilder contents = new StringBuilder();
+			            char[] buffer = new char[4096];
+			            int read = 0;
+			            do {
+			                contents.append(buffer, 0, read);
+			                read = in.read(buffer);
+			            } while (read >= 0);
+			            content=contents.toString();
+
+			        } 
+			        catch (IOException e1) {
+				        e1.printStackTrace();
+			        } 
+			        finally{
+			            try {
+			                in.close();
+			            } catch (Exception e1) {
+			                e1.printStackTrace();
+			                throw new RuntimeException("can't close");
+			            }
+			        }
 					try {
-                        client.uploadFiletoServer(file);
+                        client.uploadFiletoServer(file,content);
                     } catch (IOException e1) {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
