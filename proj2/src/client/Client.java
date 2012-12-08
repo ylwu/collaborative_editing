@@ -15,13 +15,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.SimpleAttributeSet;
 
 import FileSystem.EventPackage;
-import FileSystem.File;
 import FileSystem.FileSystem;
+import FileSystem.MyFile;
 
 /**
  * @author gyz
@@ -53,7 +51,7 @@ public class Client {
             EventPackage eventPackage = (EventPackage)fromServer.readObject();
             incomingPackage = eventPackage;
             System.out.println("received!");
-            File f= fileSystem.getModels().get(eventPackage.docNum);
+            MyFile f= fileSystem.getFile().get(eventPackage.docNum);
             f.updateDoc(eventPackage);
         } catch (IOException e) {
             // TODO Auto-generated catch block

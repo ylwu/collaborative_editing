@@ -14,6 +14,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -48,8 +49,8 @@ import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 
-import FileSystem.File;
 import FileSystem.FileSystem;
+import FileSystem.MyFile;
 import client.Client;
 import client.UpdateListener;
 
@@ -77,16 +78,16 @@ public class GUI extends JFrame  {
 	
 	private final FileSystem fileSystem; // in case you need this
 	private final Client client;
-	private File model;
+	private MyFile file;
 
-	public GUI(FileSystem controller, Client client) {
+	public GUI(FileSystem fileSystem, Client client) {
 
 		this.setTitle("Collaborative Editor");
 		this.client = client;
-		this.fileSystem = controller;
-		this.model= controller.getModels().get(controller.getModels().size()-1);
-		this.document = model.getDoc();
-		this.docName = model.getDocName();
+		this.fileSystem = fileSystem;
+		this.file= fileSystem.getFile().get(fileSystem.getFile().size()-1);
+		this.document = file.getDoc();
+		this.docName = file.getDocName();
 
 		// create GUI title
 		guiTitle = new JLabel("Welcome to Collaborative Editor!");
@@ -338,7 +339,7 @@ public class GUI extends JFrame  {
 			if (e.getSource()==openButton){
 				int returnVal = fc.showOpenDialog(gui);
 				if (returnVal == JFileChooser.APPROVE_OPTION){
-					java.io.File file = fc.getSelectedFile();// confuse File with java.io.fileList
+					File file = fc.getSelectedFile();
 					log.append("Opening: " + file.getName()+"."+ newline);		
 				}else{
 					log.append("Open command cancelled by user." + newline);
@@ -410,7 +411,7 @@ public class GUI extends JFrame  {
 	protected class MyDocumentListener implements DocumentListener {
 		public void insertUpdate(DocumentEvent e) {
 			try {
-                client.updateServer(model.DocumentEventToEventPackage(e));
+                client.updateServer(file.DocumentEventToEventPackage(e));
             } catch (IOException e1) {
                 e1.printStackTrace();
            }
@@ -419,7 +420,7 @@ public class GUI extends JFrame  {
 		public void removeUpdate(DocumentEvent e) {
 
 		    try {
-                client.updateServer(model.DocumentEventToEventPackage(e));
+                client.updateServer(file.DocumentEventToEventPackage(e));
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

@@ -13,13 +13,13 @@ public class Server {
     private final ServerSocket serverSocket;
     /** True if the server should disconnect a client after a BOOM message. */
     private int numPlayers;
-	public FileSystem controller;
+	public FileSystem fileSystem;
 	public List<serverThread> threadlist;
 
     public Server(int port, FileSystem c) throws IOException {
         serverSocket = new ServerSocket(port);
         this.numPlayers=0;
-        this.controller=c;
+        this.fileSystem=c;
         threadlist = new ArrayList<serverThread>();
     }
 
@@ -42,7 +42,7 @@ public class Server {
             Socket socket = serverSocket.accept();
 
             // handle the client
-            serverThread thread = new serverThread(this,socket, controller);
+            serverThread thread = new serverThread(this,socket, fileSystem);
             threadlist.add(thread);
             thread.start();  
         }
