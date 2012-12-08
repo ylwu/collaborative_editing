@@ -108,22 +108,39 @@ public class serverThread extends Thread{
         }
     }
     
+	/**
+	 * @param fp
+	 * @throws IOException 
+	 */
+    private void updateClient(FilePackage fp) throws IOException {
+    	for (serverThread t:server.threadlist){
+    		 t.toClient.writeObject(fp);
+             t.toClient.flush();
+    	}
+	    
+    }
+    
     private void handleConnection(Socket socket) throws IOException, Exception {
         while (true) {
             Object o = fromClient.readObject();
             if (o instanceof EventPackage){
                 System.out.println("got an EventPackage");
-            EventPackage eventPackage = (EventPackage) fromClient.readObject();
+            EventPackage eventPackage = (EventPackage) o;
             System.out.println("received update from client");
             updateServer(eventPackage);
             updateClient(eventPackage);
             } else if (o instanceof FilePackage){
+            	FilePackage fp=(FilePackage) o;
  
-                server.fileSystem.addFile((FilePackage) o);
+                server.fileSystem.addFile(fp);
+                updateClient(fp);
                 System.out.println("received file from client");
+                
             }
 
         }
     }
+
+
 
 }
