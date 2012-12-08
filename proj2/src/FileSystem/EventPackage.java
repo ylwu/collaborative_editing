@@ -1,7 +1,7 @@
 /**
  * 
  */
-package File;
+package FileSystem;
 
 import javax.swing.event.DocumentEvent.EventType;
 import java.io.Serializable;

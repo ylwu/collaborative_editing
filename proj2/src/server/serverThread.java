@@ -12,7 +12,7 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 
-import File.EventPackage;
+import FileSystem.EventPackage;
 import FileSystem.FileSystem;
 
 /**

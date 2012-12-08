@@ -8,8 +8,6 @@ import gui.GUI;
 import java.io.Serializable;
 import java.util.List;
 
-import File.File;
-
 /**
  * @author gyz
  * 

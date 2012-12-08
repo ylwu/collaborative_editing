@@ -46,7 +46,7 @@ import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 
-import File.File;
+import FileSystem.File;
 import FileSystem.FileSystem;
 import client.Client;
 import client.UpdateListener;

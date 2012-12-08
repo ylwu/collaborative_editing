@@ -1,4 +1,4 @@
-package File;
+package FileSystem;
 
 import gui.GUI;
 import FileSystem.FileSystem;
