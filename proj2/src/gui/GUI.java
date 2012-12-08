@@ -209,7 +209,7 @@ public class GUI extends JFrame  {
 		gui.setBorder(new TitledBorder("Azure v1.2"));
 		
 		// top panel: document name, create new document, change theme
-		JPanel plafComponents = new JPanel(new FlowLayout(FlowLayout.CENTER, 25,3));
+		JPanel plafComponents = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		
 		JPanel displayDocName = new JPanel(new BorderLayout());
 		displayDocName.add(documentName,BorderLayout.NORTH);
@@ -302,6 +302,7 @@ public class GUI extends JFrame  {
 		// set background color
 		Color color = new Color(240,248,255);
 		documentName.setBackground(color);
+		upperPortion.setBackground(color);
 		plafSubComp.setBackground(color);
 		dropDownHeader.setBackground(color);
 		dynamicLabels.setBackground(color);
