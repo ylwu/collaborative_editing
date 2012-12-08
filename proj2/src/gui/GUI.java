@@ -29,6 +29,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -142,6 +143,27 @@ public class GUI extends JFrame  {
 
 		// Set up the menu bar
 		actions = createActionTable(editArea);
+		// creat file menu
+		JMenu filemenu = new JMenu("File");
+		filemenu.setMnemonic(KeyEvent.VK_F);
+		JMenuItem newFileMenu = new JMenuItem("New File");
+		newFileMenu.setAccelerator(KeyStroke.getKeyStroke(
+				KeyEvent.VK_1,ActionEvent.ALT_MASK));
+		newFileMenu.addActionListener(new createDocListener());
+		
+		JMenuItem openFileMenu = new JMenuItem("Open...");
+		openFileMenu.setAccelerator(KeyStroke.getKeyStroke(
+				KeyEvent.VK_2,ActionEvent.ALT_MASK));
+		openFileMenu.addActionListener(new loadDocListener());
+		
+		filemenu.add(newFileMenu);
+		filemenu.add(openFileMenu);
+		
+		
+		
+		
+		
+		// create edit menu
 		JMenu editmenu = new JMenu("Edit");
 		
 		Action cutAction = new DefaultEditorKit.CutAction();
@@ -182,6 +204,7 @@ public class GUI extends JFrame  {
 		editmenu.add(selectAllAction);
 		
 		JMenuBar mb = new JMenuBar();
+		mb.add(filemenu);
 		mb.add(editmenu);
 		setJMenuBar(mb);
 		
