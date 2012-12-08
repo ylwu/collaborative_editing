@@ -138,12 +138,22 @@ public class serverThread extends Thread{
                 
             } else if (o instanceof String){
                 if (o.equals("new file")){
+                    String s = (String) o;
                 server.fileSystem.addEmptyFile();
+                updateClientwithEmptyFile(s);
                 System.out.println("New Document");
                 }
             }
 
         }
+    }
+
+    private void updateClientwithEmptyFile(String s) throws IOException {
+        for (serverThread t:server.threadlist){
+            t.toClient.writeObject(s);
+            t.toClient.flush();
+       }
+        
     }
 
 

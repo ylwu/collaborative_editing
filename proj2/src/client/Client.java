@@ -72,8 +72,10 @@ public class Client {
             f.updateDoc(eventPackage);}
         	else if (o instanceof FilePackage){
         		fileSystem.addFile((FilePackage) o);
+        		System.out.println("received non-empty document");
         	} else if (o instanceof String){
         	    fileSystem.addEmptyFile();
+        	    System.out.println("received empty document");
         	}
         } catch (IOException e) {
             // TODO Auto-generated catch block
