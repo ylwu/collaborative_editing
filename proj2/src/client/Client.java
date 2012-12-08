@@ -52,7 +52,7 @@ public class Client {
             EventPackage eventPackage = (EventPackage)fromServer.readObject();
             incomingPackage = eventPackage;
             System.out.println("received!");
-            AbstractDocument d = fileSystem.getModel().getDoc();
+            AbstractDocument d = fileSystem.getModels().get(eventPackage.docNum).getDoc();
             if (eventPackage.eventType.equals("INSERT")) {
                 d.insertString(eventPackage.offset, eventPackage.inserted,
                         new SimpleAttributeSet());

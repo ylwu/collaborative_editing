@@ -1,3 +1,14 @@
+package gui;
+
+import java.io.IOException;
+import java.net.UnknownHostException;
+
+import javax.swing.SwingUtilities;
+
+import FileSystem.FileSystem;
+
+import client.Client;
+
 
 
 /**
@@ -17,4 +28,19 @@
  * 
 */
 
+
+public class guiTest{
+	public static void main(final String[] args) {
+		final Client c = new Client();
+		final FileSystem f=new FileSystem();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+			    new GUI(f,c);
+
+			}
+		});
+		
+		
+	}
+}
 
