@@ -8,6 +8,7 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
@@ -42,14 +43,22 @@ public class MyFile implements Serializable{
 		doc= new DefaultStyledDocument();
 		initDocument();
 		docName = "New Document " + Integer.toString(docNum);
-		DataInputStream in = null;
+		FileReader in = null;
         try {
         	docName=file.getName();
         	String filename=file.getAbsolutePath();
         
             final FileInputStream fstream = new FileInputStream(filename);
-            in = new DataInputStream(fstream);
-            String str=in.readUTF();
+            in = new FileReader(filename);
+            StringBuilder contents = new StringBuilder();
+            char[] buffer = new char[4096];
+            int read = 0;
+            do {
+                contents.append(buffer, 0, read);
+                read = in.read(buffer);
+            } while (read >= 0);
+            String str=contents.toString();
+            
             doc.insertString(0, str, new SimpleAttributeSet());
         } catch (FileNotFoundException e) {
 	        e.printStackTrace();
