@@ -23,7 +23,7 @@ import java.util.List;
  * 
  */
 public class FileSystem implements Serializable {
-	private List<MyFile> files=new ArrayList<MyFile>();
+	public List<MyFile> files=new ArrayList<MyFile>();
 	private int docNum=-1;
     
 	
