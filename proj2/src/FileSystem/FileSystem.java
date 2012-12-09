@@ -44,8 +44,11 @@ public class FileSystem implements Serializable {
 	public void addFile(FilePackage o){
 		File file=o.file;
 		String content=o.content;
+		
 		docNum++;
 		MyFile newFile = new MyFile(this,file, content);
+		//System.out.println(newFile.getDoc().getLength());
+		//System.out.println(content);
 		files.add(newFile);	
 		for (GUI v:views){
 			v.addFile(newFile.docName,this.docNum);
@@ -112,6 +115,19 @@ public class FileSystem implements Serializable {
         mf.docName = newFileName;
         
         
+    }
+
+
+	/**
+	 * 
+	 */
+    public void guiWantDoc() {
+    	for (GUI v:views){
+    		for (MyFile f:files){
+    			v.addFile(f.docName,f.docNum);
+    		}
+			}
+	    
     }
 	
 	
