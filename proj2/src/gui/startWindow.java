@@ -60,7 +60,8 @@ public class startWindow extends JFrame {
 	public class ipListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			ip=ipAddress.getText();
-			final Client c = new Client();
+			System.out.println(ip);
+			final Client c = new Client(ip);
 			try {
 				c.initialize();
 			} catch (UnknownHostException e2) {
