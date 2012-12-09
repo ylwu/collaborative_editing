@@ -137,18 +137,43 @@ public class serverThread extends Thread{
                 System.out.println("received file from client");
                 
             } else if (o instanceof String){
+            	String str=(String) o;
                 if (o.equals("new file")){
                     String s = (String) o;
                 server.fileSystem.addEmptyFile();
                 updateClientwithEmptyFile(s);
                 System.out.println("New Document");
+                }else if (str.substring(0, 5).equals("delete")){
+                	int docNum=Integer.parseInt(str.substring(6));
+                	server.fileSystem.deleteDoc(docNum);
+                	updateClientwithFileDeletion(str);
                 }
             }
 
         }
     }
 
-    private void updateClientwithEmptyFile(String s) throws IOException {
+    /**
+	 * @param str
+	 */
+    private void updateClientwithFileDeletion(String str) {
+	    for (serverThread t:server.threadlist){
+            try {
+	            t.toClient.writeObject(str);
+            } catch (IOException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+            }
+            try {
+	            t.toClient.flush();
+            } catch (IOException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+            }
+       }
+    }
+
+	private void updateClientwithEmptyFile(String s) throws IOException {
         for (serverThread t:server.threadlist){
             t.toClient.writeObject(s);
             t.toClient.flush();
