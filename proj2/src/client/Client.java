@@ -98,37 +98,5 @@ public class Client {
     }
     
     
-	public static void main(final String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
-		//ip=args[0];
-		final Client c = new Client();
-		c.initialize();
-		try {
-		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		        if ("Nimbus".equals(info.getName())) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            break;
-		        }
-		    }
-		} catch (UnsupportedLookAndFeelException e) {
-		    // handle exception
-		} catch (ClassNotFoundException e) {
-		    // handle exception
-		} catch (InstantiationException e) {
-		    // handle exception
-		} catch (IllegalAccessException e) {
-		    // handle exception
-		}
-
-		
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				//testing purpose
-	            System.out.println("creating new gui");
-			    new GUI(c);
-
-			}
-		});
 	
-		
-	}
 }

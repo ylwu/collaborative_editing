@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 import javax.swing.GroupLayout;
 import javax.swing.JFrame;
@@ -9,6 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import FileSystem.FileSystem;
 
@@ -54,19 +59,53 @@ public class startWindow extends JFrame {
 	// listener for ipAddress
 	public class ipListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			ip = ipAddress.getText();
-			System.out.println(ip);
-			SwingUtilities.invokeLater(new Runnable(){
-				public void run(){
-					Client client = new Client(ip);
-					
+			ip=ipAddress.getText();
+			final Client c = new Client();
+			try {
+				c.initialize();
+			} catch (UnknownHostException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			} catch (IOException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			} catch (ClassNotFoundException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			try {
+			    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+			        if ("Nimbus".equals(info.getName())) {
+			            UIManager.setLookAndFeel(info.getClassName());
+			            break;
+			        }
+			    }
+			} catch (UnsupportedLookAndFeelException e1) {
+			    // handle exception
+			} catch (ClassNotFoundException e1) {
+			    // handle exception
+			} catch (InstantiationException e1) {
+			    // handle exception
+			} catch (IllegalAccessException e1) {
+			    // handle exception
+			}
+			
+			
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					//testing purpose
+		            System.out.println("creating new gui");
+				    new GUI(c);
+
 				}
 			});
-            
+		
+			
+		}
 				
 
 		}
-	}
+	
 	public static void main(final String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
