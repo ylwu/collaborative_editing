@@ -21,6 +21,7 @@ import javax.swing.text.BadLocationException;
 import FileSystem.EventPackage;
 import FileSystem.FilePackage;
 import FileSystem.FileSystem;
+import FileSystem.FilenameChangePackage;
 import FileSystem.MyFile;
 
 /**
@@ -71,6 +72,13 @@ public class Client {
         System.out.println("upload file to server");
     }
     
+    public void changeFileNameonServer(int docNum, String newFileName) throws IOException{
+        toServer.writeObject(new FilenameChangePackage(docNum, newFileName));
+        toServer.flush();
+        System.out.println("change file name on server");
+        
+    }
+    
     // change here
     public void getUpdates() throws BadLocationException{
         try {
@@ -84,7 +92,12 @@ public class Client {
         	else if (o instanceof FilePackage){
         		fileSystem.addFile((FilePackage) o);
         		System.out.println("received non-empty document");
-        	} else if (o instanceof String){
+        	} else if (o instanceof FilenameChangePackage){
+        	    FilenameChangePackage fc = (FilenameChangePackage) o;
+        	    fileSystem.changeFileName(fc.docNum,fc.newFileName);
+        	    System.out.println("updated docName on client");
+        	}
+        	else if (o instanceof String){
         		String str=(String) o;
         		if (str.equals("new file")){
         	    fileSystem.addEmptyFile();

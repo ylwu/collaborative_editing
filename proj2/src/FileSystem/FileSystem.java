@@ -105,6 +105,14 @@ public class FileSystem implements Serializable {
     	}
 	    
     }
+
+
+    public void changeFileName(int docNum, String newFileName) {
+        MyFile mf = files.get(docNum);
+        mf.docName = newFileName;
+        
+        
+    }
 	
 	
 

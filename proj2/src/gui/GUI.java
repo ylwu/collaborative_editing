@@ -157,12 +157,32 @@ public class GUI extends JFrame {
 		newFileMenu.addActionListener(new createDocListener());
 
 		JMenuItem openFileMenu = new JMenuItem("Open...");
+
 		openFileMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2,
 		        ActionEvent.ALT_MASK));
 		openFileMenu.addActionListener(new loadDocListener());
 
 		filemenu.add(newFileMenu);
 		filemenu.add(openFileMenu);
+
+
+		openFileMenu.setAccelerator(KeyStroke.getKeyStroke(
+				KeyEvent.VK_O,ActionEvent.ALT_MASK));
+		openFileMenu.addActionListener(new loadDocListener());
+		
+		JMenuItem deleteFileMenu = new JMenuItem("Delete");
+		deleteFileMenu.setAccelerator(KeyStroke.getKeyStroke(
+				KeyEvent.VK_D,ActionEvent.ALT_MASK));
+		deleteFileMenu.addActionListener(new deleteDocListener());
+		
+		filemenu.add(newFileMenu);
+		filemenu.add(openFileMenu);
+		filemenu.add(deleteFileMenu);
+		
+		
+		
+		
+		
 
 		// create edit menu
 		JMenu editmenu = new JMenu("Edit");
@@ -239,9 +259,8 @@ public class GUI extends JFrame {
 		gui.setBorder(new TitledBorder("Azure v1.2"));
 
 		// top panel: document name, create new document, change theme
-		JPanel plafComponents = new JPanel(new FlowLayout(FlowLayout.CENTER, 3,
-		        3));
-
+		JPanel plafComponents = new JPanel(new FlowLayout(FlowLayout.CENTER,10,3));
+		
 		JPanel displayDocName = new JPanel(new BorderLayout());
 		displayDocName.add(documentName, BorderLayout.NORTH);
 		displayDocName.add(documentNameField, BorderLayout.SOUTH);
