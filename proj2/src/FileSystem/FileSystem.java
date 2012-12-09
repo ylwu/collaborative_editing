@@ -34,7 +34,7 @@ public class FileSystem implements Serializable {
 		MyFile newFile = new MyFile(this);
 		files.add(newFile);
 		for (GUI v:views){
-			v.addFile(newFile.docName);
+			v.addFile(newFile.docName,this.docNum);
 			}
 	}
 	
@@ -46,7 +46,7 @@ public class FileSystem implements Serializable {
 		MyFile newFile = new MyFile(this,file, content);
 		files.add(newFile);	
 		for (GUI v:views){
-			v.addFile(newFile.docName);
+			v.addFile(newFile.docName,this.docNum);
 			}
 	}
 	
@@ -54,7 +54,7 @@ public class FileSystem implements Serializable {
 	    MyFile newFile = new MyFile(this);
 	    files.add(newFile);
 		for (GUI v:views){
-			v.addFile(newFile.docName);
+			v.addFile(newFile.docName, this.docNum);
 			}
 	}
 

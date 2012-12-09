@@ -624,13 +624,14 @@ public class GUI extends JFrame{
 	/**
 	 * @param docName2
 	 */
-    public void addFile(String docName2) {
-	    fileList.addItem(makeObj(docName2));
+    public void addFile(String docName2, int docNum2) {
+	    fileList.addItem(makeObj(docName2,docNum2));
 	    
     }
 
-    private Object makeObj(final String item)  {
-        return new Object() { public String toString() { return item; } };
+    private Object makeObj(final String item, final int docNum )  {
+        return new Object() { public String toString() { return item; } 
+        public int getDocNum(){return docNum;}};
       }
 	/* (non-Javadoc)
 	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
