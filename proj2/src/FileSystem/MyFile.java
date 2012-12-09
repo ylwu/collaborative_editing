@@ -26,7 +26,7 @@ public class MyFile implements Serializable {
 	private final FileSystem f;
 	private AbstractDocument doc;
 	public String docName;
-	private Integer docNum;
+	public Integer docNum;
 
 	public MyFile(FileSystem fileSystem) {
 		f = fileSystem;

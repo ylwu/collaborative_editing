@@ -82,6 +82,7 @@ public class GUI extends JFrame{
 	private final JButton openButton;
 	private String docName;//name of the document(that a user can edit)
 	HashMap<Object, Action> actions;
+	private HashMap<String,Integer> filenameToDocNum=new HashMap<String,Integer>() ;
 	
     private Integer docNum = 1; // initialize document number to 1
 	
@@ -467,11 +468,16 @@ public class GUI extends JFrame{
 	// Listener for drop-down box of file list
 	protected class dropDownListener implements ActionListener {
 		
+		
+
 		public void actionPerformed(ActionEvent e){
 			Object holder = e.getSource();
 			JComboBox tempComboBox = (JComboBox)holder;
-			String fileName = (String) tempComboBox.getSelectedItem();
-			//TODO: implement listener
+			String f = tempComboBox.getSelectedItem().toString();
+			System.out.println(filenameToDocNum);
+			int curDocNum=filenameToDocNum.get(f);
+			document=fileSystem.files.get(curDocNum).getDoc();
+			System.out.println("add doc"+curDocNum );
 		}
 	}
 
@@ -640,17 +646,15 @@ public class GUI extends JFrame{
 	 * @param docName2
 	 */
     public void addFile(String docName2, int docNum2) {
-	    fileList.addItem(makeObj(docName2,docNum2));
-	    
+	    fileList.addItem(makeObj(docName2));
+	    filenameToDocNum.put(docName2,docNum2); 
     }
 
-    private Object makeObj(final String item, final int docNum )  {
-        return new Object() { public String toString() { return item; } 
-        public int getDocNum(){return docNum;}};
-      }
-	/* (non-Javadoc)
-	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-	 */
+
+    private Object makeObj(final String item)  {
+      return new Object() { public String toString() { return item; } };
+    }
+  
 
 	/**
 	 * @param docname2
