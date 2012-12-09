@@ -453,6 +453,9 @@ public class GUI extends JFrame{
 	protected class dropDownListener implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e){
+			Object holder = e.getSource();
+			JComboBox tempComboBox = (JComboBox)holder;
+			String fileName = (String) tempComboBox.getSelectedItem();
 			//TODO: implement listener
 		}
 	}
