@@ -27,7 +27,7 @@ public class FileSystem implements Serializable {
 	private int docNum=-1;
     
 	
-	private List<GUI> views;
+	private List<GUI> views=new ArrayList<GUI>();
 
 	public FileSystem() {
 		docNum++;
