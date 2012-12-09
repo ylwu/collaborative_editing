@@ -84,16 +84,28 @@ public class MyFile implements Serializable {
 	}
 
 	public synchronized void updateDoc(EventPackage eventPackage)
-	        throws BadLocationException {
+	       {
 		// doc.readLock();
 		if (eventPackage.eventType.equals("INSERT")) {
-			doc.insertString(eventPackage.offset, eventPackage.inserted,
-			        new SimpleAttributeSet());
+			try {
+	            doc.insertString(eventPackage.offset, eventPackage.inserted,
+	                    new SimpleAttributeSet());
+            } catch (BadLocationException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+            }
+			f.docPosMoved(docNum,eventPackage.offset,eventPackage.len);
 		} else if (eventPackage.eventType.equals("REMOVE")) {
 
-			doc.remove(eventPackage.offset, eventPackage.len);
+			try {
+	            doc.remove(eventPackage.offset, eventPackage.len);
+            } catch (BadLocationException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+            }
+			f.docPosMoved(docNum,eventPackage.offset,-eventPackage.len);
 		}
-		System.out.println("client updated");
+		//System.out.println("client updated");
 		// doc.readUnlock();
 	}
 

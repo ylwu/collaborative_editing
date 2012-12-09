@@ -16,7 +16,7 @@ public class UpdateListener extends Thread{
 	 */
 	private final Client client;
     public UpdateListener(Client c) {
-    	System.out.println("create listener thread");
+    	//System.out.println("create listener thread");
     	client=c;
     }
 	

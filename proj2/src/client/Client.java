@@ -48,7 +48,7 @@ public class Client {
         if (!incomingPackage.equals(eventPackage)) {
             toServer.writeObject(eventPackage);
             toServer.flush();
-            System.out.println("sent update to server");
+            //System.out.println("sent update to server");
         }
     }
    
@@ -86,7 +86,7 @@ public class Client {
         	if (o instanceof EventPackage){
             EventPackage eventPackage = (EventPackage)o;
             incomingPackage = eventPackage;
-            System.out.println("received!");
+            //System.out.println("received!");
             MyFile f= fileSystem.getFile().get(eventPackage.docNum);
             f.updateDoc(eventPackage);}
         	else if (o instanceof FilePackage){
@@ -110,7 +110,7 @@ public class Client {
         		}
         	  
         	}
-        	System.out.println("There are " + fileSystem.files.size() + "files in this client");
+        	//System.out.println("There are " + fileSystem.files.size() + "files in this client");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -121,14 +121,14 @@ public class Client {
     }
     
     public void initialize() throws UnknownHostException, IOException, ClassNotFoundException{
-        System.out.println("connecting to server");
+        //System.out.println("connecting to server");
         socket=new Socket(ip,4441);
-        System.out.println("connected to server");
+        //System.out.println("connected to server");
         toServer = new ObjectOutputStream(socket.getOutputStream());
         fromServer = new ObjectInputStream(socket.getInputStream()); 
         
         fileSystem = (FileSystem)fromServer.readObject();
-        System.out.println("got controller");
+        //System.out.println("got controller");
     }
     
     

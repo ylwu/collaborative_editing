@@ -685,6 +685,30 @@ public class GUI extends JFrame {
 
 	}
 
+	/**
+	 * @return
+	 */
+    public Integer curDocNum() {
+	    // TODO Auto-generated method stub
+	    return filenameToDocNum.get(docName);
+    }
+
+	/**
+	 * @param offset
+	 * @param len
+	 */
+    public void CaretPosition(int offset, int len) {
+	    int curPos=editArea.getCaretPosition();
+	    if (offset>=curPos) return;
+	    curPos=Math.max(offset, curPos+len);
+	    try{
+	    	editArea.setCaretPosition(curPos);
+	    }catch (Exception e){
+	    	e.printStackTrace();
+	    }finally{
+	    }
+    }
+
 	//
 	// /**
 	// * @return
