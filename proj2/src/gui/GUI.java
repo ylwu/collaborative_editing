@@ -129,7 +129,8 @@ public class GUI extends JFrame {
 		documentName = new JLabel("-You are Editing Document-");
 		getContentPane().add(documentName);
 		documentNameField = new JTextField(docName);
-		documentNameField.setEditable(false);
+		documentNameField.setEditable(true);
+		documentNameField.addActionListener(new ChangeDocNameListener());
 
 		// create an editor pane
 		editArea = new JTextPane();
@@ -320,25 +321,25 @@ public class GUI extends JFrame {
 		selectDoc.add(fileList, BorderLayout.SOUTH);
 
 		// left panel: control buttons
-		JPanel controlButtons = new JPanel(new GridLayout(0, 1));
+		JPanel controlButtons = new JPanel(new GridLayout(4, 1));
 		ImageIcon cutIcon = new ImageIcon("image/cut.png");
-		cutButton = new JButton(cutIcon);
-		cutButton.setAction(cutAction);
+		cutButton = new JButton(cutAction);
+		cutButton.setIcon(cutIcon);
 		controlButtons.add(cutButton);
 
 		ImageIcon copyIcon = new ImageIcon("image/copy.png");
-		copyButton = new JButton(copyIcon);
-		copyButton.setAction(copyAction);
+		copyButton = new JButton(copyAction);
+		copyButton.setIcon(copyIcon);
 		controlButtons.add(copyButton);
 
 		ImageIcon pasteIcon = new ImageIcon("image/paste.png");
-		pasteButton = new JButton(pasteIcon);
-		pasteButton.setAction(pasteAction);
+		pasteButton = new JButton(pasteAction);
+		pasteButton.setIcon(pasteIcon);
 		controlButtons.add(pasteButton);
 
 		ImageIcon selectAllIcon = new ImageIcon("image/selectAll.png");
-		selectAllButton = new JButton(selectAllIcon);
-		selectAllButton.setAction(selectAllAction);
+		selectAllButton = new JButton(selectAllAction);
+		selectAllButton.setIcon(selectAllIcon);
 		controlButtons.add(selectAllButton);
 
 		dynamicLabels.add(selectDoc, BorderLayout.NORTH);
@@ -381,6 +382,17 @@ public class GUI extends JFrame {
 		// implement close for gui without close the whole program
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+	}
+	
+	protected class ChangeDocNameListener implements ActionListener {
+	    public void actionPerformed(ActionEvent e){
+	        try {
+                client.changeFileNameonServer(file.docNum,documentNameField.getText());
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+	    }
 	}
 
 	// Listener for uploading new document
