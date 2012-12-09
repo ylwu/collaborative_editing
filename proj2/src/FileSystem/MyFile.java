@@ -43,6 +43,7 @@ public class MyFile implements Serializable {
 		doc = new DefaultStyledDocument();
 		initDocument();
 		docName = file.getName();
+		System.out.println(file);
 		try {
 			doc.insertString(0, content, new SimpleAttributeSet());
 		} catch (BadLocationException e) {

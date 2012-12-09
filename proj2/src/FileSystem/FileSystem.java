@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.text.BadLocationException;
+
 /**
  * @author gyz
  * 
@@ -47,6 +49,7 @@ public class FileSystem implements Serializable {
 		files.add(newFile);	
 		for (GUI v:views){
 			v.addFile(newFile.docName,this.docNum);
+			
 			}
 	}
 	

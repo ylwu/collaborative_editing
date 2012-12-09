@@ -476,7 +476,20 @@ public class GUI extends JFrame{
 			String f = tempComboBox.getSelectedItem().toString();
 			System.out.println(filenameToDocNum);
 			int curDocNum=filenameToDocNum.get(f);
-			document=fileSystem.files.get(curDocNum).getDoc();
+			file= fileSystem.files.get(curDocNum);
+			document = file.getDoc();
+			docName = file.getDocName();
+			editArea.setDocument(document);
+			editArea.setCaretPosition(0); 
+			//document=fileSystem.files.get(curDocNum).getDoc();
+			try {
+				System.out.println("-----------");
+	            System.out.println(document.getText(0,5));
+	            System.out.println("-----------");
+            } catch (BadLocationException e1) {
+	            // TODO Auto-generated catch block
+	            e1.printStackTrace();
+            }
 			System.out.println("add doc"+curDocNum );
 		}
 	}
