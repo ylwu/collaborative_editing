@@ -30,7 +30,7 @@ import FileSystem.MyFile;
 public class Client {
     private ObjectOutputStream toServer;
     private ObjectInputStream fromServer;
-    public static FileSystem fileSystem;
+    public  FileSystem fileSystem;
     public static String ip;
     private Socket socket;
     public EventPackage incomingPackage;
@@ -58,6 +58,13 @@ public class Client {
         
     }
     
+    public void deleteFileOnServer(int docNum) throws IOException{
+        toServer.writeObject(("delete"+docNum));
+        toServer.flush();
+        System.out.println("create new file on server");
+        
+    }
+    
     public void uploadFiletoServer(File file, String content) throws IOException{
         toServer.writeObject(new FilePackage(file, content));
         toServer.flush();
@@ -76,7 +83,19 @@ public class Client {
             f.updateDoc(eventPackage);}
         	else if (o instanceof FilePackage){
         		fileSystem.addFile((FilePackage) o);
+        		System.out.println("received non-empty document");
+        	} else if (o instanceof String){
+        		String str=(String) o;
+        		if (str.equals("new file")){
+        	    fileSystem.addEmptyFile();
+        	    System.out.println("received empty document");}
+        		else if (str.substring(0, 5).equals("delete")){
+        			int docNum=Integer.parseInt(str.substring(6));
+        			fileSystem.deleteDoc(docNum);
+        		}
+        	  
         	}
+        	System.out.println("There are " + fileSystem.files.size() + "files in this client");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

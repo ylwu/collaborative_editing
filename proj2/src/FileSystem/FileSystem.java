@@ -43,6 +43,11 @@ public class FileSystem implements Serializable {
 		MyFile newFile = new MyFile(this,file, content);
 		files.add(newFile);	
 	}
+	
+	public void addEmptyFile(){
+	    MyFile newFile = new MyFile(this);
+	    files.add(newFile);
+	}
 
 
 
@@ -64,6 +69,20 @@ public class FileSystem implements Serializable {
 	public int getNextDocNum(){
 		return this.docNum+1;
 	}
+
+
+	/**
+	 * @param docNum2
+	 */
+    public void deleteDoc(int docNum2) {
+    	try{
+	    files.set( docNum2, null);}
+    	catch( ArrayIndexOutOfBoundsException e){
+    		e.printStackTrace();
+    		System.out.println("trying to delete a file that is not exist!");
+    	}
+	    
+    }
 	
 	
 
