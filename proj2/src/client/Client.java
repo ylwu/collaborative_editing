@@ -86,8 +86,10 @@ public class Client {
         	    fileSystem.addEmptyFile();
         	    System.out.println("received empty document");}
         		else if (str.substring(0, 5).equals("delete")){
+        			
         			int docNum=Integer.parseInt(str.substring(6));
         			fileSystem.deleteDoc(docNum);
+        			System.out.println("deleted document!!!!");
         		}
         	  
         	}
