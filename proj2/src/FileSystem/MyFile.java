@@ -25,7 +25,7 @@ import FileSystem.FileSystem;
 public class MyFile implements Serializable {
 	private final FileSystem f;
 	private AbstractDocument doc;
-	private String docName;
+	public String docName;
 	private Integer docNum;
 
 	public MyFile(FileSystem fileSystem) {

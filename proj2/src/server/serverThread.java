@@ -23,12 +23,12 @@ import FileSystem.FileSystem;
  */
 public class serverThread extends Thread{
 
-	/**
-	 * @param server
-	 * @param socket
-	 * @param fileSystem
-	 */
-	
+    /**
+     * @param server
+     * @param socket
+     * @param fileSystem
+     */
+
     private final Socket socket;
     private final Server server;
     private FileSystem fileSystem;
@@ -79,7 +79,7 @@ public class serverThread extends Thread{
 
         } 
         catch (Exception e){
-        	e.printStackTrace();
+            e.printStackTrace();
         }
 
 
@@ -101,23 +101,23 @@ public class serverThread extends Thread{
         for (serverThread t:server.threadlist){
             System.out.println(server.threadlist.size());
             if (!this.equals(t)){
-            	System.out.println("update client start");
+                System.out.println("update client start");
               t.toClient.writeObject(eventPackage);
               t.toClient.flush();
               System.out.println("update client end");}
         }
     }
     
-	/**
-	 * @param fp
-	 * @throws IOException 
-	 */
+    /**
+     * @param fp
+     * @throws IOException 
+     */
     private void updateClient(FilePackage fp) throws IOException {
-    	for (serverThread t:server.threadlist){
-    		 t.toClient.writeObject(fp);
+        for (serverThread t:server.threadlist){
+             t.toClient.writeObject(fp);
              t.toClient.flush();
-    	}
-	    
+        }
+
     }
     
     private void handleConnection(Socket socket) throws IOException, Exception {
@@ -130,15 +130,30 @@ public class serverThread extends Thread{
             updateServer(eventPackage);
             updateClient(eventPackage);
             } else if (o instanceof FilePackage){
-            	FilePackage fp=(FilePackage) o;
+                FilePackage fp=(FilePackage) o;
  
                 server.fileSystem.addFile(fp);
                 updateClient(fp);
                 System.out.println("received file from client");
                 
+            } else if (o instanceof String){
+                if (o.equals("new file")){
+                    String s = (String) o;
+                server.fileSystem.addEmptyFile();
+                updateClientwithEmptyFile(s);
+                System.out.println("New Document");
+                }
             }
 
         }
+    }
+
+    private void updateClientwithEmptyFile(String s) throws IOException {
+        for (serverThread t:server.threadlist){
+            t.toClient.writeObject(s);
+            t.toClient.flush();
+       }
+        
     }
 
 

@@ -30,7 +30,7 @@ import FileSystem.MyFile;
 public class Client {
     private ObjectOutputStream toServer;
     private ObjectInputStream fromServer;
-    public static FileSystem fileSystem;
+    public  FileSystem fileSystem;
     private static String ip;
     private Socket socket;
     public EventPackage incomingPackage;
@@ -47,7 +47,10 @@ public class Client {
         }
     }
    
-    public void createNewFileOnServer(){
+    public void createNewFileOnServer() throws IOException{
+        toServer.writeObject(("new file"));
+        toServer.flush();
+        System.out.println("create new file on server");
         
     }
     
@@ -69,7 +72,13 @@ public class Client {
             f.updateDoc(eventPackage);}
         	else if (o instanceof FilePackage){
         		fileSystem.addFile((FilePackage) o);
+        		System.out.println("received non-empty document");
+        	} else if (o instanceof String){
+        	    fileSystem.addEmptyFile();
+        	    System.out.println("received empty document");
+        	  
         	}
+        	System.out.println("There are " + fileSystem.files.size() + "files in this client");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

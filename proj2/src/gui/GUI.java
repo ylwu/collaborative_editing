@@ -436,7 +436,12 @@ public class GUI extends JFrame  {
 	protected class createDocListener implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e){
-		    client.createNewFileOnServer();
+		    try {
+                client.createNewFileOnServer();
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         
 		}
 	}

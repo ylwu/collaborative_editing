@@ -43,6 +43,11 @@ public class FileSystem implements Serializable {
 		MyFile newFile = new MyFile(this,file, content);
 		files.add(newFile);	
 	}
+	
+	public void addEmptyFile(){
+	    MyFile newFile = new MyFile(this);
+	    files.add(newFile);
+	}
 
 
 
