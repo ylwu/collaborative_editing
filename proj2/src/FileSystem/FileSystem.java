@@ -57,6 +57,7 @@ public class FileSystem implements Serializable {
 	}
 	
 	public void addEmptyFile(){
+		docNum++;
 	    MyFile newFile = new MyFile(this);
 	    files.add(newFile);
 		for (GUI v:views){
