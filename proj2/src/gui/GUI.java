@@ -258,7 +258,7 @@ public class GUI extends JFrame  {
 		JPanel plafSubComp = new JPanel(new BorderLayout(3,3));
 		
 		plafSubComp.setBorder(
-                new TitledBorder("Choose a Theme for your Editor"));
+                new TitledBorder("Choose a Theme"));
 		
 		final UIManager.LookAndFeelInfo[] plafInfos = UIManager
 				.getInstalledLookAndFeels();
@@ -269,7 +269,7 @@ public class GUI extends JFrame  {
 		final JComboBox plafChooser = new JComboBox(plafNames);
 		plafSubComp.add(plafChooser,BorderLayout.WEST);
 
-		final JCheckBox pack = new JCheckBox("Pack on the New Theme", true);
+		final JCheckBox pack = new JCheckBox("Pack on View", true);
 		plafSubComp.add(pack,BorderLayout.EAST);
 		
 		plafComponents.add(plafSubComp);
