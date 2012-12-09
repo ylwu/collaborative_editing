@@ -488,6 +488,7 @@ public class GUI extends JFrame {
 			docName = file.getDocName();
 			editArea.setDocument(document);
 			editArea.setCaretPosition(0);
+			document.addDocumentListener(new MyDocumentListener());
 		}
 	}
 
@@ -541,6 +542,7 @@ public class GUI extends JFrame {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
+			displayEditInfo(e);
 		}
 
 		public void removeUpdate(DocumentEvent e) {
