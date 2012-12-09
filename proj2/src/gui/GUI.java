@@ -71,6 +71,7 @@ public class GUI extends JFrame{
 	private final JTextPane editArea; // a styled editable area in the GUI
 	private final JTextArea editHistory; //the edit history for the client	
 	private final JButton createNew;
+	private final JButton delete;
 	private final JButton cutButton;
 	private final JButton copyButton;
 	private final JButton pasteButton;
@@ -115,6 +116,13 @@ public class GUI extends JFrame{
 		getContentPane().add(createNew);
 		createNew.addActionListener(new createDocListener());
 		createNew.setToolTipText("Create New File");
+		
+		// delete JButton
+		ImageIcon deleteIcon = new ImageIcon("image/delete.png");
+		delete = new JButton(deleteIcon);
+		getContentPane().add(delete);
+		delete.addActionListener(new deleteDocListener());
+		delete.setToolTipText("Delete Current File");
 		
 		// create drop-down box
 		// TODO: take in a list of files as arguments; ADD LISTENER
@@ -256,12 +264,13 @@ public class GUI extends JFrame{
 		
 		plafComponents.add(createNew);
 		plafComponents.add(openButton);
+		plafComponents.add(delete);
 		plafComponents.add(displayDocName);
 		
 		JPanel plafSubComp = new JPanel(new BorderLayout(3,3));
 		
 		plafSubComp.setBorder(
-                new TitledBorder("Choose a Theme for your Editor"));
+                new TitledBorder("Choose a Theme"));
 		
 		final UIManager.LookAndFeelInfo[] plafInfos = UIManager
 				.getInstalledLookAndFeels();
@@ -272,7 +281,7 @@ public class GUI extends JFrame{
 		final JComboBox plafChooser = new JComboBox(plafNames);
 		plafSubComp.add(plafChooser,BorderLayout.WEST);
 
-		final JCheckBox pack = new JCheckBox("Pack on the New Theme", true);
+		final JCheckBox pack = new JCheckBox("Pack on View", true);
 		plafSubComp.add(pack,BorderLayout.EAST);
 		
 		plafComponents.add(plafSubComp);
@@ -446,6 +455,12 @@ public class GUI extends JFrame{
                 e1.printStackTrace();
             }
         
+		}
+	}
+	
+	protected class deleteDocListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+              // TODO: implement delete listener
 		}
 	}
 	
