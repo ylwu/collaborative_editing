@@ -322,25 +322,33 @@ public class GUI extends JFrame {
 		selectDoc.add(fileList, BorderLayout.SOUTH);
 
 		// left panel: control buttons
-		JPanel controlButtons = new JPanel(new GridLayout(4, 1));
+		JPanel controlButtons = new JPanel(new GridLayout(2, 2));
 		ImageIcon cutIcon = new ImageIcon("image/cut.png");
 		cutButton = new JButton(cutAction);
+		cutButton.setText("");
 		cutButton.setIcon(cutIcon);
+		cutButton.setToolTipText("cut");
 		controlButtons.add(cutButton);
 
 		ImageIcon copyIcon = new ImageIcon("image/copy.png");
 		copyButton = new JButton(copyAction);
 		copyButton.setIcon(copyIcon);
+		copyButton.setText("");
+		copyButton.setToolTipText("copy");
 		controlButtons.add(copyButton);
 
 		ImageIcon pasteIcon = new ImageIcon("image/paste.png");
 		pasteButton = new JButton(pasteAction);
 		pasteButton.setIcon(pasteIcon);
+		pasteButton.setText("");
+		pasteButton.setToolTipText("paste");
 		controlButtons.add(pasteButton);
 
 		ImageIcon selectAllIcon = new ImageIcon("image/selectAll.png");
 		selectAllButton = new JButton(selectAllAction);
 		selectAllButton.setIcon(selectAllIcon);
+		selectAllButton.setText("");
+		selectAllButton.setToolTipText("select all");
 		controlButtons.add(selectAllButton);
 
 		dynamicLabels.add(selectDoc, BorderLayout.NORTH);
