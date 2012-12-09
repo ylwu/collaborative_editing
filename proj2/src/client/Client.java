@@ -30,13 +30,22 @@ import FileSystem.MyFile;
 public class Client {
     private ObjectOutputStream toServer;
     private ObjectInputStream fromServer;
+<<<<<<< HEAD
     public  FileSystem fileSystem;
     private static String ip;
+=======
+    public static FileSystem fileSystem;
+    public static String ip;
+>>>>>>> sz2
     private Socket socket;
     public EventPackage incomingPackage;
     
     public Client(){
         incomingPackage = new EventPackage();
+    }
+    public Client(String ipAddress){
+    	incomingPackage = new EventPackage();
+    	ip = ipAddress;
     }
     
     public void updateServer(EventPackage eventPackage) throws IOException {
@@ -113,37 +122,5 @@ public class Client {
     }
     
     
-	public static void main(final String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
-		ip=args[0];
-		final Client c = new Client();
-		c.initialize();
-		try {
-		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		        if ("Nimbus".equals(info.getName())) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            break;
-		        }
-		    }
-		} catch (UnsupportedLookAndFeelException e) {
-		    // handle exception
-		} catch (ClassNotFoundException e) {
-		    // handle exception
-		} catch (InstantiationException e) {
-		    // handle exception
-		} catch (IllegalAccessException e) {
-		    // handle exception
-		}
-
-		
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				//testing purpose
-	            System.out.println("creating new gui");
-			    new GUI(c);
-
-			}
-		});
 	
-		
-	}
 }
