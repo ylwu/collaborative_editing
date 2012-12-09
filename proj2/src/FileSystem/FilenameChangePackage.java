@@ -1,6 +1,8 @@
 package FileSystem;
 
-public class FilenameChangePackage {
+import java.io.Serializable;
+
+public class FilenameChangePackage implements Serializable{
     public final int docNum;
     public final String newFileName;
     

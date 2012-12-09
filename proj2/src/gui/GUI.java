@@ -129,7 +129,8 @@ public class GUI extends JFrame {
 		documentName = new JLabel("-You are Editing Document-");
 		getContentPane().add(documentName);
 		documentNameField = new JTextField(docName);
-		documentNameField.setEditable(false);
+		documentNameField.setEditable(true);
+		documentNameField.addActionListener(new ChangeDocNameListener());
 
 		// create an editor pane
 		editArea = new JTextPane();
@@ -381,6 +382,17 @@ public class GUI extends JFrame {
 		// implement close for gui without close the whole program
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+	}
+	
+	protected class ChangeDocNameListener implements ActionListener {
+	    public void actionPerformed(ActionEvent e){
+	        try {
+                client.changeFileNameonServer(file.docNum,documentNameField.getText());
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+	    }
 	}
 
 	// Listener for uploading new document
