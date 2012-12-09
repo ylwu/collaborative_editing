@@ -469,7 +469,9 @@ public class GUI extends JFrame {
 
 	protected class deleteDocListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			// TODO: implement delete listener
+			Object holder = e.getSource();
+			String f = fileList.getSelectedItem().toString();
+			deleteFile(f);
 		}
 	}
 
@@ -673,8 +675,9 @@ public class GUI extends JFrame {
 	 * @param docname2
 	 */
 	public void deleteFile(String docname2) {
+		if (fileList.getItemCount()<=1) return;
 		for (int i = 0; i < fileList.getItemCount(); i++) {
-			if (fileList.getItemAt(i).toString() == docname2) {
+			if (fileList.getItemAt(i).toString().equals(docname2)) {
 				fileList.removeItemAt(i);
 			}
 
