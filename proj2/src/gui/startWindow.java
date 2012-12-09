@@ -60,6 +60,7 @@ public class startWindow extends JFrame {
 	public class ipListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			ip=ipAddress.getText();
+			setVisible(false);
 			System.out.println(ip);
 			final Client c = new Client(ip);
 			try {
