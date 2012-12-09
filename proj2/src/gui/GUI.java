@@ -463,6 +463,7 @@ public class GUI extends JFrame {
 			int curDocNum = filenameToDocNum.get(f);
 			file = fileSystem.files.get(curDocNum);
 			document = file.getDoc();
+			
 			docName = file.getDocName();
 			editArea.setDocument(document);
 			editArea.setCaretPosition(0);
