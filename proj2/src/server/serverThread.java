@@ -16,6 +16,7 @@ import javax.swing.text.SimpleAttributeSet;
 import FileSystem.EventPackage;
 import FileSystem.FilePackage;
 import FileSystem.FileSystem;
+import FileSystem.FilenameChangePackage;
 
 /**
  * @author gyz
@@ -120,6 +121,13 @@ public class serverThread extends Thread{
 
     }
     
+    private void updateClient(FilenameChangePackage f) throws IOException{
+        for (serverThread t:server.threadlist){
+            t.toClient.writeObject(f);
+            t.toClient.flush();
+       }
+    }
+    
     private void handleConnection(Socket socket) throws IOException, Exception {
         while (true) {
             Object o = fromClient.readObject();
@@ -136,7 +144,13 @@ public class serverThread extends Thread{
                 updateClient(fp);
                 System.out.println("received file from client");
                 
-            } else if (o instanceof String){
+            } else if (o instanceof FilenameChangePackage){
+                FilenameChangePackage f = (FilenameChangePackage) o;
+                server.fileSystem.changeFileName(f.docNum,f.newFileName);
+                updateClient(f);
+                System.out.println("received change name request from client");
+            }
+            else if (o instanceof String){
             	String str=(String) o;
                 if (o.equals("new file")){
                     String s = (String) o;
