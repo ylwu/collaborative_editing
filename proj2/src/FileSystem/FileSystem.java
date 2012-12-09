@@ -133,6 +133,25 @@ public class FileSystem implements Serializable {
 			}
 	    
     }
+
+
+	/**
+	 * @param docNum2
+	 * @param offset
+	 * @param len
+	 */
+    public void docPosMoved(Integer docNum2, int offset, int len) {
+    	System.out.println("in filesystem, try move gui caret "+docNum2+" "+offset+" "+len);
+		for (GUI v:views){
+			System.out.println(v.curDocNum());
+			if (v.curDocNum().equals(docNum2)){
+				
+				v.CaretPosition(offset,len);
+			}
+			
+			}
+	    
+    }
 	
 	
 

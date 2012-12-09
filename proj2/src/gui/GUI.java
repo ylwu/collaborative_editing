@@ -469,7 +469,9 @@ public class GUI extends JFrame {
 
 	protected class deleteDocListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			// TODO: implement delete listener
+			Object holder = e.getSource();
+			String f = fileList.getSelectedItem().toString();
+			deleteFile(f);
 		}
 	}
 
@@ -488,6 +490,7 @@ public class GUI extends JFrame {
 			docName = file.getDocName();
 			editArea.setDocument(document);
 			editArea.setCaretPosition(0);
+			document.addDocumentListener(new MyDocumentListener());
 		}
 	}
 
@@ -541,6 +544,7 @@ public class GUI extends JFrame {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
+			displayEditInfo(e);
 		}
 
 		public void removeUpdate(DocumentEvent e) {
@@ -671,14 +675,39 @@ public class GUI extends JFrame {
 	 * @param docname2
 	 */
 	public void deleteFile(String docname2) {
+		if (fileList.getItemCount()<=1) return;
 		for (int i = 0; i < fileList.getItemCount(); i++) {
-			if (fileList.getItemAt(i).toString() == docname2) {
+			if (fileList.getItemAt(i).toString().equals(docname2)) {
 				fileList.removeItemAt(i);
 			}
 
 		}
 
 	}
+
+	/**
+	 * @return
+	 */
+    public Integer curDocNum() {
+	    // TODO Auto-generated method stub
+	    return filenameToDocNum.get(docName);
+    }
+
+	/**
+	 * @param offset
+	 * @param len
+	 */
+    public void CaretPosition(int offset, int len) {
+	    int curPos=editArea.getCaretPosition();
+	    if (offset>=curPos) return;
+	    curPos=Math.max(offset, curPos+len);
+	    try{
+	    	editArea.setCaretPosition(curPos);
+	    }catch (Exception e){
+	    	e.printStackTrace();
+	    }finally{
+	    }
+    }
 
 	//
 	// /**

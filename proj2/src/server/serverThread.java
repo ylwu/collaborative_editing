@@ -95,17 +95,18 @@ public class serverThread extends Thread{
 
             d.remove(eventPackage.offset, eventPackage.len);
         }
-        System.out.println(d.getText(0, d.getLength()));
+        //System.out.println(d.getText(0, d.getLength()));
     }
     
     private void updateClient(EventPackage eventPackage) throws Exception{
         for (serverThread t:server.threadlist){
             System.out.println(server.threadlist.size());
             if (!this.equals(t)){
-                System.out.println("update client start");
+                //System.out.println("update client start");
               t.toClient.writeObject(eventPackage);
               t.toClient.flush();
-              System.out.println("update client end");}
+              //System.out.println("update client end");
+              }
         }
     }
     
@@ -132,9 +133,9 @@ public class serverThread extends Thread{
         while (true) {
             Object o = fromClient.readObject();
             if (o instanceof EventPackage){
-                System.out.println("got an EventPackage");
+                //System.out.println("got an EventPackage");
             EventPackage eventPackage = (EventPackage) o;
-            System.out.println("received update from client");
+            //System.out.println("received update from client");
             updateServer(eventPackage);
             updateClient(eventPackage);
             } else if (o instanceof FilePackage){
