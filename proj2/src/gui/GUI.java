@@ -19,6 +19,8 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -58,7 +60,7 @@ import FileSystem.MyFile;
 import client.Client;
 import client.UpdateListener;
 
-public class GUI extends JFrame  {
+public class GUI extends JFrame{
 
 	/*zhengshu: added more features to the GUI*/
 	private String newline = "\n";
@@ -93,6 +95,7 @@ public class GUI extends JFrame  {
 		this.setTitle("Collaborative Editor");
 		this.client = client;
 		this.fileSystem = client.fileSystem;
+		this.fileSystem.addView(this);
 		this.file= fileSystem.getFile().get(fileSystem.getFile().size()-1);
 		this.document = file.getDoc();
 		this.docName = file.getDocName();
@@ -116,7 +119,7 @@ public class GUI extends JFrame  {
 		// create drop-down box
 		// TODO: take in a list of files as arguments; ADD LISTENER
 		JLabel dropDownHeader = new JLabel("-Select Document-");
-		
+		//
 		fileList = new JComboBox(fileSystem.files.toArray());
 		fileList.addActionListener(new dropDownListener());
 		getContentPane().add(dropDownHeader);
@@ -614,6 +617,35 @@ public class GUI extends JFrame  {
 	private Action getActionByName(String name) {
 		return actions.get(name);
 	}
+
+	/**
+	 * @param docName2
+	 */
+    public void addFile(String docName2) {
+	    fileList.addItem(makeObj(docName2));
+	    
+    }
+
+    private Object makeObj(final String item)  {
+        return new Object() { public String toString() { return item; } };
+      }
+	/* (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
+
+	/**
+	 * @param docname2
+	 */
+    public void deleteFile(String docname2) {
+	    for (int i=0;i<fileList.getItemCount();i++){
+	    	if (fileList.getItemAt(i).toString()==docname2){
+	    		fileList.removeItemAt(i);
+	    	}
+	    	
+	    }
+	    
+    }
+    
 
 //
 //	/**

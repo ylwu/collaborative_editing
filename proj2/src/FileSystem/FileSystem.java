@@ -33,6 +33,9 @@ public class FileSystem implements Serializable {
 		docNum++;
 		MyFile newFile = new MyFile(this);
 		files.add(newFile);
+		for (GUI v:views){
+			v.addFile(newFile.docName);
+			}
 	}
 	
 	
@@ -42,11 +45,17 @@ public class FileSystem implements Serializable {
 		docNum++;
 		MyFile newFile = new MyFile(this,file, content);
 		files.add(newFile);	
+		for (GUI v:views){
+			v.addFile(newFile.docName);
+			}
 	}
 	
 	public void addEmptyFile(){
 	    MyFile newFile = new MyFile(this);
 	    files.add(newFile);
+		for (GUI v:views){
+			v.addFile(newFile.docName);
+			}
 	}
 
 
@@ -54,10 +63,14 @@ public class FileSystem implements Serializable {
 	public List<MyFile> getFile() {
 		return this.files;
 	}
+	
+	
 
 	public void addView(GUI v) {
 		views.add(v);
 	}
+	
+	
 	
 	
 	public int getCurDocNum(){
@@ -76,7 +89,13 @@ public class FileSystem implements Serializable {
 	 */
     public void deleteDoc(int docNum2) {
     	try{
-	    files.set( docNum2, null);}
+    		String docname=files.get(docNum2).docName;
+	    files.set( docNum2, null);
+		for (GUI v:views){
+			v.deleteFile(docname);
+			}
+    	
+    	}
     	catch( ArrayIndexOutOfBoundsException e){
     		e.printStackTrace();
     		System.out.println("trying to delete a file that is not exist!");
