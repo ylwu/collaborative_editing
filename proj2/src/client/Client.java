@@ -30,13 +30,8 @@ import FileSystem.MyFile;
 public class Client {
     private ObjectOutputStream toServer;
     private ObjectInputStream fromServer;
-<<<<<<< HEAD
     public  FileSystem fileSystem;
-    private static String ip;
-=======
-    public static FileSystem fileSystem;
     public static String ip;
->>>>>>> sz2
     private Socket socket;
     public EventPackage incomingPackage;
     
