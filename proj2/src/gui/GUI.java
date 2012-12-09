@@ -120,7 +120,8 @@ public class GUI extends JFrame {
 		// TODO: take in a list of files as arguments; ADD LISTENER
 		JLabel dropDownHeader = new JLabel("-Select Document-");
 		//
-		fileList = new JComboBox(fileSystem.files.toArray());
+		fileList = new JComboBox();
+		fileSystem.guiWantDoc();
 		fileList.addActionListener(new dropDownListener());
 		getContentPane().add(dropDownHeader);
 		getContentPane().add(fileList);

@@ -116,6 +116,19 @@ public class FileSystem implements Serializable {
         
         
     }
+
+
+	/**
+	 * 
+	 */
+    public void guiWantDoc() {
+    	for (GUI v:views){
+    		for (MyFile f:files){
+    			v.addFile(f.docName,f.docNum);
+    		}
+			}
+	    
+    }
 	
 	
 
