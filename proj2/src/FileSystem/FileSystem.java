@@ -114,6 +114,9 @@ public class FileSystem implements Serializable {
     public void changeFileName(int docNum, String newFileName) {
         MyFile mf = files.get(docNum);
         mf.docName = newFileName;
+        for (GUI v:views){
+            System.out.println(v.file.docName);
+        }
         
         
     }

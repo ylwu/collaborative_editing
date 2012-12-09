@@ -81,7 +81,7 @@ public class GUI extends JFrame {
 
 	private final FileSystem fileSystem; // in case you need this
 	private final Client client;
-	private MyFile file;
+	public MyFile file;
 
 	public GUI(Client client) {
 
