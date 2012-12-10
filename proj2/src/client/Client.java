@@ -106,7 +106,7 @@ public class Client {
         			
         			int docNum=Integer.parseInt(str.substring(6));
         			fileSystem.deleteDoc(docNum);
-        			System.out.println("deleted document!!!!");
+        			//System.out.println("deleted document!!!!");
         		}
         	  
         	}

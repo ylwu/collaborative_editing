@@ -25,137 +25,119 @@ import javax.swing.text.BadLocationException;
  * 
  */
 public class FileSystem implements Serializable {
-	public List<MyFile> files=new ArrayList<MyFile>();
-	private int docNum=-1;
-    
-	
-	private List<GUI> views=new ArrayList<GUI>();
+	public List<MyFile> files = new ArrayList<MyFile>();
+	private int docNum = -1;
+
+	private List<GUI> views = new ArrayList<GUI>();
 
 	public FileSystem() {
 		docNum++;
 		MyFile newFile = new MyFile(this);
 		files.add(newFile);
-		for (GUI v:views){
-			v.addFile(newFile.docName,this.docNum);
-			}
-	}
-	
-	
-	public void addFile(FilePackage o){
-		File file=o.file;
-		String content=o.content;
-		
-		docNum++;
-		MyFile newFile = new MyFile(this,file, content);
-		//System.out.println(newFile.getDoc().getLength());
-		//System.out.println(content);
-		files.add(newFile);	
-		for (GUI v:views){
-			v.addFile(newFile.docName,this.docNum);
-			
-			}
-	}
-	
-	public void addEmptyFile(){
-		docNum++;
-	    MyFile newFile = new MyFile(this);
-	    files.add(newFile);
-		for (GUI v:views){
+		for (GUI v : views) {
 			v.addFile(newFile.docName, this.docNum);
-			}
+		}
 	}
 
+	public void addFile(FilePackage o) {
+		File file = o.file;
+		String content = o.content;
 
+		docNum++;
+		MyFile newFile = new MyFile(this, file, content);
+		// System.out.println(newFile.getDoc().getLength());
+		// System.out.println(content);
+		files.add(newFile);
+		for (GUI v : views) {
+			v.addFile(newFile.docName, this.docNum);
+
+		}
+	}
+
+	public void addEmptyFile() {
+		docNum++;
+		MyFile newFile = new MyFile(this);
+		files.add(newFile);
+		for (GUI v : views) {
+			v.addFile(newFile.docName, this.docNum);
+		}
+	}
 
 	public List<MyFile> getFile() {
 		return this.files;
 	}
-	
-	
 
 	public void addView(GUI v) {
 		views.add(v);
 	}
-	
-	
-	
-	
-	public int getCurDocNum(){
+
+	public int getCurDocNum() {
 		return this.docNum;
 	}
-	
-	
-	//not used
-	public int getNextDocNum(){
-		return this.docNum+1;
-	}
 
+	// not used
+	public int getNextDocNum() {
+		return this.docNum + 1;
+	}
 
 	/**
 	 * @param docNum2
 	 */
-    public void deleteDoc(int docNum2) {
-    	try{
-    		String docname=files.get(docNum2).docName;
-	    files.set( docNum2, null);
-		for (GUI v:views){
-			v.deleteFile(docname);
+	public void deleteDoc(int docNum2) {
+		try {
+			String docname = files.get(docNum2).docName;
+			files.set(docNum2, null);
+			for (GUI v : views) {
+				v.deleteFile(docname);
 			}
-    	}
-    	catch( ArrayIndexOutOfBoundsException e){
-    		e.printStackTrace();
-    		System.out.println("trying to delete a file that is not exist!");
-    	}
-	    
-    }
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("trying to delete a file that is not exist!");
+		}
 
+	}
 
-    public void changeFileName(int docNum, String newFileName) {
-        for (MyFile file: files){
-            if (file.docNum == docNum){
-                file.docName = newFileName;
-            }
-        }
-        for (GUI v:views){
-            v.changeFileName(docNum, newFileName);
-        }
-        
-        
-    }
+	public void changeFileName(int docNum, String newFileName) {
+		for (MyFile file : files) {
+			if (file.docNum == docNum) {
+				file.docName = newFileName;
+			}
+		}
+		for (GUI v : views) {
+			v.changeFileName(docNum, newFileName);
+		}
 
+	}
 
 	/**
 	 * 
 	 */
-    public void guiWantDoc() {
-    	for (GUI v:views){
-    		for (MyFile f:files){
-    			v.addFile(f.docName,f.docNum);
-    		}
+	public void guiWantDoc() {
+		for (GUI v : views) {
+			for (MyFile f : files) {
+				v.addFile(f.docName, f.docNum);
 			}
-	    
-    }
+		}
 
+	}
 
 	/**
 	 * @param docNum2
 	 * @param offset
 	 * @param len
 	 */
-    public void docPosMoved(Integer docNum2, int offset, int len) {
-    	System.out.println("in filesystem, try move gui caret "+docNum2+" "+offset+" "+len);
-		for (GUI v:views){
+	public void docPosMoved(Integer docNum2, int offset, int len) {
+		System.out.println("in filesystem, try move gui caret " + docNum2 + " "
+		        + offset + " " + len);
+		for (GUI v : views) {
 			System.out.println(v.curDocNum());
-			if (v.curDocNum().equals(docNum2)){
-				
-				v.CaretPosition(offset,len);
-			}
-			
-			}
-	    
-    }
-	
-	
+			if (v.curDocNum().equals(docNum2)) {
 
-	
+				v.CaretPosition(offset, len);
+			}
+
+		}
+
+	}
+
 }
