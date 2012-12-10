@@ -81,7 +81,7 @@ public class GUI extends JFrame {
 
 	private final FileSystem fileSystem; // in case you need this
 	private final Client client;
-	public MyFile file;
+	public MyFile currentFile;
 
 	public GUI(Client client) {
 
@@ -89,9 +89,9 @@ public class GUI extends JFrame {
 		this.client = client;
 		this.fileSystem = client.fileSystem;
 		this.fileSystem.addView(this);
-		this.file = fileSystem.getFile().get(fileSystem.getFile().size() - 1);
-		this.document = file.getDoc();
-		this.docName = file.getDocName();
+		this.currentFile = fileSystem.getFile().get(fileSystem.getFile().size() - 1);
+		this.document = currentFile.getDoc();
+		this.docName = currentFile.getDocName();
 
 		// create GUI title
 		guiTitle = new JLabel("Welcome to Collaborative Editor!");
@@ -396,7 +396,8 @@ public class GUI extends JFrame {
 	protected class ChangeDocNameListener implements ActionListener {
 	    public void actionPerformed(ActionEvent e){
 	        try {
-                client.changeFileNameonServer(file.docNum,documentNameField.getText());
+                client.changeFileNameonServer(currentFile.docNum,documentNameField.getText());
+                System.out.println(documentNameField.getText());
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
@@ -484,12 +485,14 @@ public class GUI extends JFrame {
 			String f = tempComboBox.getSelectedItem().toString();
 			System.out.println(filenameToDocNum);
 			int curDocNum = filenameToDocNum.get(f);
-			file = fileSystem.files.get(curDocNum);
-			document = file.getDoc();
-			
-			docName = file.getDocName();
+			currentFile = fileSystem.files.get(curDocNum);
+			document = currentFile.getDoc();
+			docName = currentFile.getDocName();
+			documentNameField.setText(docName);
+			System.out.println(docName);
 			editArea.setDocument(document);
 			editArea.setCaretPosition(0);
+			
 			document.addDocumentListener(new MyDocumentListener());
 		}
 	}
@@ -540,7 +543,7 @@ public class GUI extends JFrame {
 	protected class MyDocumentListener implements DocumentListener {
 		public void insertUpdate(DocumentEvent e) {
 			try {
-				client.updateServer(file.DocumentEventToEventPackage(e));
+				client.updateServer(currentFile.DocumentEventToEventPackage(e));
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -550,7 +553,7 @@ public class GUI extends JFrame {
 		public void removeUpdate(DocumentEvent e) {
 
 			try {
-				client.updateServer(file.DocumentEventToEventPackage(e));
+				client.updateServer(currentFile.DocumentEventToEventPackage(e));
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

@@ -115,7 +115,7 @@ public class FileSystem implements Serializable {
         MyFile mf = files.get(docNum);
         mf.docName = newFileName;
         for (GUI v:views){
-            System.out.println(v.file.docName);
+            System.out.println(v.currentFile.docName);
         }
         
         
