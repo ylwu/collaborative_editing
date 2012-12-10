@@ -17,7 +17,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -407,17 +409,6 @@ public class GUI extends JFrame {
 
 	}
 	
-//	protected class ChangeDocNameListener implements ActionListener {
-//	    public void actionPerformed(ActionEvent e){
-//	        try {
-//                client.changeFileNameonServer(currentFile.docNum,documentNameField.getText());
-//                System.out.println(documentNameField.getText());
-//            } catch (IOException e1) {
-//                // TODO Auto-generated catch block
-//                e1.printStackTrace();
-//            }
-//	    }
-//	}
 	
 	protected class ChangeDocNameListener implements MouseListener {
     public void mouseClicked(MouseEvent e){
@@ -541,7 +532,7 @@ public class GUI extends JFrame {
 			Object holder = e.getSource();
 			String f = fileList.getSelectedItem().toString();
 			System.out.println("gui: delete file");
-			deleteFile(f);
+			
 			try {
 			    System.out.println(filenameToDocNum.get(f));
 				client.deleteFileOnServer(filenameToDocNum.get(f));
@@ -559,7 +550,6 @@ public class GUI extends JFrame {
 			Object holder = e.getSource();
 			JComboBox tempComboBox = (JComboBox) holder;
 			String f = tempComboBox.getSelectedItem().toString();
-			System.out.println(filenameToDocNum);
 			int curDocNum = filenameToDocNum.get(f);
 			currentFile = fileSystem.files.get(curDocNum);
 			document = currentFile.getDoc();
@@ -756,36 +746,48 @@ public class GUI extends JFrame {
 	public void deleteFile(String docname2) {
 	    filenameToDocNum.remove(docname2);
 		if (fileList.getItemCount()<=1) return;
+		int position = -1;
 		for (int i = 0; i < fileList.getItemCount(); i++) {
 			if (fileList.getItemAt(i).toString().equals(docname2)) {
-			    System.out.println("ready to remove file at position");
-			    System.out.println(i);
-				fileList.removeItemAt(i);
+			    position = i;
+			    System.out.println("found position");
+			    System.out.println(position);
+			    break;
 			}
 
 		}
+		fileList.removeItemAt(position);
+		System.out.println(fileList.getItemCount());
 
 	}
 	
 	public void changeFileName(int docNum, String newDocName){
 	    String oldDocName = null;
+	    List <String> docNames = new ArrayList<String>();
 	    for (String docName:filenameToDocNum.keySet()){
-	        if (filenameToDocNum.get(docName).equals(docNum)){
+	        docNames.add(docName);
+	    }
+	    for (String docName :docNames){
+	        if (filenameToDocNum.get(docName) == docNum){
 	            oldDocName = docName;
-	            filenameToDocNum.remove(oldDocName);
-	            System.out.println("REPLACED");
-	            
 	        }
 	    }
+	    filenameToDocNum.remove(oldDocName);
 	    filenameToDocNum.put(newDocName,docNum);
+	    
+	    int position = -1;
 	    for (int i = 0; i < fileList.getItemCount(); i++) {
             if (fileList.getItemAt(i).toString().equals(oldDocName)) {
-                fileList.removeItemAt(i);
-                System.out.println("removed old item from filelist");
-                fileList.insertItemAt(makeObj(newDocName),i);
+                position = i;
+                System.out.println("position found");
+                break;
             }
 
         }
+	    fileList.insertItemAt(makeObj(newDocName),position);
+	    fileList.removeItemAt(position+1);
+        System.out.println("removed old item from filelist");
+        
 	    
 	}
 
