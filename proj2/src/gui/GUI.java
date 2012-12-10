@@ -744,7 +744,6 @@ public class GUI extends JFrame {
 	 * @param docname2
 	 */
 	public void deleteFile(String docname2) {
-	    filenameToDocNum.remove(docname2);
 		if (fileList.getItemCount()<=1) return;
 		int position = -1;
 		for (int i = 0; i < fileList.getItemCount(); i++) {
@@ -756,8 +755,7 @@ public class GUI extends JFrame {
 			}
 
 		}
-		fileList.removeItemAt(position);
-		System.out.println(fileList.getItemCount());
+	    filenameToDocNum.remove(docname2);
 
 	}
 	
