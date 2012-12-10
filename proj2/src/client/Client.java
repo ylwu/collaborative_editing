@@ -62,7 +62,7 @@ public class Client {
     public void deleteFileOnServer(int docNum) throws IOException{
         toServer.writeObject(("delete"+docNum));
         toServer.flush();
-        System.out.println("create new file on server");
+        //System.out.println("client: delete file on server");
         
     }
     
@@ -102,7 +102,7 @@ public class Client {
         		if (str.equals("new file")){
         	    fileSystem.addEmptyFile();
         	    System.out.println("received empty document");}
-        		else if (str.substring(0, 5).equals("delete")){
+        		else if (str.substring(0, 6).equals("delete")){
         			
         			int docNum=Integer.parseInt(str.substring(6));
         			fileSystem.deleteDoc(docNum);

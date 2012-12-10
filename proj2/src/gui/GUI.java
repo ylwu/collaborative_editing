@@ -540,7 +540,14 @@ public class GUI extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			Object holder = e.getSource();
 			String f = fileList.getSelectedItem().toString();
-			deleteFile(f);
+			//System.out.println("gui: delete file");
+			//deleteFile(f);
+			try {
+				client.deleteFileOnServer(filenameToDocNum.get(f));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 
