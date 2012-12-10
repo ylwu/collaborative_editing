@@ -152,13 +152,17 @@ public class serverThread extends Thread{
                 System.out.println("received change name request from client");
             }
             else if (o instanceof String){
+            	
             	String str=(String) o;
+            	//System.out.println("serverThread: "+str);
+            	//System.out.println("serverThread: "+str.substring(0, 5));
                 if (o.equals("new file")){
                     String s = (String) o;
                 server.fileSystem.addEmptyFile();
                 updateClientwithEmptyFile(s);
                 System.out.println("New Document");
-                }else if (str.substring(0, 5).equals("delete")){
+                }else if (str.substring(0, 6).equals("delete")){
+                    System.out.println("serverThread: client delete file on server");
                 	int docNum=Integer.parseInt(str.substring(6));
                 	server.fileSystem.deleteDoc(docNum);
                 	updateClientwithFileDeletion(str);
