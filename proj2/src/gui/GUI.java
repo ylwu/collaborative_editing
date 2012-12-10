@@ -95,7 +95,7 @@ public class GUI extends JFrame {
 		this.client = client;
 		this.fileSystem = client.fileSystem;
 		this.fileSystem.addView(this);
-		this.currentFile = fileSystem.getFile().get(fileSystem.getFile().size() - 1);
+		this.currentFile = fileSystem.getFile().get(notNullIndex());
 		this.document = currentFile.getDoc();
 		this.docName = currentFile.getDocName();
 
@@ -817,7 +817,15 @@ public class GUI extends JFrame {
     }
     
     public int notNullIndex(){
-        return 0;
+        int position = fileSystem.getFile().size() - 1;
+        while (position >=0){
+            if (fileSystem.getFile().get(position)==null){
+                position -=1;
+            } else {
+                break;
+            }
+        }
+        return position;
     }
 
 	//
