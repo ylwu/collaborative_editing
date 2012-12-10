@@ -29,6 +29,7 @@ public class startWindow extends JFrame {
 	private final JLabel typeIP;
 	
 	public startWindow (){
+		this.setSize(getPreferredSize());
 		ipAddress = new JTextField("");
 		getContentPane().add(ipAddress);
 		ipAddress.addActionListener(new ipListener());
@@ -109,8 +110,24 @@ public class startWindow extends JFrame {
 		}
 	
 	public static void main(final String[] args) {
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (UnsupportedLookAndFeelException e1) {
+		    // handle exception
+		} catch (ClassNotFoundException e1) {
+		    // handle exception
+		} catch (InstantiationException e1) {
+		    // handle exception
+		} catch (IllegalAccessException e1) {
+		    // handle exception
+		}
 		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
+			public void run() {	
 				startWindow window = new startWindow();
 				window.setTitle("IP");
 				window.pack();
