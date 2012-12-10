@@ -381,6 +381,7 @@ public class GUI extends JFrame {
 		t.start();
 		// at the end
 		this.setContentPane(gui);
+		this.setLocationRelativeTo(null);
 		this.pack();
 
 		this.setLocationRelativeTo(null);

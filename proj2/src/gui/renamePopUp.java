@@ -67,6 +67,7 @@ public class renamePopUp extends JFrame {
         setSize(getPreferredSize());
         
         this.pack();
+        this.setLocationRelativeTo(reNameFrom);
         this.setVisible(true);
         
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
