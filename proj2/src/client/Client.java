@@ -46,6 +46,7 @@ public class Client {
     
     public void updateServer(EventPackage eventPackage) throws IOException {
         if (!incomingPackage.equals(eventPackage)) {
+            System.out.println("Dying to update server with doc" + eventPackage.docNum);
             toServer.writeObject(eventPackage);
             toServer.flush();
             //System.out.println("sent update to server");
@@ -86,7 +87,7 @@ public class Client {
         	if (o instanceof EventPackage){
             EventPackage eventPackage = (EventPackage)o;
             incomingPackage = eventPackage;
-            //System.out.println("received!");
+            System.out.println("received update for doc#"+eventPackage.docNum);
             MyFile f= fileSystem.getFile().get(eventPackage.docNum);
             f.updateDoc(eventPackage);}
         	else if (o instanceof FilePackage){

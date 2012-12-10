@@ -80,6 +80,7 @@ public class renamePopUp extends JFrame {
 			final String newName = reNameTo.getText();
 			try {
 				client.changeFileNameonServer(currentFile.docNum,newName);
+				System.out.println("Attempt to change doc #"+ currentFile.docNum.toString()+"to"+newName);
 				reNameFrom.setText(newName);
 				System.out.println(newName);
 				setVisible(false);

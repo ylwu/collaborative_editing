@@ -552,6 +552,7 @@ public class GUI extends JFrame {
 			String f = tempComboBox.getSelectedItem().toString();
 			int curDocNum = filenameToDocNum.get(f);
 			currentFile = fileSystem.files.get(curDocNum);
+			System.out.println("current editing file is " + Integer.toString(curDocNum));
 			document = currentFile.getDoc();
 			docName = currentFile.getDocName();
 			documentNameField.setText(docName);
@@ -620,6 +621,7 @@ public class GUI extends JFrame {
 
 			try {
 				client.updateServer(currentFile.DocumentEventToEventPackage(e));
+				
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -763,6 +765,7 @@ public class GUI extends JFrame {
 	}
 	
 	public void changeFileName(int docNum, String newDocName){
+	    System.out.println("triggered changefilename");
 	    String oldDocName = null;
 	    List <String> docNames = new ArrayList<String>();
 	    for (String docName:filenameToDocNum.keySet()){
@@ -775,6 +778,7 @@ public class GUI extends JFrame {
 	    }
 	    filenameToDocNum.remove(oldDocName);
 	    filenameToDocNum.put(newDocName,docNum);
+	    System.out.println("oldfilename is "+oldDocName);
 	    
 	    int position = -1;
 	    for (int i = 0; i < fileList.getItemCount(); i++) {
