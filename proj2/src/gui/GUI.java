@@ -755,7 +755,10 @@ public class GUI extends JFrame {
 			}
 
 		}
+		
+		fileList.removeItemAt(position);
 	    filenameToDocNum.remove(docname2);
+	    
 
 	}
 	
