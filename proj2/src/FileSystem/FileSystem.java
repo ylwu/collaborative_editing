@@ -87,7 +87,16 @@ public class FileSystem implements Serializable {
 		try {
 			String docname = files.get(docNum2).docName;
 			System.out.println("trying to delete"+docname);
-			files.set(docNum2, null);
+			//files.set(docNum2, null);
+			int removeindex = -1;
+			for (MyFile file : files) {
+	            if (file.docNum == docNum) {
+	                removeindex = docNum;
+	                break;
+	            }
+	        }
+			files.remove(removeindex);
+			
 			for (GUI v : views) {
 				v.deleteFile(docname);
 			}
@@ -102,6 +111,7 @@ public class FileSystem implements Serializable {
 		for (MyFile file : files) {
 			if (file.docNum == docNum) {
 				file.docName = newFileName;
+				break;
 			}
 		}
 		for (GUI v : views) {
@@ -116,8 +126,9 @@ public class FileSystem implements Serializable {
 	public void guiWantDoc() {
 		for (GUI v : views) {
 			for (MyFile f : files) {
+			    if (f!= null){
 				v.addFile(f.docName, f.docNum);
-			}
+			    }}
 		}
 
 	}
