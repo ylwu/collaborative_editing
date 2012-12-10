@@ -148,8 +148,9 @@ public class serverThread extends Thread{
             } else if (o instanceof FilenameChangePackage){
                 FilenameChangePackage f = (FilenameChangePackage) o;
                 server.fileSystem.changeFileName(f.docNum,f.newFileName);
-                updateClient(f);
                 System.out.println("received change name request from client");
+                updateClient(f);
+                
             }
             else if (o instanceof String){
             	

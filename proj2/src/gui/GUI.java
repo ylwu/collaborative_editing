@@ -134,7 +134,7 @@ public class GUI extends JFrame {
 		documentName = new JLabel("-You are Editing Document-");
 		getContentPane().add(documentName);
 		documentNameField = new JTextField(docName);
-		documentNameField.setEditable(true);
+		documentNameField.setEditable(false);
 		documentNameField.addMouseListener(new ChangeDocNameListener());
 
 		// create an editor pane
@@ -753,6 +753,7 @@ public class GUI extends JFrame {
 	 * @param docname2
 	 */
 	public void deleteFile(String docname2) {
+	    filenameToDocNum.remove(docname2);
 		if (fileList.getItemCount()<=1) return;
 		for (int i = 0; i < fileList.getItemCount(); i++) {
 			if (fileList.getItemAt(i).toString().equals(docname2)) {
@@ -761,6 +762,28 @@ public class GUI extends JFrame {
 
 		}
 
+	}
+	
+	public void changeFileName(int docNum, String newDocName){
+	    String oldDocName = null;
+	    for (String docName:filenameToDocNum.keySet()){
+	        if (filenameToDocNum.get(docName).equals(docNum)){
+	            oldDocName = docName;
+	            filenameToDocNum.remove(oldDocName);
+	            System.out.println("REPLACED");
+	            
+	        }
+	    }
+	    filenameToDocNum.put(newDocName,docNum);
+	    for (int i = 0; i < fileList.getItemCount(); i++) {
+            if (fileList.getItemAt(i).toString().equals(oldDocName)) {
+                fileList.removeItemAt(i);
+                System.out.println("removed old item from filelist");
+                fileList.insertItemAt(makeObj(newDocName),i);
+            }
+
+        }
+	    
 	}
 
 	/**
