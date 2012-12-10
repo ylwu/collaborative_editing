@@ -11,6 +11,8 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -38,6 +40,8 @@ import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -60,7 +64,7 @@ public class GUI extends JFrame {
 	private final JPanel gui;
 	private final JLabel guiTitle; // entitles the GUI
 	private final JLabel documentName; // displays document name
-	private final JTextField documentNameField; // displays document name
+	public final JTextField documentNameField; // displays document name
 	private final JTextPane editArea; // a styled editable area in the GUI
 	private final JTextArea editHistory; // the edit history for the client
 	private final JButton createNew;
@@ -80,7 +84,7 @@ public class GUI extends JFrame {
 	private AbstractDocument document;
 
 	private final FileSystem fileSystem; // in case you need this
-	private final Client client;
+	public final Client client;
 	public MyFile currentFile;
 
 	public GUI(Client client) {
@@ -131,7 +135,7 @@ public class GUI extends JFrame {
 		getContentPane().add(documentName);
 		documentNameField = new JTextField(docName);
 		documentNameField.setEditable(true);
-		documentNameField.addActionListener(new ChangeDocNameListener());
+		documentNameField.addMouseListener(new ChangeDocNameListener());
 
 		// create an editor pane
 		editArea = new JTextPane();
@@ -393,17 +397,71 @@ public class GUI extends JFrame {
 
 	}
 	
-	protected class ChangeDocNameListener implements ActionListener {
-	    public void actionPerformed(ActionEvent e){
-	        try {
-                client.changeFileNameonServer(currentFile.docNum,documentNameField.getText());
-                System.out.println(documentNameField.getText());
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-	    }
+//	protected class ChangeDocNameListener implements ActionListener {
+//	    public void actionPerformed(ActionEvent e){
+//	        try {
+//                client.changeFileNameonServer(currentFile.docNum,documentNameField.getText());
+//                System.out.println(documentNameField.getText());
+//            } catch (IOException e1) {
+//                // TODO Auto-generated catch block
+//                e1.printStackTrace();
+//            }
+//	    }
+//	}
+	
+	protected class ChangeDocNameListener implements MouseListener {
+    public void mouseClicked(MouseEvent e){
+        // initiate a pop up window for renaming
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (UnsupportedLookAndFeelException e1) {
+		    // handle exception
+		} catch (ClassNotFoundException e1) {
+		    // handle exception
+		} catch (InstantiationException e1) {
+		    // handle exception
+		} catch (IllegalAccessException e1) {
+		    // handle exception
+		}
+		
+		
+		SwingUtilities.invokeLater(new Runnable(){
+			public void run(){
+				System.out.println("creating rename pop up window");
+				new renamePopUp(client,currentFile,documentNameField);
+			}
+		});
+    }
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+}
 
 	// Listener for uploading new document
 	protected class loadDocListener implements ActionListener {
