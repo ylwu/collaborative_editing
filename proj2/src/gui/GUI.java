@@ -815,6 +815,10 @@ public class GUI extends JFrame {
 	    }finally{
 	    }
     }
+    
+    public int notNullIndex(){
+        return 0;
+    }
 
 	//
 	// /**

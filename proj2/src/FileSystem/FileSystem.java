@@ -87,15 +87,15 @@ public class FileSystem implements Serializable {
 		try {
 			String docname = files.get(docNum2).docName;
 			System.out.println("trying to delete"+docname);
-			//files.set(docNum2, null);
-			int removeindex = -1;
-			for (MyFile file : files) {
-	            if (file.docNum == docNum) {
-	                removeindex = docNum;
-	                break;
-	            }
-	        }
-			files.remove(removeindex);
+			files.set(docNum2, null);
+//			int removeindex = -1;
+//			for (MyFile file : files) {
+//	            if (file.docNum == docNum) {
+//	                removeindex = docNum;
+//	                break;
+//	            }
+//	        }
+//			files.remove(removeindex);
 			
 			for (GUI v : views) {
 				v.deleteFile(docname);
