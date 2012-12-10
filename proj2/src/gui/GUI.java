@@ -154,6 +154,15 @@ public class GUI extends JFrame {
 
 		// Set up the menu bar
 		actions = createActionTable(editArea);
+		// creat help menu
+		JMenu helpmenu = new JMenu("Help");
+		helpmenu.setMnemonic(KeyEvent.VK_H);
+		JMenuItem productHelp = new JMenuItem("Product Help");
+		productHelp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2
+				,ActionEvent.ALT_MASK));
+		//TODO: implement action listener for Help
+		helpmenu.add(productHelp);
+		
 		// creat file menu
 		JMenu filemenu = new JMenu("File");
 		filemenu.setMnemonic(KeyEvent.VK_F);
@@ -233,6 +242,7 @@ public class GUI extends JFrame {
 		JMenuBar mb = new JMenuBar();
 		mb.add(filemenu);
 		mb.add(editmenu);
+		mb.add(helpmenu);
 		setJMenuBar(mb);
 
 		// set up file chooser
@@ -381,7 +391,6 @@ public class GUI extends JFrame {
 		t.start();
 		// at the end
 		this.setContentPane(gui);
-		this.setLocationRelativeTo(null);
 		this.pack();
 
 		this.setLocationRelativeTo(null);
