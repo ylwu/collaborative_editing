@@ -130,6 +130,7 @@ public class startWindow extends JFrame {
 			public void run() {	
 				startWindow window = new startWindow();
 				window.setTitle("IP");
+				window.setLocationRelativeTo(null);
 				window.pack();
 				window.setVisible(true);
 			}

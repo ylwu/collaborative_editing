@@ -101,7 +101,6 @@ public class FileSystem implements Serializable {
 		for (GUI v:views){
 			v.deleteFile(docname);
 			}
-    	
     	}
     	catch( ArrayIndexOutOfBoundsException e){
     		e.printStackTrace();
@@ -112,10 +111,13 @@ public class FileSystem implements Serializable {
 
 
     public void changeFileName(int docNum, String newFileName) {
-        MyFile mf = files.get(docNum);
-        mf.docName = newFileName;
+        for (MyFile file: files){
+            if (file.docNum == docNum){
+                file.docName = newFileName;
+            }
+        }
         for (GUI v:views){
-            System.out.println(v.currentFile.docName);
+            v.changeFileName(docNum, newFileName);
         }
         
         

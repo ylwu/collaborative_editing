@@ -17,7 +17,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -134,7 +136,7 @@ public class GUI extends JFrame {
 		documentName = new JLabel("-You are Editing Document-");
 		getContentPane().add(documentName);
 		documentNameField = new JTextField(docName);
-		documentNameField.setEditable(true);
+		documentNameField.setEditable(false);
 		documentNameField.addMouseListener(new ChangeDocNameListener());
 
 		// create an editor pane
@@ -154,6 +156,15 @@ public class GUI extends JFrame {
 
 		// Set up the menu bar
 		actions = createActionTable(editArea);
+		// creat help menu
+		JMenu helpmenu = new JMenu("Help");
+		helpmenu.setMnemonic(KeyEvent.VK_H);
+		JMenuItem productHelp = new JMenuItem("Product Help");
+		productHelp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2
+				,ActionEvent.ALT_MASK));
+		//TODO: implement action listener for Help
+		helpmenu.add(productHelp);
+		
 		// creat file menu
 		JMenu filemenu = new JMenu("File");
 		filemenu.setMnemonic(KeyEvent.VK_F);
@@ -233,6 +244,7 @@ public class GUI extends JFrame {
 		JMenuBar mb = new JMenuBar();
 		mb.add(filemenu);
 		mb.add(editmenu);
+		mb.add(helpmenu);
 		setJMenuBar(mb);
 
 		// set up file chooser
@@ -397,17 +409,6 @@ public class GUI extends JFrame {
 
 	}
 	
-//	protected class ChangeDocNameListener implements ActionListener {
-//	    public void actionPerformed(ActionEvent e){
-//	        try {
-//                client.changeFileNameonServer(currentFile.docNum,documentNameField.getText());
-//                System.out.println(documentNameField.getText());
-//            } catch (IOException e1) {
-//                // TODO Auto-generated catch block
-//                e1.printStackTrace();
-//            }
-//	    }
-//	}
 	
 	protected class ChangeDocNameListener implements MouseListener {
     public void mouseClicked(MouseEvent e){
@@ -530,9 +531,10 @@ public class GUI extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			Object holder = e.getSource();
 			String f = fileList.getSelectedItem().toString();
-			//System.out.println("gui: delete file");
-			//deleteFile(f);
+			System.out.println("gui: delete file");
+			
 			try {
+			    System.out.println(filenameToDocNum.get(f));
 				client.deleteFileOnServer(filenameToDocNum.get(f));
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
@@ -548,7 +550,6 @@ public class GUI extends JFrame {
 			Object holder = e.getSource();
 			JComboBox tempComboBox = (JComboBox) holder;
 			String f = tempComboBox.getSelectedItem().toString();
-			System.out.println(filenameToDocNum);
 			int curDocNum = filenameToDocNum.get(f);
 			currentFile = fileSystem.files.get(curDocNum);
 			document = currentFile.getDoc();
@@ -744,13 +745,48 @@ public class GUI extends JFrame {
 	 */
 	public void deleteFile(String docname2) {
 		if (fileList.getItemCount()<=1) return;
+		int position = -1;
 		for (int i = 0; i < fileList.getItemCount(); i++) {
 			if (fileList.getItemAt(i).toString().equals(docname2)) {
-				fileList.removeItemAt(i);
+			    position = i;
+			    System.out.println("found position");
+			    System.out.println(position);
+			    break;
 			}
 
 		}
+	    filenameToDocNum.remove(docname2);
 
+	}
+	
+	public void changeFileName(int docNum, String newDocName){
+	    String oldDocName = null;
+	    List <String> docNames = new ArrayList<String>();
+	    for (String docName:filenameToDocNum.keySet()){
+	        docNames.add(docName);
+	    }
+	    for (String docName :docNames){
+	        if (filenameToDocNum.get(docName) == docNum){
+	            oldDocName = docName;
+	        }
+	    }
+	    filenameToDocNum.remove(oldDocName);
+	    filenameToDocNum.put(newDocName,docNum);
+	    
+	    int position = -1;
+	    for (int i = 0; i < fileList.getItemCount(); i++) {
+            if (fileList.getItemAt(i).toString().equals(oldDocName)) {
+                position = i;
+                System.out.println("position found");
+                break;
+            }
+
+        }
+	    fileList.insertItemAt(makeObj(newDocName),position);
+	    fileList.removeItemAt(position+1);
+        System.out.println("removed old item from filelist");
+        
+	    
 	}
 
 	/**
