@@ -540,9 +540,10 @@ public class GUI extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			Object holder = e.getSource();
 			String f = fileList.getSelectedItem().toString();
-			//System.out.println("gui: delete file");
-			//deleteFile(f);
+			System.out.println("gui: delete file");
+			deleteFile(f);
 			try {
+			    System.out.println(filenameToDocNum.get(f));
 				client.deleteFileOnServer(filenameToDocNum.get(f));
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
@@ -757,6 +758,8 @@ public class GUI extends JFrame {
 		if (fileList.getItemCount()<=1) return;
 		for (int i = 0; i < fileList.getItemCount(); i++) {
 			if (fileList.getItemAt(i).toString().equals(docname2)) {
+			    System.out.println("ready to remove file at position");
+			    System.out.println(i);
 				fileList.removeItemAt(i);
 			}
 
