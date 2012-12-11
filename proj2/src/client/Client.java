@@ -23,9 +23,8 @@ import FileSystem.MyFile;
  * imcomingPackage: the current package we got
  * 
  * methods:
- * constructor: takes in ipAddress, at the same time, 
+ * constructor: takes in ipAddress, then, use initialize() to do initialization,
  * 				get a message package containing the initialization data
- * 				then, use initialize() to do initialization
  * updateServer: takes in eventPackage, send it to server
  * createNewFileOnServer: tell server to create new file
  * deleteFileOnServer: takes in document number,
@@ -48,12 +47,12 @@ public class Client {
 	public EventPackage incomingPackage;
 	
 	public Client(String ipAddress) {
-		incomingPackage = new EventPackage();
+		incomingPackage = null;
 		ip = ipAddress;
 	}
 
 	public void updateServer(EventPackage eventPackage) throws IOException {
-		if (!incomingPackage.equals(eventPackage)) {
+		if (incomingPackage==null || !incomingPackage.equals(eventPackage)) {
 			toServer.writeObject(eventPackage);
 			toServer.flush();
 		}
