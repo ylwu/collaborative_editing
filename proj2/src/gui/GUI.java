@@ -15,7 +15,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -546,7 +545,6 @@ public class GUI extends JFrame {
 
 	protected class deleteDocListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			Object holder = e.getSource();
 			String f = fileList.getSelectedItem().toString();
 			System.out.println("gui: delete file");
 
@@ -554,7 +552,6 @@ public class GUI extends JFrame {
 				System.out.println(filenameToDocNum.get(f));
 				client.deleteFileOnServer(filenameToDocNum.get(f));
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -744,9 +741,7 @@ public class GUI extends JFrame {
 		return actions.get(name);
 	}
 
-	/**
-	 * @param docName2
-	 */
+
 	public void addFile(String docName2, int docNum2) {
 		fileList.addItem(makeObj(docName2));
 		filenameToDocNum.put(docName2, docNum2);
@@ -760,9 +755,6 @@ public class GUI extends JFrame {
 		};
 	}
 
-	/**
-	 * @param docname2
-	 */
 	public void deleteFile(String docname2) {
 		if (fileList.getItemCount() <= 1)
 			return;
@@ -813,11 +805,8 @@ public class GUI extends JFrame {
 
 	}
 
-	/**
-	 * @return
-	 */
+
 	public Integer curDocNum() {
-		// TODO Auto-generated method stub
 		return filenameToDocNum.get(docName);
 	}
 

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package FileSystem;
 
 import gui.GUI;
@@ -8,22 +5,26 @@ import gui.GUI;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.text.BadLocationException;
-
 /**
- * @author gyz
  * 
- *         Controller class, every time a action performed, open an new thread
- *         to preform action
  * 
- *         I will start with a slow implementation (read all string in the text
- *         field every time)
+ * file system for both client and server, syned constantly
+ * 
+ * field:
+ * files: filelist
+ * docnum: current document name
+ * 
+ * methods:
+ * constructor: construct a file system with only one file
+ * addfile: add file to the file system, can either add an existent file 
+ * 			or an empty file
+ * add view: add client associate to the file system
  * 
  * 
  */
+@SuppressWarnings("serial")
 public class FileSystem implements Serializable {
 	public List<MyFile> files = new ArrayList<MyFile>();
 	private int docNum = -1;
@@ -45,8 +46,6 @@ public class FileSystem implements Serializable {
 
 		docNum++;
 		MyFile newFile = new MyFile(this, file, content);
-		// System.out.println(newFile.getDoc().getLength());
-		// System.out.println(content);
 		files.add(newFile);
 		for (GUI v : views) {
 			v.addFile(newFile.docName, this.docNum);
@@ -86,9 +85,9 @@ public class FileSystem implements Serializable {
 	public void deleteDoc(int docNum2) {
 		try {
 			String docname = files.get(docNum2).docName;
-			System.out.println("trying to delete"+docname);
+			System.out.println("trying to delete" + docname);
 			files.set(docNum2, null);
-			
+
 			for (GUI v : views) {
 				v.deleteFile(docname);
 			}
@@ -101,28 +100,26 @@ public class FileSystem implements Serializable {
 
 	public void changeFileName(int docNum, String newFileName) {
 		for (MyFile file : files) {
-		    if (file!= null){
-			if (file.docNum == docNum) {
-				file.docName = newFileName;
-				break;
+			if (file != null) {
+				if (file.docNum == docNum) {
+					file.docName = newFileName;
+					break;
+				}
 			}
 		}
-		}    
 		for (GUI v : views) {
 			v.changeFileName(docNum, newFileName);
 		}
 
 	}
 
-	/**
-	 * 
-	 */
 	public void guiWantDoc() {
 		for (GUI v : views) {
 			for (MyFile f : files) {
-			    if (f!= null){
-				v.addFile(f.docName, f.docNum);
-			    }}
+				if (f != null) {
+					v.addFile(f.docName, f.docNum);
+				}
+			}
 		}
 
 	}

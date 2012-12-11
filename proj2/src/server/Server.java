@@ -8,7 +8,10 @@ import java.util.List;
 import FileSystem.FileSystem;
 
 
-
+/*
+ * server for editor
+ * 
+ */
 public class Server {
     private final ServerSocket serverSocket;
     /** True if the server should disconnect a client after a BOOM message. */
