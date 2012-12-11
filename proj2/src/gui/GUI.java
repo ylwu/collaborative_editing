@@ -13,9 +13,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +35,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -79,6 +82,7 @@ public class GUI extends JFrame {
 	private final JFileChooser fc;
 	private final JTextArea log;
 	private final JButton openButton;
+	private final JButton saveButton;
 	private String docName;// name of the document(that a user can edit)
 	HashMap<Object, Action> actions;
 	private HashMap<String, Integer> filenameToDocNum = new HashMap<String, Integer>();
@@ -133,7 +137,7 @@ public class GUI extends JFrame {
 		getContentPane().add(fileList);
 
 		// display document name
-		documentName = new JLabel("-You are Editing Document-");
+		documentName = new JLabel("-Current File (click to rename)-");
 		getContentPane().add(documentName);
 		documentNameField = new JTextField(docName);
 		documentNameField.setEditable(false);
@@ -156,49 +160,29 @@ public class GUI extends JFrame {
 
 		// Set up the menu bar
 		actions = createActionTable(editArea);
-		// creat help menu
-		JMenu helpmenu = new JMenu("Help");
-		helpmenu.setMnemonic(KeyEvent.VK_H);
-		JMenuItem productHelp = new JMenuItem("Product Help");
-		productHelp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2
-				,ActionEvent.ALT_MASK));
-		//TODO: implement action listener for Help
-		helpmenu.add(productHelp);
 		
-		// creat file menu
+		// create file menu
 		JMenu filemenu = new JMenu("File");
 		filemenu.setMnemonic(KeyEvent.VK_F);
 		JMenuItem newFileMenu = new JMenuItem("New File");
-		newFileMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1,
+		newFileMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
 		        ActionEvent.ALT_MASK));
 		newFileMenu.addActionListener(new createDocListener());
-
-		JMenuItem openFileMenu = new JMenuItem("Open...");
-
-		openFileMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2,
-		        ActionEvent.ALT_MASK));
-		openFileMenu.addActionListener(new loadDocListener());
-
-		filemenu.add(newFileMenu);
-		filemenu.add(openFileMenu);
-
-
-		openFileMenu.setAccelerator(KeyStroke.getKeyStroke(
-				KeyEvent.VK_O,ActionEvent.ALT_MASK));
-		openFileMenu.addActionListener(new loadDocListener());
 		
 		JMenuItem deleteFileMenu = new JMenuItem("Delete");
 		deleteFileMenu.setAccelerator(KeyStroke.getKeyStroke(
 				KeyEvent.VK_D,ActionEvent.ALT_MASK));
 		deleteFileMenu.addActionListener(new deleteDocListener());
 		
+		JMenuItem productHelp = new JMenuItem("Product Help");
+		productHelp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2
+				,ActionEvent.ALT_MASK));
+		//TODO: implement action listener for Help
+		
 		filemenu.add(newFileMenu);
-		filemenu.add(openFileMenu);
 		filemenu.add(deleteFileMenu);
-		
-		
-		
-		
+		filemenu.addSeparator();
+		filemenu.add(productHelp);
 		
 
 		// create edit menu
@@ -244,7 +228,6 @@ public class GUI extends JFrame {
 		JMenuBar mb = new JMenuBar();
 		mb.add(filemenu);
 		mb.add(editmenu);
-		mb.add(helpmenu);
 		setJMenuBar(mb);
 
 		// set up file chooser
@@ -253,11 +236,40 @@ public class GUI extends JFrame {
 		log.setEditable(false);
 		JScrollPane logScrollPane = new JScrollPane(log);
 
-		fc = new JFileChooser(); // FILES_ONLY
+		fc = new JFileChooser(){
+		    @Override
+		    public void approveSelection(){
+		        File f = getSelectedFile();
+		        if(f.exists() && getDialogType() == SAVE_DIALOG){
+		            int result = JOptionPane.showConfirmDialog(
+		            		gui,"The file exists. Would you like to overwrite?",
+		            		"Existing file", JOptionPane.YES_NO_CANCEL_OPTION);
+		            switch(result){
+		                case JOptionPane.YES_OPTION:
+		                    super.approveSelection();
+		                    return;
+		                case JOptionPane.NO_OPTION:
+		                    return;
+		                case JOptionPane.CLOSED_OPTION:
+		                    return;
+		                case JOptionPane.CANCEL_OPTION:
+		                    cancelSelection();
+		                    return;
+		            }
+		        }
+		        super.approveSelection();
+		    }
+		};
 		ImageIcon openIcon = new ImageIcon("image/open.png");
 		openButton = new JButton(openIcon);
 		openButton.addActionListener(new loadDocListener());
 		openButton.setToolTipText("Open a New File");
+		
+		ImageIcon saveIcon = new ImageIcon("image/save.png");
+		saveButton = new JButton(saveIcon);
+		saveButton.addActionListener(new saveDocListener());
+		saveButton.setToolTipText("Save and Export");
+		
 
 		// Add hot-key commands
 		addHotKey();
@@ -277,7 +289,7 @@ public class GUI extends JFrame {
 		gui.setBorder(new TitledBorder("Azure v1.2"));
 
 		// top panel: document name, create new document, change theme
-		JPanel plafComponents = new JPanel(new FlowLayout(FlowLayout.CENTER,10,3));
+		JPanel plafComponents = new JPanel(new FlowLayout(FlowLayout.CENTER,5,3));
 		
 		JPanel displayDocName = new JPanel(new BorderLayout());
 		displayDocName.add(documentName, BorderLayout.NORTH);
@@ -286,11 +298,12 @@ public class GUI extends JFrame {
 		plafComponents.add(createNew);
 		plafComponents.add(openButton);
 		plafComponents.add(delete);
+		plafComponents.add(saveButton);
 		plafComponents.add(displayDocName);
 
 		JPanel plafSubComp = new JPanel(new BorderLayout(3, 3));
 
-		plafSubComp.setBorder(new TitledBorder("Choose a Theme"));
+		plafSubComp.setBorder(new TitledBorder("Choose Theme"));
 
 		final UIManager.LookAndFeelInfo[] plafInfos = UIManager
 		        .getInstalledLookAndFeels();
@@ -299,10 +312,8 @@ public class GUI extends JFrame {
 			plafNames[ii] = plafInfos[ii].getName();
 		}
 		final JComboBox plafChooser = new JComboBox(plafNames);
-		plafSubComp.add(plafChooser, BorderLayout.WEST);
+		plafSubComp.add(plafChooser, BorderLayout.CENTER);
 
-		final JCheckBox pack = new JCheckBox("Pack on View", true);
-		plafSubComp.add(pack, BorderLayout.EAST);
 
 		plafComponents.add(plafSubComp);
 
@@ -312,9 +323,6 @@ public class GUI extends JFrame {
 				try {
 					UIManager.setLookAndFeel(plafInfos[index].getClassName());
 					SwingUtilities.updateComponentTreeUI(getRootPane());
-					if (pack.isSelected()) {
-						pack();
-					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -467,7 +475,6 @@ public class GUI extends JFrame {
 	// Listener for uploading new document
 	protected class loadDocListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == openButton) {
 				int returnVal = fc.showOpenDialog(gui);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = fc.getSelectedFile();
@@ -477,7 +484,7 @@ public class GUI extends JFrame {
 						String filename = file.getAbsolutePath();
 
 						final FileInputStream fstream = new FileInputStream(
-						        filename);
+								filename);
 						in = new FileReader(filename);
 						StringBuilder contents = new StringBuilder();
 						char[] buffer = new char[4096];
@@ -509,9 +516,38 @@ public class GUI extends JFrame {
 					log.append("Open command cancelled by user." + newline);
 				}
 				log.setCaretPosition(log.getDocument().getLength());
+		}
+	}
+	
+	// Listener for uploading new document
+	protected class saveDocListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			int returnVal = fc.showSaveDialog(gui);
+			if (returnVal == JFileChooser.APPROVE_OPTION){
+				File file = fc.getSelectedFile ();
+				if (!file.exists()){
+					try {
+						file.createNewFile();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				try {
+					FileWriter fw = new FileWriter(file.getAbsoluteFile());
+					BufferedWriter bw = new BufferedWriter(fw);
+					bw.write(editArea.getText());
+					bw.close();
+					System.out.println("file saved");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}
 		}
 	}
+	
 
 	// Listener for creating new document
 	protected class createDocListener implements ActionListener {
@@ -831,26 +867,5 @@ public class GUI extends JFrame {
         }
         return position;
     }
-
-	//
-	// /**
-	// * @return
-	// *
-	// * get text in textField
-	// */
-	// public String getText() {
-	// // TODO convert AbstractDocument document to String!
-	// return null;
-	// }
-	//
-	// /**
-	// * @param text
-	// *
-	// * update textField
-	// */
-	// public void setText(String text) {
-	// // TODO write this part after the controller is finalized
-	//
-	// }
 
 }
