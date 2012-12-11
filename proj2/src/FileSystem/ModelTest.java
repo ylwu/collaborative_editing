@@ -23,7 +23,8 @@ import client.Client;
 public class ModelTest{
 	public static void main(final String[] args) {
 		final FileSystem c=new FileSystem();
-		final Client cl = new Client();
+		final String ip="localhost";
+		final Client cl = new Client(ip);
         new GUI(cl);
 		
 	}	
