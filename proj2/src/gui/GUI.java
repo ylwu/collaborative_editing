@@ -27,7 +27,6 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -127,9 +126,7 @@ public class GUI extends JFrame {
 		delete.setToolTipText("Delete Current File");
 
 		// create drop-down box
-		// TODO: take in a list of files as arguments; ADD LISTENER
 		JLabel dropDownHeader = new JLabel("-Select Document-");
-		//
 		fileList = new JComboBox();
 		fileSystem.guiWantDoc();
 		fileList.addActionListener(new dropDownListener());
@@ -160,7 +157,7 @@ public class GUI extends JFrame {
 
 		// Set up the menu bar
 		actions = createActionTable(editArea);
-		
+
 		// create file menu
 		JMenu filemenu = new JMenu("File");
 		filemenu.setMnemonic(KeyEvent.VK_F);
@@ -168,22 +165,21 @@ public class GUI extends JFrame {
 		newFileMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
 		        ActionEvent.ALT_MASK));
 		newFileMenu.addActionListener(new createDocListener());
-		
+
 		JMenuItem deleteFileMenu = new JMenuItem("Delete");
-		deleteFileMenu.setAccelerator(KeyStroke.getKeyStroke(
-				KeyEvent.VK_D,ActionEvent.ALT_MASK));
+		deleteFileMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
+		        ActionEvent.ALT_MASK));
 		deleteFileMenu.addActionListener(new deleteDocListener());
-		
+
 		JMenuItem productHelp = new JMenuItem("Product Help");
-		productHelp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2
-				,ActionEvent.ALT_MASK));
-		//TODO: implement action listener for Help
-		
+		productHelp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2,
+		        ActionEvent.ALT_MASK));
+		// TODO: implement action listener for Help
+
 		filemenu.add(newFileMenu);
 		filemenu.add(deleteFileMenu);
 		filemenu.addSeparator();
 		filemenu.add(productHelp);
-		
 
 		// create edit menu
 		JMenu editmenu = new JMenu("Edit");
@@ -234,42 +230,41 @@ public class GUI extends JFrame {
 		log = new JTextArea(5, 20);
 		log.setMargin(new Insets(5, 5, 5, 5));
 		log.setEditable(false);
-		JScrollPane logScrollPane = new JScrollPane(log);
+		new JScrollPane(log);
 
-		fc = new JFileChooser(){
-		    @Override
-		    public void approveSelection(){
-		        File f = getSelectedFile();
-		        if(f.exists() && getDialogType() == SAVE_DIALOG){
-		            int result = JOptionPane.showConfirmDialog(
-		            		gui,"The file exists. Would you like to overwrite?",
-		            		"Existing file", JOptionPane.YES_NO_CANCEL_OPTION);
-		            switch(result){
-		                case JOptionPane.YES_OPTION:
-		                    super.approveSelection();
-		                    return;
-		                case JOptionPane.NO_OPTION:
-		                    return;
-		                case JOptionPane.CLOSED_OPTION:
-		                    return;
-		                case JOptionPane.CANCEL_OPTION:
-		                    cancelSelection();
-		                    return;
-		            }
-		        }
-		        super.approveSelection();
-		    }
+		fc = new JFileChooser() {
+			@Override
+			public void approveSelection() {
+				File f = getSelectedFile();
+				if (f.exists() && getDialogType() == SAVE_DIALOG) {
+					int result = JOptionPane.showConfirmDialog(gui,
+					        "The file exists. Would you like to overwrite?",
+					        "Existing file", JOptionPane.YES_NO_CANCEL_OPTION);
+					switch (result) {
+					case JOptionPane.YES_OPTION:
+						super.approveSelection();
+						return;
+					case JOptionPane.NO_OPTION:
+						return;
+					case JOptionPane.CLOSED_OPTION:
+						return;
+					case JOptionPane.CANCEL_OPTION:
+						cancelSelection();
+						return;
+					}
+				}
+				super.approveSelection();
+			}
 		};
 		ImageIcon openIcon = new ImageIcon("image/open.png");
 		openButton = new JButton(openIcon);
 		openButton.addActionListener(new loadDocListener());
 		openButton.setToolTipText("Open a New File");
-		
+
 		ImageIcon saveIcon = new ImageIcon("image/save.png");
 		saveButton = new JButton(saveIcon);
 		saveButton.addActionListener(new saveDocListener());
 		saveButton.setToolTipText("Save and Export");
-		
 
 		// Add hot-key commands
 		addHotKey();
@@ -289,8 +284,9 @@ public class GUI extends JFrame {
 		gui.setBorder(new TitledBorder("Azure v1.2"));
 
 		// top panel: document name, create new document, change theme
-		JPanel plafComponents = new JPanel(new FlowLayout(FlowLayout.CENTER,5,3));
-		
+		JPanel plafComponents = new JPanel(new FlowLayout(FlowLayout.CENTER, 5,
+		        3));
+
 		JPanel displayDocName = new JPanel(new BorderLayout());
 		displayDocName.add(documentName, BorderLayout.NORTH);
 		displayDocName.add(documentNameField, BorderLayout.SOUTH);
@@ -313,7 +309,6 @@ public class GUI extends JFrame {
 		}
 		final JComboBox plafChooser = new JComboBox(plafNames);
 		plafSubComp.add(plafChooser, BorderLayout.CENTER);
-
 
 		plafComponents.add(plafSubComp);
 
@@ -416,120 +411,110 @@ public class GUI extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	}
-	
-	
+
 	protected class ChangeDocNameListener implements MouseListener {
-    public void mouseClicked(MouseEvent e){
-        // initiate a pop up window for renaming
-		try {
-		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		        if ("Nimbus".equals(info.getName())) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            break;
-		        }
-		    }
-		} catch (UnsupportedLookAndFeelException e1) {
-		    // handle exception
-		} catch (ClassNotFoundException e1) {
-		    // handle exception
-		} catch (InstantiationException e1) {
-		    // handle exception
-		} catch (IllegalAccessException e1) {
-		    // handle exception
-		}
-		
-		
-		SwingUtilities.invokeLater(new Runnable(){
-			public void run(){
-				System.out.println("creating rename pop up window");
-				new renamePopUp(client,currentFile,documentNameField);
+		public void mouseClicked(MouseEvent e) {
+			// initiate a pop up window for renaming
+			try {
+				for (LookAndFeelInfo info : UIManager
+				        .getInstalledLookAndFeels()) {
+					if ("Nimbus".equals(info.getName())) {
+						UIManager.setLookAndFeel(info.getClassName());
+						break;
+					}
+				}
+			} catch (UnsupportedLookAndFeelException e1) {
+				// handle exception
+			} catch (ClassNotFoundException e1) {
+				// handle exception
+			} catch (InstantiationException e1) {
+				// handle exception
+			} catch (IllegalAccessException e1) {
+				// handle exception
 			}
-		});
-    }
 
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					System.out.println("creating rename pop up window");
+					new renamePopUp(client, currentFile, documentNameField);
+				}
+			});
+		}
 
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
 
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+		}
 
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+
+		}
 	}
-}
 
 	// Listener for uploading new document
 	protected class loadDocListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-				int returnVal = fc.showOpenDialog(gui);
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					File file = fc.getSelectedFile();
-					String content = "";
-					FileReader in = null;
-					try {
-						String filename = file.getAbsolutePath();
+			int returnVal = fc.showOpenDialog(gui);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+				String content = "";
+				FileReader in = null;
+				try {
+					String filename = file.getAbsolutePath();
+					in = new FileReader(filename);
+					StringBuilder contents = new StringBuilder();
+					char[] buffer = new char[4096];
+					int read = 0;
+					do {
+						contents.append(buffer, 0, read);
+						read = in.read(buffer);
+					} while (read >= 0);
+					content = contents.toString();
 
-						final FileInputStream fstream = new FileInputStream(
-								filename);
-						in = new FileReader(filename);
-						StringBuilder contents = new StringBuilder();
-						char[] buffer = new char[4096];
-						int read = 0;
-						do {
-							contents.append(buffer, 0, read);
-							read = in.read(buffer);
-						} while (read >= 0);
-						content = contents.toString();
-
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} finally {
-						try {
-							in.close();
-						} catch (Exception e1) {
-							e1.printStackTrace();
-							throw new RuntimeException("can't close");
-						}
-					}
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} finally {
 					try {
-						client.uploadFiletoServer(file, content);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
+						in.close();
+					} catch (Exception e1) {
 						e1.printStackTrace();
+						throw new RuntimeException("can't close");
 					}
-					log.append("Opening: " + file.getName() + "." + newline);
-				} else {
-					log.append("Open command cancelled by user." + newline);
 				}
-				log.setCaretPosition(log.getDocument().getLength());
+				try {
+					client.uploadFiletoServer(file, content);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				log.append("Opening: " + file.getName() + "." + newline);
+			} else {
+				log.append("Open command cancelled by user." + newline);
+			}
+			log.setCaretPosition(log.getDocument().getLength());
 		}
 	}
-	
+
 	// Listener for uploading new document
 	protected class saveDocListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			int returnVal = fc.showSaveDialog(gui);
-			if (returnVal == JFileChooser.APPROVE_OPTION){
-				File file = fc.getSelectedFile ();
-				if (!file.exists()){
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+				if (!file.exists()) {
 					try {
 						file.createNewFile();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -538,16 +523,13 @@ public class GUI extends JFrame {
 					BufferedWriter bw = new BufferedWriter(fw);
 					bw.write(editArea.getText());
 					bw.close();
-					System.out.println("file saved");
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+
 			}
 		}
 	}
-	
 
 	// Listener for creating new document
 	protected class createDocListener implements ActionListener {
@@ -556,7 +538,6 @@ public class GUI extends JFrame {
 			try {
 				client.createNewFileOnServer();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
@@ -568,9 +549,9 @@ public class GUI extends JFrame {
 			Object holder = e.getSource();
 			String f = fileList.getSelectedItem().toString();
 			System.out.println("gui: delete file");
-			
+
 			try {
-			    System.out.println(filenameToDocNum.get(f));
+				System.out.println(filenameToDocNum.get(f));
 				client.deleteFileOnServer(filenameToDocNum.get(f));
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
@@ -588,14 +569,15 @@ public class GUI extends JFrame {
 			String f = tempComboBox.getSelectedItem().toString();
 			int curDocNum = filenameToDocNum.get(f);
 			currentFile = fileSystem.files.get(curDocNum);
-			System.out.println("current editing file is " + Integer.toString(curDocNum));
+			System.out.println("current editing file is "
+			        + Integer.toString(curDocNum));
 			document = currentFile.getDoc();
 			docName = currentFile.getDocName();
 			documentNameField.setText(docName);
 			System.out.println(docName);
 			editArea.setDocument(document);
 			editArea.setCaretPosition(0);
-			
+
 			document.addDocumentListener(new MyDocumentListener());
 		}
 	}
@@ -657,7 +639,7 @@ public class GUI extends JFrame {
 
 			try {
 				client.updateServer(currentFile.DocumentEventToEventPackage(e));
-				
+
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -782,90 +764,90 @@ public class GUI extends JFrame {
 	 * @param docname2
 	 */
 	public void deleteFile(String docname2) {
-		if (fileList.getItemCount()<=1) return;
+		if (fileList.getItemCount() <= 1)
+			return;
 		int position = -1;
 		for (int i = 0; i < fileList.getItemCount(); i++) {
 			if (fileList.getItemAt(i).toString().equals(docname2)) {
-			    position = i;
-			    System.out.println("found position");
-			    System.out.println(position);
-			    break;
+				position = i;
+				System.out.println("found position");
+				System.out.println(position);
+				break;
 			}
 
 		}
-		
+
 		fileList.removeItemAt(position);
-	    filenameToDocNum.remove(docname2);
-	    
+		filenameToDocNum.remove(docname2);
 
 	}
-	
-	public void changeFileName(int docNum, String newDocName){
-	    System.out.println("triggered changefilename");
-	    String oldDocName = null;
-	    List <String> docNames = new ArrayList<String>();
-	    for (String docName:filenameToDocNum.keySet()){
-	        docNames.add(docName);
-	    }
-	    for (String docName :docNames){
-	        if (filenameToDocNum.get(docName) == docNum){
-	            oldDocName = docName;
-	        }
-	    }
-	    filenameToDocNum.remove(oldDocName);
-	    filenameToDocNum.put(newDocName,docNum);
-	    System.out.println("oldfilename is "+oldDocName);
-	    
-	    int position = -1;
-	    for (int i = 0; i < fileList.getItemCount(); i++) {
-            if (fileList.getItemAt(i).toString().equals(oldDocName)) {
-                position = i;
-                System.out.println("position found");
-                break;
-            }
 
-        }
-	    fileList.insertItemAt(makeObj(newDocName),position);
-	    fileList.removeItemAt(position+1);
-        System.out.println("removed old item from filelist");
-        
-	    
+	public void changeFileName(int docNum, String newDocName) {
+		System.out.println("triggered changefilename");
+		String oldDocName = null;
+		List<String> docNames = new ArrayList<String>();
+		for (String docName : filenameToDocNum.keySet()) {
+			docNames.add(docName);
+		}
+		for (String docName : docNames) {
+			if (filenameToDocNum.get(docName) == docNum) {
+				oldDocName = docName;
+			}
+		}
+		filenameToDocNum.remove(oldDocName);
+		filenameToDocNum.put(newDocName, docNum);
+		System.out.println("oldfilename is " + oldDocName);
+
+		int position = -1;
+		for (int i = 0; i < fileList.getItemCount(); i++) {
+			if (fileList.getItemAt(i).toString().equals(oldDocName)) {
+				position = i;
+				System.out.println("position found");
+				break;
+			}
+
+		}
+		fileList.insertItemAt(makeObj(newDocName), position);
+		fileList.removeItemAt(position + 1);
+		System.out.println("removed old item from filelist");
+
 	}
 
 	/**
 	 * @return
 	 */
-    public Integer curDocNum() {
-	    // TODO Auto-generated method stub
-	    return filenameToDocNum.get(docName);
-    }
+	public Integer curDocNum() {
+		// TODO Auto-generated method stub
+		return filenameToDocNum.get(docName);
+	}
 
 	/**
 	 * @param offset
 	 * @param len
 	 */
-    public void CaretPosition(int offset, int len) {
-	    int curPos=editArea.getCaretPosition();
-	    if (offset>=curPos) return;
-	    curPos=Math.max(offset, curPos+len);
-	    try{
-	    	editArea.setCaretPosition(curPos);
-	    }catch (Exception e){
-	    	e.printStackTrace();
-	    }finally{
-	    }
-    }
-    
-    public int notNullIndex(){
-        int position = fileSystem.getFile().size() - 1;
-        while (position >=0){
-            if (fileSystem.getFile().get(position)==null){
-                position -=1;
-            } else {
-                break;
-            }
-        }
-        return position;
-    }
+	public void CaretPosition(int offset, int len) {
+		int curPos = editArea.getCaretPosition();
+		if (offset >= curPos)
+			return;
+		curPos = Math.max(offset, curPos + len);
+		try {
+			editArea.setCaretPosition(curPos);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+		}
+	}
+
+	public int notNullIndex() {
+		int position = fileSystem.getFile().size() - 1;
+		while (position >= 0) {
+			if (fileSystem.getFile().get(position) == null) {
+				position -= 1;
+			} else {
+				break;
+			}
+		}
+		return position;
+	}
 
 }

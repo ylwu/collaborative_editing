@@ -19,6 +19,7 @@ import client.Client;
  * Pop Up Window for Rename File
  */
 
+@SuppressWarnings("serial")
 public class renamePopUp extends JFrame {
 	private final Client client;
 	private final MyFile currentFile;
@@ -85,7 +86,6 @@ public class renamePopUp extends JFrame {
 				System.out.println(newName);
 				setVisible(false);
 			}catch (IOException e1){
-				//TODO
 				e1.printStackTrace();
 			}
 			
