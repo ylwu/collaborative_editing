@@ -37,8 +37,8 @@ public class EventPackage implements Serializable{
 	}
 	
     public boolean equals(EventPackage that) {
-        return (((this.eventType.equals(that.eventType) && this.len == that.len) && this.offset == that.offset) && this.inserted
-                .equals(that.inserted)) && (this.docLength == that.docLength) && (this.docNum==that.docNum);
+        return ((((this.eventType.equals(that.eventType) && this.len == that.len) && this.offset == that.offset) && this.inserted
+                .equals(that.inserted)) && (this.docLength == that.docLength)) && (this.docNum==that.docNum);
     }
 	
 

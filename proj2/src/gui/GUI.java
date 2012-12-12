@@ -63,7 +63,6 @@ import FileSystem.MyFile;
 import client.Client;
 import client.UpdateListener;
 
-@SuppressWarnings("serial")
 public class GUI extends JFrame {
 	private String newline = "\n";
 	private final JPanel gui;
@@ -280,7 +279,8 @@ public class GUI extends JFrame {
 		        "Caret Status");
 		statusPane.add(caretListenerLabel);
 		editArea.addCaretListener(caretListenerLabel);
-		document.addDocumentListener(new MyDocumentListener());
+//		for (MyFile f: fileSystem.files){
+//		f.getDoc().addDocumentListener(new MyDocumentListener());}
 
 		// set layout
 
@@ -596,7 +596,11 @@ public class GUI extends JFrame {
 			editArea.setDocument(document);
 			editArea.setCaretPosition(0);
 			
-			document.addDocumentListener(new MyDocumentListener());
+//			if (document.getDocumentListeners().length<1){
+//			document.addDocumentListener(new MyDocumentListener());}
+			int i= document.getDocumentListeners().length;
+			System.out.println("number of listener =" + Integer.toString(i));
+			System.out.println(document.getDocumentListeners().toString());
 		}
 	}
 
@@ -643,7 +647,7 @@ public class GUI extends JFrame {
 
 	// Listener for Document changes
 
-	protected class MyDocumentListener implements DocumentListener {
+	public class MyDocumentListener implements DocumentListener {
 		public void insertUpdate(DocumentEvent e) {
 			try {
 				client.updateServer(currentFile.DocumentEventToEventPackage(e));
@@ -768,6 +772,7 @@ public class GUI extends JFrame {
 	public void addFile(String docName2, int docNum2) {
 		fileList.addItem(makeObj(docName2));
 		filenameToDocNum.put(docName2, docNum2);
+		fileSystem.getFile().get(docNum2).getDoc().addDocumentListener(new MyDocumentListener());
 	}
 
 	private Object makeObj(final String item) {
@@ -787,11 +792,8 @@ public class GUI extends JFrame {
 		for (int i = 0; i < fileList.getItemCount(); i++) {
 			if (fileList.getItemAt(i).toString().equals(docname2)) {
 			    position = i;
-			    System.out.println("found position");
-			    System.out.println(position);
 			    break;
 			}
-
 		}
 		
 		fileList.removeItemAt(position);
@@ -814,7 +816,6 @@ public class GUI extends JFrame {
 	    }
 	    filenameToDocNum.remove(oldDocName);
 	    filenameToDocNum.put(newDocName,docNum);
-	    System.out.println("oldfilename is "+oldDocName);
 	    
 	    int position = -1;
 	    for (int i = 0; i < fileList.getItemCount(); i++) {

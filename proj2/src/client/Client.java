@@ -89,6 +89,7 @@ public class Client {
             incomingPackage = eventPackage;
             System.out.println("received update for doc#"+eventPackage.docNum);
             MyFile f= fileSystem.getFile().get(eventPackage.docNum);
+            System.out.println("updating doc#" + f.docNum);
             f.updateDoc(eventPackage);}
         	else if (o instanceof FilePackage){
         		fileSystem.addFile((FilePackage) o);

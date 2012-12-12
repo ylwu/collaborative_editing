@@ -4,14 +4,12 @@
 package FileSystem;
 
 import gui.GUI;
+import gui.GUI.MyDocumentListener;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import javax.swing.text.BadLocationException;
 
 /**
  * @author gyz
@@ -100,23 +98,14 @@ public class FileSystem implements Serializable {
 	}
 
 	public void changeFileName(int docNum, String newFileName) {
-		for (MyFile file : files) {
-		    if (file!= null){
-			if (file.docNum == docNum) {
-				file.docName = newFileName;
-				break;
-			}
-		}
-		}    
+		
+		files.get(docNum).docName = newFileName;
 		for (GUI v : views) {
 			v.changeFileName(docNum, newFileName);
 		}
 
 	}
 
-	/**
-	 * 
-	 */
 	public void guiWantDoc() {
 		for (GUI v : views) {
 			for (MyFile f : files) {
