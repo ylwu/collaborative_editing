@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -470,7 +471,10 @@ public class GUI extends JFrame {
 				File file = fc.getSelectedFile();
 				BufferedReader reader;
 				try {
-					reader = new BufferedReader(new FileReader(file));
+					//reader = new BufferedReader(new FileReader(file));
+					FileInputStream fis = new FileInputStream(file);
+					InputStreamReader in = new InputStreamReader(fis, "UTF-8");
+					reader = new BufferedReader(in);
 
 					String line = null;
 					StringBuilder stringBuilder = new StringBuilder();
