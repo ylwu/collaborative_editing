@@ -1,6 +1,16 @@
+/**
+ * 
+ */
 package FileSystem;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 
 import javax.swing.event.DocumentEvent;
@@ -10,10 +20,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
 
-/*files saved in the file system
- * 
- * */
-@SuppressWarnings("serial")
+import FileSystem.FileSystem;
+
 public class MyFile implements Serializable {
 	private final FileSystem f;
 	private AbstractDocument doc;
@@ -39,6 +47,7 @@ public class MyFile implements Serializable {
 		try {
 			doc.insertString(0, content, new SimpleAttributeSet());
 		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -52,6 +61,8 @@ public class MyFile implements Serializable {
 				inserted = ee.getDocument().getText(ee.getOffset(),
 				        ee.getLength());
 			} catch (BadLocationException e1) {
+				// TODO Auto-generated catch block
+				// e1.printStackTrace();
 			}
 			return new EventPackage(docNum, ee.getType().toString(),
 			        ee.getLength(), ee.getOffset(), inserted, doc.getLength());
@@ -63,30 +74,39 @@ public class MyFile implements Serializable {
 		return new EventPackage(docNum, ee.getType().toString(),
 		        ee.getLength(), ee.getOffset(), "", doc.getLength());
 
+		// then in client side
+		// insertString(int offs, String str, AttributeSet a)
+		// remove(int offs, int len)
 	}
 
 	public AbstractDocument getDoc() {
 		return doc;
 	}
 
-	public synchronized void updateDoc(EventPackage eventPackage) {
+	public synchronized void updateDoc(EventPackage eventPackage)
+	       {
+		// doc.readLock();
 		if (eventPackage.eventType.equals("INSERT")) {
 			try {
-				doc.insertString(eventPackage.offset, eventPackage.inserted,
-				        new SimpleAttributeSet());
-			} catch (BadLocationException e) {
-
-			}
-			f.docPosMoved(docNum, eventPackage.offset, eventPackage.len);
+	            doc.insertString(eventPackage.offset, eventPackage.inserted,
+	                    new SimpleAttributeSet());
+            } catch (BadLocationException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+            }
+			f.docPosMoved(docNum,eventPackage.offset,eventPackage.len);
 		} else if (eventPackage.eventType.equals("REMOVE")) {
 
 			try {
-				doc.remove(eventPackage.offset, eventPackage.len);
-			} catch (BadLocationException e) {
-
-			}
-			f.docPosMoved(docNum, eventPackage.offset, -eventPackage.len);
+	            doc.remove(eventPackage.offset, eventPackage.len);
+            } catch (BadLocationException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+            }
+			f.docPosMoved(docNum,eventPackage.offset,-eventPackage.len);
 		}
+		//System.out.println("client updated");
+		// doc.readUnlock();
 	}
 
 	public void changeDoc(AbstractDocument doc) {

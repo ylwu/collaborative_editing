@@ -21,13 +21,7 @@ import java.util.List;
  * addfile: add file to the file system, can either add an existent file 
  * 			or an empty file
  * add view: add client associate to the file system
- * getCurDocNum: get cur doc number
- * getNextDocNum: get cur doc number+1
- * deleteDoc(docNum): set doc associate to docNum be null
- * changeFileName(docNum, new name): change the doc's name
- * guiWantDoc: give a list of documents
- * docPosMoved: trying move gui caret accordingly by
- * 			 offset and len of charactors new added
+ * 
  * 
  */
 @SuppressWarnings("serial")
@@ -136,6 +130,8 @@ public class FileSystem implements Serializable {
 	 * @param len
 	 */
 	public void docPosMoved(Integer docNum2, int offset, int len) {
+		System.out.println("in filesystem, try move gui caret " + docNum2 + " "
+		        + offset + " " + len);
 		for (GUI v : views) {
 			System.out.println(v.curDocNum());
 			if (v.curDocNum().equals(docNum2)) {
