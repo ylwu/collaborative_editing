@@ -12,7 +12,8 @@ import org.junit.Test;
 
 /*
  * This is junit test for fileSystem package. Please note that some methods inevitably requires
- * user interaction to trigger or check, e.g. move caret on gui, these method can not be tested here
+ * user interaction to trigger or check, e.g. move caret on gui. These method shall be tested
+ * within src/gui/guiTest.java. 
  *
  * test strategy:
  * (1) Test only one file
