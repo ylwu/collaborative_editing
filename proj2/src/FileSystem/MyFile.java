@@ -36,9 +36,9 @@ public class MyFile implements Serializable {
 		f = fileSystem;
 		docNum = f.getCurDocNum();
 		doc = new DefaultStyledDocument();
-		System.out.println(doc.getLength());
+		//System.out.println(doc.getLength());
 		docName = file.getName();
-		System.out.println(content);
+		//System.out.println(content);
 		try {
 			doc.insertString(0, content, new SimpleAttributeSet());
 		} catch (BadLocationException e) {
