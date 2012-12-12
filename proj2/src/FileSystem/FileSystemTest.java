@@ -27,6 +27,9 @@ import org.junit.Test;
  * 	   (i)   testing change file name
  *     (ii)  testing add gui to fileSystem
  *     (iii) adding File from filePackage
+ * (4) Test receiving eventPackge
+ *     (i)   test insertion
+ *     (ii)  test removal
  *  
  *
  * 	   
@@ -141,6 +144,35 @@ public class FileSystemTest {
 		String content=f.getDoc().getText(0, fLen);
 		assertEquals(initialContent,content);
 	}	
+	@Test
+    public void testEditInsert() throws BadLocationException {
+		FileSystem fs=new FileSystem();
+		MyFile f=new MyFile(fs);
+		assertEquals("New Document 0",f.docName);
+		int fLen=f.getDoc().getLength();
+		String content=f.getDoc().getText(0, fLen);
+		assertEquals("[Start this document]",content);	
+		assertTrue(f.docNum==0);
+		f.updateDoc(new EventPackage(0, "INSERT", 1, 0, "a", 0));
+		int fLenN=f.getDoc().getLength();
+		String contentN=f.getDoc().getText(0, fLenN);
+		assertEquals(contentN,"a[Start this document]");
+    }
+	@Test
+    public void testEditDelete() throws BadLocationException {
+		FileSystem fs=new FileSystem();
+		MyFile f=new MyFile(fs);
+		assertEquals("New Document 0",f.docName);
+		int fLen=f.getDoc().getLength();
+		String content=f.getDoc().getText(0, fLen);
+		assertEquals("[Start this document]",content);	
+		assertTrue(f.docNum==0);
+		f.updateDoc(new EventPackage(0, "REMOVE", 1, 0, "", 0));
+		int fLenN=f.getDoc().getLength();
+		String contentN=f.getDoc().getText(0, fLenN);
+		assertEquals(contentN,"Start this document]");
+    }
+	
 	
 	
 	
