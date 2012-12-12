@@ -13,9 +13,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -463,49 +465,36 @@ public class GUI extends JFrame {
 	// Listener for uploading new document
 	protected class loadDocListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-				int returnVal = fc.showOpenDialog(gui);
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					File file = fc.getSelectedFile();
-					String content = "";
-					FileReader in = null;
-					try {
-						String filename = file.getAbsolutePath();
+			int returnVal = fc.showOpenDialog(gui);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+				BufferedReader reader;
+				try {
+					reader = new BufferedReader(new FileReader(file));
 
-						final FileInputStream fstream = new FileInputStream(
-								filename);
-						in = new FileReader(filename);
-						StringBuilder contents = new StringBuilder();
-						char[] buffer = new char[4096];
-						int read = 0;
-						do {
-							contents.append(buffer, 0, read);
-							read = in.read(buffer);
-						} while (read >= 0);
-						content = contents.toString();
+					String line = null;
+					StringBuilder stringBuilder = new StringBuilder();
+					String ls = System.getProperty("line.separator");
 
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} finally {
-						try {
-							in.close();
-						} catch (Exception e1) {
-							e1.printStackTrace();
-							throw new RuntimeException("can't close");
-						}
+					while ((line = reader.readLine()) != null) {
+						stringBuilder.append(line);
+						stringBuilder.append(ls);
 					}
-					try {
-						client.uploadFiletoServer(file, content);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					log.append("Opening: " + file.getName() + "." + newline);
-				} else {
-					log.append("Open command cancelled by user." + newline);
+					String content = stringBuilder.toString();
+					client.uploadFiletoServer(file, content);
+				} catch (Exception e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+
 				}
-				log.setCaretPosition(log.getDocument().getLength());
+				log.append("Opening: " + file.getName() + "." + newline);
+			} else {
+				log.append("Open command cancelled by user." + newline);
+			}
+			log.setCaretPosition(log.getDocument().getLength());
 		}
 	}
-	
+
 	// Listener for uploading new document
 	protected class saveDocListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
