@@ -14,7 +14,6 @@ import java.util.List;
  * @author gyz
  * 
  */
-@SuppressWarnings("serial")
 public class FileSystem implements Serializable {
 	public List<MyFile> files = new ArrayList<MyFile>();
 	private int docNum = -1;
@@ -91,23 +90,14 @@ public class FileSystem implements Serializable {
 	}
 
 	public void changeFileName(int docNum, String newFileName) {
-		for (MyFile file : files) {
-		    if (file!= null){
-			if (file.docNum == docNum) {
-				file.docName = newFileName;
-				break;
-			}
-		}
-		}    
+	    files.get(docNum).docName = newFileName; 
 		for (GUI v : views) {
 			v.changeFileName(docNum, newFileName);
 		}
 
 	}
 
-	/**
-	 * 
-	 */
+
 	public void guiWantDoc() {
 		for (GUI v : views) {
 			for (MyFile f : files) {

@@ -277,7 +277,6 @@ public class GUI extends JFrame {
 		        "Caret Status");
 		statusPane.add(caretListenerLabel);
 		editArea.addCaretListener(caretListenerLabel);
-		document.addDocumentListener(new MyDocumentListener());
 
 		// set layout
 
@@ -563,25 +562,34 @@ public class GUI extends JFrame {
 	}
 
 	// Listener for drop-down box of file list
-	protected class dropDownListener implements ActionListener {
+    protected class dropDownListener implements ActionListener {
 
-		public void actionPerformed(ActionEvent e) {
-			Object holder = e.getSource();
-			JComboBox tempComboBox = (JComboBox) holder;
-			String f = tempComboBox.getSelectedItem().toString();
-			int curDocNum = filenameToDocNum.get(f);
-			currentFile = fileSystem.files.get(curDocNum);
-			System.out.println("current editing file is " + Integer.toString(curDocNum));
-			document = currentFile.getDoc();
-			docName = currentFile.getDocName();
-			documentNameField.setText(docName);
-			System.out.println(docName);
-			editArea.setDocument(document);
-			editArea.setCaretPosition(0);
-			
-			document.addDocumentListener(new MyDocumentListener());
-		}
-	}
+        public void actionPerformed(ActionEvent e) {
+            Object holder = e.getSource();
+            JComboBox tempComboBox = (JComboBox) holder;
+            String f = tempComboBox.getSelectedItem().toString();
+            int curDocNum = filenameToDocNum.get(f);
+            currentFile = fileSystem.files.get(curDocNum);
+            System.out.println("current editing file is "
+                    + Integer.toString(curDocNum));
+            document = currentFile.getDoc();
+            docName = currentFile.getDocName();
+            documentNameField.setText(docName);
+            System.out.println(docName);
+            editArea.setDocument(document);
+            editArea.setCaretPosition(0);
+            int j = 0;
+
+            for (DocumentListener d : document.getDocumentListeners()) {
+                if (d instanceof MyDocumentListener) {
+                    j += 1;
+                }
+
+                // document.addDocumentListener(new MyDocumentListener());
+            }
+            System.out.println("number of listener =" + j);
+        }
+    }
 
 	// Listener for Caret movement
 	protected class CaretListenerLabel extends JLabel implements CaretListener {
@@ -626,20 +634,36 @@ public class GUI extends JFrame {
 
 	// Listener for Document changes
 
-	protected class MyDocumentListener implements DocumentListener {
-		public void insertUpdate(DocumentEvent e) {
-			try {
-				client.updateServer(currentFile.DocumentEventToEventPackage(e));
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			displayEditInfo(e);
+    protected class MyDocumentListener implements DocumentListener {
+        public void insertUpdate(DocumentEvent e) {
+            try {
+                if (currentFile.getDoc() == e.getDocument()) {
+                    client.updateServer(currentFile
+                    .DocumentEventToEventPackage(e));
+                    System.out.println("Update server with doc #" + currentFile.docNum);
+
+                } else {
+                    System.out
+                            .println("The document is being updated in background, " +
+                            		"don't send update to server!");
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            displayEditInfo(e);
 		}
 
 		public void removeUpdate(DocumentEvent e) {
 
 			try {
-				client.updateServer(currentFile.DocumentEventToEventPackage(e));
+			    if (currentFile.getDoc() == e.getDocument()) {
+                    client.updateServer(currentFile
+                    .DocumentEventToEventPackage(e));
+                } else {
+                    System.out
+                            .println("The document is being updated in background, " +
+                                    "don't send update to server!");
+                }
 				
 			} catch (IOException e1) {
 				e1.printStackTrace();
@@ -751,6 +775,7 @@ public class GUI extends JFrame {
 	public void addFile(String docName2, int docNum2) {
 		fileList.addItem(makeObj(docName2));
 		filenameToDocNum.put(docName2, docNum2);
+		fileSystem.getFile().get(docNum2).getDoc().addDocumentListener(new MyDocumentListener());
 	}
 
 	private Object makeObj(final String item) {

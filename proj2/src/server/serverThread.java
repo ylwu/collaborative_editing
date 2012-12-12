@@ -87,6 +87,7 @@ public class serverThread extends Thread {
 			throws BadLocationException {
 		AbstractDocument d = server.fileSystem.getFile()
 				.get(eventPackage.docNum).getDoc();
+		System.out.println("Server is updating doc #" + eventPackage.docNum);
 		if (eventPackage.eventType.equals("INSERT")) {
 			d.insertString(eventPackage.offset, eventPackage.inserted,
 					new SimpleAttributeSet());
@@ -98,6 +99,7 @@ public class serverThread extends Thread {
 	}
 
 	private void updateClient(EventPackage eventPackage) throws Exception {
+	    System.out.println("Server is updating cleint with doc#"+ eventPackage.docNum);
 		for (serverThread t : server.threadlist) {
 			System.out.println(server.threadlist.size());
 			if (!this.equals(t)) {
