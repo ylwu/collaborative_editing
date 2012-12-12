@@ -76,7 +76,7 @@ public class FileSystem implements Serializable {
 	public void deleteDoc(int docNum2) {
 		try {
 			String docname = files.get(docNum2).docName;
-			System.out.println("trying to delete"+docname);
+			//System.out.println("trying to delete"+docname);
 			files.set(docNum2, null);
 			
 			for (GUI v : views) {
