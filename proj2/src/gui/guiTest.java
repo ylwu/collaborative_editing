@@ -96,7 +96,7 @@ import client.Client;
  *     
  * Part 3: Conclusion
  * 
- * The tests specified above achieve two primary purposes
+ * The tests specified above achieve two primary purposes. 
  * 
  * (1) Each component behaves correctly in response to the client's request 
  * 
