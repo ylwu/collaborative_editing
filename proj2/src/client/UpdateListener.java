@@ -1,6 +1,3 @@
-/**
- * 
- */
 package client;
 
 import javax.swing.text.BadLocationException;
@@ -16,7 +13,6 @@ public class UpdateListener extends Thread{
 	 */
 	private final Client client;
     public UpdateListener(Client c) {
-    	//System.out.println("create listener thread");
     	client=c;
     }
 	
@@ -25,7 +21,6 @@ public class UpdateListener extends Thread{
     	try {
             client.getUpdates();
         } catch (BadLocationException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }}
     }

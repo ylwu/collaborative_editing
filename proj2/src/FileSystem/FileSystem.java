@@ -8,22 +8,13 @@ import gui.GUI;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import javax.swing.text.BadLocationException;
 
 /**
  * @author gyz
  * 
- *         Controller class, every time a action performed, open an new thread
- *         to preform action
- * 
- *         I will start with a slow implementation (read all string in the text
- *         field every time)
- * 
- * 
  */
+@SuppressWarnings("serial")
 public class FileSystem implements Serializable {
 	public List<MyFile> files = new ArrayList<MyFile>();
 	private int docNum = -1;
@@ -133,8 +124,6 @@ public class FileSystem implements Serializable {
 	 * @param len
 	 */
 	public void docPosMoved(Integer docNum2, int offset, int len) {
-		System.out.println("in filesystem, try move gui caret " + docNum2 + " "
-		        + offset + " " + len);
 		for (GUI v : views) {
 			System.out.println(v.curDocNum());
 			if (v.curDocNum().equals(docNum2)) {

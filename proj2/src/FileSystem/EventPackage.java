@@ -1,15 +1,17 @@
-/**
- * 
- */
 package FileSystem;
 
-import javax.swing.event.DocumentEvent.EventType;
 import java.io.Serializable;
 
 /**
  * @author gyz
+ * 
+ * Class EventPackage for document editing information
+ * 
+ * Fields include document number, eventType (inset, delete, or change), length of edition, offset, 
+ * the string inserted, and document length
  *
  */
+@SuppressWarnings("serial")
 public class EventPackage implements Serializable{
 	public final String eventType;
 	public final int len;

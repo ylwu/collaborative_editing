@@ -1,16 +1,6 @@
-/**
- * 
- */
 package FileSystem;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Serializable;
 
 import javax.swing.event.DocumentEvent;
@@ -20,8 +10,13 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
 
-import FileSystem.FileSystem;
+/**
+ * 
+ * The Class MyFile implements the individual file stored in the file system.
+ * 
+ */
 
+@SuppressWarnings("serial")
 public class MyFile implements Serializable {
 	private final FileSystem f;
 	private AbstractDocument doc;
@@ -47,7 +42,6 @@ public class MyFile implements Serializable {
 		try {
 			doc.insertString(0, content, new SimpleAttributeSet());
 		} catch (BadLocationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -59,20 +53,19 @@ public class MyFile implements Serializable {
 			String inserted = "";
 			try {
 				inserted = ee.getDocument().getText(ee.getOffset(),
-				        ee.getLength());
+						ee.getLength());
 			} catch (BadLocationException e1) {
-				// TODO Auto-generated catch block
-				// e1.printStackTrace();
+				e1.printStackTrace();
 			}
 			return new EventPackage(docNum, ee.getType().toString(),
-			        ee.getLength(), ee.getOffset(), inserted, doc.getLength());
+					ee.getLength(), ee.getOffset(), inserted, doc.getLength());
 		} else if (ee.getType() == DocumentEvent.EventType.REMOVE) {
 			return new EventPackage(docNum, ee.getType().toString(),
-			        ee.getLength(), ee.getOffset(), "", doc.getLength());
+					ee.getLength(), ee.getOffset(), "", doc.getLength());
 		}
 		// shouldn't be here
 		return new EventPackage(docNum, ee.getType().toString(),
-		        ee.getLength(), ee.getOffset(), "", doc.getLength());
+				ee.getLength(), ee.getOffset(), "", doc.getLength());
 
 		// then in client side
 		// insertString(int offs, String str, AttributeSet a)
@@ -83,30 +76,24 @@ public class MyFile implements Serializable {
 		return doc;
 	}
 
-	public synchronized void updateDoc(EventPackage eventPackage)
-	       {
-		// doc.readLock();
+	public synchronized void updateDoc(EventPackage eventPackage) {
 		if (eventPackage.eventType.equals("INSERT")) {
 			try {
-	            doc.insertString(eventPackage.offset, eventPackage.inserted,
-	                    new SimpleAttributeSet());
-            } catch (BadLocationException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-            }
-			f.docPosMoved(docNum,eventPackage.offset,eventPackage.len);
+				doc.insertString(eventPackage.offset, eventPackage.inserted,
+						new SimpleAttributeSet());
+			} catch (BadLocationException e) {
+				e.printStackTrace();
+			}
+			f.docPosMoved(docNum, eventPackage.offset, eventPackage.len);
 		} else if (eventPackage.eventType.equals("REMOVE")) {
 
 			try {
-	            doc.remove(eventPackage.offset, eventPackage.len);
-            } catch (BadLocationException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-            }
-			f.docPosMoved(docNum,eventPackage.offset,-eventPackage.len);
+				doc.remove(eventPackage.offset, eventPackage.len);
+			} catch (BadLocationException e) {
+				e.printStackTrace();
+			}
+			f.docPosMoved(docNum, eventPackage.offset, -eventPackage.len);
 		}
-		//System.out.println("client updated");
-		// doc.readUnlock();
 	}
 
 	public void changeDoc(AbstractDocument doc) {
@@ -121,8 +108,6 @@ public class MyFile implements Serializable {
 		// put some initial text
 		String initString = "[Start this document]";
 		SimpleAttributeSet attributes = new SimpleAttributeSet();
-		// StyleConstants.setBold(attributes, true);
-		// StyleConstants.setItalic(attributes, true);
 		try {
 			doc.insertString(0, initString, attributes);
 		} catch (BadLocationException ble) {

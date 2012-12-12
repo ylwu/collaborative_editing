@@ -8,7 +8,11 @@ import java.util.List;
 import FileSystem.FileSystem;
 
 
-
+/**
+ * 
+ * This is the server for our collaborative editor. 
+ *
+ */
 public class Server {
     private final ServerSocket serverSocket;
     /** True if the server should disconnect a client after a BOOM message. */

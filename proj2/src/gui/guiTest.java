@@ -1,15 +1,8 @@
 package gui;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
-
 import javax.swing.SwingUtilities;
 
-import FileSystem.FileSystem;
-
 import client.Client;
-
-
 
 /**
  * Testing Strategy for GUI Test
@@ -28,19 +21,17 @@ import client.Client;
  * 
 */
 
-
 public class guiTest{
 	public static void main(final String[] args) {
-		final Client c = new Client();
-		final FileSystem f=new FileSystem();
+		final String ip = "localhost";
+		final Integer port = 4444;
+		final Client c = new Client(ip, port);
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 			    new GUI(c);
 
 			}
-		});
-		
-		
+		});		
 	}
 }
 

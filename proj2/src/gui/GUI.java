@@ -27,7 +27,6 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -89,7 +88,7 @@ public class GUI extends JFrame {
 
 	private AbstractDocument document;
 
-	private final FileSystem fileSystem; // in case you need this
+	private final FileSystem fileSystem; 
 	public final Client client;
 	public MyFile currentFile;
 
@@ -127,9 +126,7 @@ public class GUI extends JFrame {
 		delete.setToolTipText("Delete Current File");
 
 		// create drop-down box
-		// TODO: take in a list of files as arguments; ADD LISTENER
 		JLabel dropDownHeader = new JLabel("-Select Document-");
-		//
 		fileList = new JComboBox();
 		fileSystem.guiWantDoc();
 		fileList.addActionListener(new dropDownListener());
@@ -174,15 +171,15 @@ public class GUI extends JFrame {
 				KeyEvent.VK_D,ActionEvent.ALT_MASK));
 		deleteFileMenu.addActionListener(new deleteDocListener());
 		
-		JMenuItem productHelp = new JMenuItem("Product Help");
-		productHelp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2
+		JMenuItem saveFileMenu = new JMenuItem("Save as...");
+		saveFileMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S
 				,ActionEvent.ALT_MASK));
-		//TODO: implement action listener for Help
+		saveFileMenu.addActionListener(new saveDocListener());
 		
 		filemenu.add(newFileMenu);
 		filemenu.add(deleteFileMenu);
 		filemenu.addSeparator();
-		filemenu.add(productHelp);
+		filemenu.add(saveFileMenu);
 		
 
 		// create edit menu
@@ -234,8 +231,8 @@ public class GUI extends JFrame {
 		log = new JTextArea(5, 20);
 		log.setMargin(new Insets(5, 5, 5, 5));
 		log.setEditable(false);
-		JScrollPane logScrollPane = new JScrollPane(log);
-
+		
+		
 		fc = new JFileChooser(){
 		    @Override
 		    public void approveSelection(){
@@ -448,27 +445,19 @@ public class GUI extends JFrame {
     }
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mouseEntered(MouseEvent arg0) {	
 	}
 
 	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mouseExited(MouseEvent arg0) {	
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 }
 
@@ -508,7 +497,6 @@ public class GUI extends JFrame {
 					try {
 						client.uploadFiletoServer(file, content);
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					log.append("Opening: " + file.getName() + "." + newline);
@@ -529,7 +517,6 @@ public class GUI extends JFrame {
 					try {
 						file.createNewFile();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -540,7 +527,6 @@ public class GUI extends JFrame {
 					bw.close();
 					System.out.println("file saved");
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
@@ -556,7 +542,6 @@ public class GUI extends JFrame {
 			try {
 				client.createNewFileOnServer();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
@@ -565,7 +550,6 @@ public class GUI extends JFrame {
 
 	protected class deleteDocListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			Object holder = e.getSource();
 			String f = fileList.getSelectedItem().toString();
 			System.out.println("gui: delete file");
 			
@@ -573,7 +557,6 @@ public class GUI extends JFrame {
 			    System.out.println(filenameToDocNum.get(f));
 				client.deleteFileOnServer(filenameToDocNum.get(f));
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -836,7 +819,6 @@ public class GUI extends JFrame {
 	 * @return
 	 */
     public Integer curDocNum() {
-	    // TODO Auto-generated method stub
 	    return filenameToDocNum.get(docName);
     }
 

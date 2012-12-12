@@ -20,10 +20,12 @@ import client.Client;
 *
 */
 
-public class ModelTest{
+public class fileTest{
 	public static void main(final String[] args) {
 		final FileSystem c=new FileSystem();
-		final Client cl = new Client();
+		final String ip="localhost";
+		final Integer port = 4444;
+        final Client cl = new Client(ip,port);
         new GUI(cl);
 		
 	}	

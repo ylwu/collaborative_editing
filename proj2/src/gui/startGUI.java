@@ -10,14 +10,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
-
-import FileSystem.FileSystem;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import client.Client;
 
@@ -25,6 +22,7 @@ import client.Client;
  * start window
  */
 
+@SuppressWarnings("serial")
 public class startGUI extends JFrame {
 	public static String ip;
 	public static Integer port;
@@ -33,127 +31,105 @@ public class startGUI extends JFrame {
 	private final JLabel typeIP;
 	private final JLabel typePort;
 	private final JButton confirm;
-	
-	public startGUI (){
+
+	public startGUI() {
 		this.setSize(getPreferredSize());
-		
+
 		ipAddress = new JTextField("");
 		getContentPane().add(ipAddress);
-		
+
 		portAddress = new JTextField("");
 		getContentPane().add(portAddress);
 		portAddress.addActionListener(new ipPortListener());
-		
-		
+
 		typeIP = new JLabel("Please Type an IP Address");
 		getContentPane().add(typeIP);
-		
+
 		typePort = new JLabel("Please Type a Port Number");
 		getContentPane().add(typePort);
-		
+
 		ImageIcon okIcon = new ImageIcon("image/ok.png");
 		confirm = new JButton(okIcon);
 		confirm.setToolTipText("Connect");
 		confirm.addActionListener(new ipPortListener());
-		
+
 		GroupLayout layout = new GroupLayout(getContentPane());
 		getContentPane().setLayout(layout);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-        
-        layout.setHorizontalGroup(layout.createParallelGroup()
-        		.addComponent(typeIP)
-        		.addComponent(ipAddress)
-        		.addComponent(typePort)
-        		.addComponent(portAddress)
-        		.addComponent(confirm,GroupLayout.Alignment.CENTER));
-        
+		layout.setAutoCreateGaps(true);
+		layout.setAutoCreateContainerGaps(true);
 
-        layout.setVerticalGroup(layout.createSequentialGroup()
-        		.addComponent(typeIP)
-        		.addComponent(ipAddress)
-        		.addComponent(typePort)
-        		.addComponent(portAddress)
-        		.addComponent(confirm));
-        
-        setSize(getPreferredSize());
-        
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
+		layout.setHorizontalGroup(layout.createParallelGroup()
+				.addComponent(typeIP).addComponent(ipAddress)
+				.addComponent(typePort).addComponent(portAddress)
+				.addComponent(confirm, GroupLayout.Alignment.CENTER));
+
+		layout.setVerticalGroup(layout.createSequentialGroup()
+				.addComponent(typeIP).addComponent(ipAddress)
+				.addComponent(typePort).addComponent(portAddress)
+				.addComponent(confirm));
+
+		setSize(getPreferredSize());
+
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
 	}
-	
+
 	// listener for ipAddress
-	public class ipPortListener implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			ip=ipAddress.getText();
+	public class ipPortListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			ip = ipAddress.getText();
 			port = Integer.parseInt(portAddress.getText());
 			setVisible(false);
 			System.out.println(ip);
-			final Client c = new Client(ip,port);
+			final Client c = new Client(ip, port);
 			try {
 				c.initialize();
 			} catch (UnknownHostException e2) {
-				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			} catch (IOException e2) {
-				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			} catch (ClassNotFoundException e2) {
-				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
 			try {
-			    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-			        if ("Nimbus".equals(info.getName())) {
-			            UIManager.setLookAndFeel(info.getClassName());
-			            break;
-			        }
-			    }
+				for (LookAndFeelInfo info : UIManager
+						.getInstalledLookAndFeels()) {
+					if ("Nimbus".equals(info.getName())) {
+						UIManager.setLookAndFeel(info.getClassName());
+						break;
+					}
+				}
 			} catch (UnsupportedLookAndFeelException e1) {
-			    // handle exception
 			} catch (ClassNotFoundException e1) {
-			    // handle exception
 			} catch (InstantiationException e1) {
-			    // handle exception
 			} catch (IllegalAccessException e1) {
-			    // handle exception
 			}
-			
-			
+
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					//testing purpose
-		            System.out.println("creating new gui");
-				    new GUI(c);
+					new GUI(c);
 
 				}
 			});
-		
-			
-		}
-				
 
 		}
-	
+	}
+
 	public static void main(final String[] args) {
 		try {
-		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		        if ("Nimbus".equals(info.getName())) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            break;
-		        }
-		    }
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
 		} catch (UnsupportedLookAndFeelException e1) {
-		    // handle exception
 		} catch (ClassNotFoundException e1) {
-		    // handle exception
 		} catch (InstantiationException e1) {
-		    // handle exception
 		} catch (IllegalAccessException e1) {
-		    // handle exception
 		}
 		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {	
+			public void run() {
 				startGUI window = new startGUI();
 				window.setTitle("IP and Port");
 				window.setLocationRelativeTo(null);
@@ -163,9 +139,3 @@ public class startGUI extends JFrame {
 		});
 	}
 }
-				
-
-
-	
-
-	
