@@ -1,31 +1,33 @@
-package client;
-
-import java.io.IOException;
-
 /**
- * listener for client to get update
  * 
  */
-public class UpdateListener extends Thread {
+package client;
 
+import javax.swing.text.BadLocationException;
+
+/**
+ * @author gyz
+ *
+ */
+public class UpdateListener extends Thread{
+
+	/**
+	 * @param client
+	 */
 	private final Client client;
-
-	public UpdateListener(Client c) {
-		client = c;
-	}
-
-	public void run() {
-		while (true) {
-			try {
-				client.getUpdates();
-			} catch (IOException e) {
-				System.out.println("client/updatelistener/run: exception");
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				System.out.println("client/updatelistener/run: exception");
-				e.printStackTrace();
-			}
-		}
-	}
+    public UpdateListener(Client c) {
+    	//System.out.println("create listener thread");
+    	client=c;
+    }
+	
+    public void run(){
+    	while (true){
+    	try {
+            client.getUpdates();
+        } catch (BadLocationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }}
+    }
 
 }

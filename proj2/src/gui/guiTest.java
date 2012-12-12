@@ -31,8 +31,7 @@ import client.Client;
 
 public class guiTest{
 	public static void main(final String[] args) {
-		final String ip="localhost";
-		final Client c = new Client(ip);
+		final Client c = new Client();
 		final FileSystem f=new FileSystem();
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
