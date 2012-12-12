@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,20 +25,36 @@ import client.Client;
  * start window
  */
 
-public class startWindow extends JFrame {
+public class startGUI extends JFrame {
 	public static String ip;
+	public static Integer port;
 	private final JTextField ipAddress;
+	private final JTextField portAddress;
 	private final JLabel typeIP;
+	private final JLabel typePort;
+	private final JButton confirm;
 	
-	public startWindow (){
+	public startGUI (){
 		this.setSize(getPreferredSize());
+		
 		ipAddress = new JTextField("");
 		getContentPane().add(ipAddress);
-		ipAddress.addActionListener(new ipListener());
+		
+		portAddress = new JTextField("");
+		getContentPane().add(portAddress);
+		portAddress.addActionListener(new ipPortListener());
 		
 		
-		typeIP = new JLabel("-Please Type an IP Address Below-");
+		typeIP = new JLabel("Please Type an IP Address");
 		getContentPane().add(typeIP);
+		
+		typePort = new JLabel("Please Type a Port Number");
+		getContentPane().add(typePort);
+		
+		ImageIcon okIcon = new ImageIcon("image/ok.png");
+		confirm = new JButton(okIcon);
+		confirm.setToolTipText("Connect");
+		confirm.addActionListener(new ipPortListener());
 		
 		GroupLayout layout = new GroupLayout(getContentPane());
 		getContentPane().setLayout(layout);
@@ -44,13 +62,20 @@ public class startWindow extends JFrame {
         layout.setAutoCreateContainerGaps(true);
         
         layout.setHorizontalGroup(layout.createParallelGroup()
-        		.addComponent(typeIP,GroupLayout.Alignment.CENTER)
-        		.addComponent(ipAddress,GroupLayout.Alignment.CENTER));
+        		.addComponent(typeIP)
+        		.addComponent(ipAddress)
+        		.addComponent(typePort)
+        		.addComponent(portAddress)
+        		.addComponent(confirm,GroupLayout.Alignment.CENTER));
         
 
         layout.setVerticalGroup(layout.createSequentialGroup()
         		.addComponent(typeIP)
-        		.addComponent(ipAddress));
+        		.addComponent(ipAddress)
+        		.addComponent(typePort)
+        		.addComponent(portAddress)
+        		.addComponent(confirm));
+        
         setSize(getPreferredSize());
         
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -58,12 +83,13 @@ public class startWindow extends JFrame {
 	}
 	
 	// listener for ipAddress
-	public class ipListener implements ActionListener{
+	public class ipPortListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			ip=ipAddress.getText();
+			port = Integer.parseInt(portAddress.getText());
 			setVisible(false);
 			System.out.println(ip);
-			final Client c = new Client(ip);
+			final Client c = new Client(ip,port);
 			try {
 				c.initialize();
 			} catch (UnknownHostException e2) {
@@ -128,8 +154,8 @@ public class startWindow extends JFrame {
 		}
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {	
-				startWindow window = new startWindow();
-				window.setTitle("IP");
+				startGUI window = new startGUI();
+				window.setTitle("IP and Port");
 				window.setLocationRelativeTo(null);
 				window.pack();
 				window.setVisible(true);

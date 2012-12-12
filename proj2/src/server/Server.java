@@ -57,14 +57,14 @@ public class Server {
     }
     
     
-	public static void main(final String[] args) {
-		FileSystem c=new FileSystem();
-        final int port=4441;
-        try {
-            runServer(port,c);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-		
-	}
+//	public static void main(final String[] args) {
+//		FileSystem c=new FileSystem();
+//        final int port=4441;
+//        try {
+//            runServer(port,c);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//		
+//	}
 }

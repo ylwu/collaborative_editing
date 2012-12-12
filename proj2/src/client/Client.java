@@ -33,15 +33,17 @@ public class Client {
     private ObjectInputStream fromServer;
     public  FileSystem fileSystem;
     public static String ip;
+    public Integer port;
     private Socket socket;
     public EventPackage incomingPackage;
     
     public Client(){
         incomingPackage = new EventPackage();
     }
-    public Client(String ipAddress){
+    public Client(String ipAddress, Integer p){
     	incomingPackage = new EventPackage();
     	ip = ipAddress;
+    	port = p;
     }
     
     public void updateServer(EventPackage eventPackage) throws IOException {
@@ -123,7 +125,7 @@ public class Client {
     
     public void initialize() throws UnknownHostException, IOException, ClassNotFoundException{
         //System.out.println("connecting to server");
-        socket=new Socket(ip,4441);
+        socket=new Socket(ip,port);
         //System.out.println("connected to server");
         toServer = new ObjectOutputStream(socket.getOutputStream());
         fromServer = new ObjectInputStream(socket.getInputStream()); 
