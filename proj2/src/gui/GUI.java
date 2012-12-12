@@ -595,11 +595,18 @@ public class GUI extends JFrame {
 			System.out.println(docName);
 			editArea.setDocument(document);
 			editArea.setCaretPosition(0);
+			System.out.println("number of GUI is" + fileSystem.views.size());
 			
 //			if (document.getDocumentListeners().length<1){
 //			document.addDocumentListener(new MyDocumentListener());}
 			int i= document.getDocumentListeners().length;
-			System.out.println("number of listener =" + Integer.toString(i));
+			int j = 0;
+			for (DocumentListener d:document.getDocumentListeners()){
+			    if (d instanceof MyDocumentListener)
+			        j +=1;
+			}
+			System.out.println("number of listener =" + j);
+			System.out.println("lenght of Document Listener is" + i);
 			System.out.println(document.getDocumentListeners().toString());
 		}
 	}
@@ -647,26 +654,39 @@ public class GUI extends JFrame {
 
 	// Listener for Document changes
 
-	public class MyDocumentListener implements DocumentListener {
-		public void insertUpdate(DocumentEvent e) {
-			try {
-				client.updateServer(currentFile.DocumentEventToEventPackage(e));
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			displayEditInfo(e);
-		}
+    public class MyDocumentListener implements DocumentListener {
+        public void insertUpdate(DocumentEvent e) {
+            try {
+                if (currentFile.getDoc() == e.getDocument()) {
+                    client.updateServer(currentFile
+                            .DocumentEventToEventPackage(e));
+                } else {
+                    System.out
+                            .println("The document is being updated in background, don't send update to server!");
+                }
 
-		public void removeUpdate(DocumentEvent e) {
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            displayEditInfo(e);
+        }
 
-			try {
-				client.updateServer(currentFile.DocumentEventToEventPackage(e));
-				
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			displayEditInfo(e);
-		}
+        public void removeUpdate(DocumentEvent e) {
+
+            try {
+                if (currentFile.getDoc()== e.getDocument()) {
+                    client.updateServer(currentFile
+                            .DocumentEventToEventPackage(e));
+                } else {
+                    System.out
+                            .println("The document is being updated in background, don't send update to server!");
+                }
+
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            displayEditInfo(e);
+        }
 
 		public void changedUpdate(DocumentEvent e) {
 			System.out.println("change");

@@ -88,6 +88,7 @@ public class serverThread extends Thread{
     
     private void updateServer(EventPackage eventPackage) throws BadLocationException{
         AbstractDocument d = server.fileSystem.getFile().get(eventPackage.docNum).getDoc();
+        System.out.println("Server gets updates for client #" + eventPackage.docNum);
         if (eventPackage.eventType.equals("INSERT")) {
             d.insertString(eventPackage.offset, eventPackage.inserted,
                     new SimpleAttributeSet());
@@ -105,7 +106,7 @@ public class serverThread extends Thread{
                 //System.out.println("update client start");
               t.toClient.writeObject(eventPackage);
               t.toClient.flush();
-              //System.out.println("update client end");
+              System.out.println("server update client#" + eventPackage.docNum);
               }
         }
     }
