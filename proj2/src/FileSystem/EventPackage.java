@@ -3,7 +3,7 @@ package FileSystem;
 import java.io.Serializable;
 
 /**
- * @author gyz
+
  * 
  * Class EventPackage for document editing information
  * 

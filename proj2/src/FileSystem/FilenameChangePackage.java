@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 
- * This is the event package for chaning filename. 
+ * This is the event package for changing filename. 
  * 
  * Fields include document number and the new document name. 
  */

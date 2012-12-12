@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.Serializable;
 
 /**
- * @author gyz
+
  * 
  * The Class FilePackage is responsible for adding new file. 
  * 
