@@ -10,10 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author gyz
- * 
- */
+
 public class FileSystem implements Serializable {
 	public List<MyFile> files = new ArrayList<MyFile>();
 	private int docNum = -1;
