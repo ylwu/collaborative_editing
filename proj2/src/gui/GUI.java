@@ -481,7 +481,7 @@ public class GUI extends JFrame {
 					String ls = System.getProperty("line.separator");
 
 					while ((line = reader.readLine()) != null) {
-						stringBuilder.append(line);
+						stringBuilder.append(line.replace("\uFEFF", ""));
 						stringBuilder.append(ls);
 					}
 					String content = stringBuilder.toString();
