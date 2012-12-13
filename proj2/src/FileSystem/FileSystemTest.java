@@ -10,31 +10,39 @@ import javax.swing.text.BadLocationException;
 import org.junit.Test;
 
 
-/*
- * This is junit test for fileSystem package. Please note that some methods inevitably requires
- * user interaction to trigger or check, e.g. move caret on gui. These method shall be tested
- * within src/gui/guiTest.java. 
+/**
+ * JUnit tests for fileSystem package. 
+ * 
+ * Please note that some methods inevitably requires user interaction to trigger or 
+ * manually verify (e.g. move caret on gui). These methods will be tested within 
+ * src/gui/guiTest.java, even though they do affect the state of the File System. 
  *
- * test strategy:
+ * Testing Strategy:
+ * 
  * (1) Test only one file
  *     (i)   test Basic constructor for MyFile and initialized fields
- *     (ii)  test more complicated for MyFile constructor with filename and content given
- * (2) Test more than one file
- *     (i)   make sure all the Basic fields works
+ *     (ii)  test more complicated for MyFile constructor with given filename and content
+ *     
+ * (2) Test multiple file handling
+ *     (i)   make sure all the essential fields within the File System class have 
+ *           preserved invariants
  *     (ii)  make sure docNum count is right, need to add files from the fileSystem
- *     (iii) testing get files
- *     (iv)  testing delete documents
+ *     (iii) test "get files" method
+ *     (iv)  test whether the "delete document" method correctly update the fileSystem
+ *     
  * (3) Test more advanced methods
- * 	   (i)   testing change file name
- *     (ii)  testing add gui to fileSystem
+ * 	   (i)   test whether the change of file name is correctly reflected in the fileSystem
+ *     (ii)  test correct behavior of fileSystem when a new GUI is added to it
  *     (iii) adding File from filePackage
+ *     
  * (4) Test receiving eventPackge
  *     (i)   test basic insertion
  *     (ii)  test basic removal
- *     (iii) test more complicated insertion
+ *     (iii) test more complicated insertion 
  *     (iv)  test more complicated removal
  * 	   
- *
+ * In each of the test below, the name of the test corresponds to the respective testing 
+ * strategy described above. 
  */
 
 public class FileSystemTest {
