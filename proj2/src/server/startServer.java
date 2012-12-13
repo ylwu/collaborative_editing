@@ -19,7 +19,8 @@ import FileSystem.FileSystem;
   * start window
   */
 
- public class startServer extends JFrame {
+ @SuppressWarnings("serial")
+public class startServer extends JFrame {
  	public static Integer port;
  	private final JTextField portNumber;
  	private final JLabel typePort;
@@ -79,13 +80,9 @@ import FileSystem.FileSystem;
  		        }
  		    }
  		} catch (UnsupportedLookAndFeelException e1) {
- 		    // handle exception
  		} catch (ClassNotFoundException e1) {
- 		    // handle exception
  		} catch (InstantiationException e1) {
- 		    // handle exception
  		} catch (IllegalAccessException e1) {
- 		    // handle exception
  		}
  		SwingUtilities.invokeLater(new Runnable() {
  			public void run() {	
