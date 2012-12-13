@@ -11,11 +11,13 @@ import FileSystem.FileSystem;
 /**
  * 
  * This is the server for our collaborative editor. 
+ * 
+ * (This server has been implemented with a reference to Problem 
+ * Set 3: Multiplayer Minesweeper)
  *
  */
 public class Server {
     private final ServerSocket serverSocket;
-    /** True if the server should disconnect a client after a BOOM message. */
     private int numPlayers;
 	public FileSystem fileSystem;
 	public List<serverThread> threadlist;
@@ -60,15 +62,4 @@ public class Server {
         server.serve();
     }
     
-    
-//	public static void main(final String[] args) {
-//		FileSystem c=new FileSystem();
-//        final int port=4441;
-//        try {
-//            runServer(port,c);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//		
-//	}
 }

@@ -17,8 +17,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -65,27 +63,39 @@ import FileSystem.MyFile;
 import client.Client;
 import client.UpdateListener;
 
+/**
+ * This is the main GUI for the collaborative editor. One GUI per client. 
+ * 
+ * Specifications of the essential fields and their associated listeners 
+ * can be found at their respective locations
+ *
+ */
+
 @SuppressWarnings("serial")
 public class GUI extends JFrame {
 	private String newline = "\n";
 	private final JPanel gui;
-	private final JLabel guiTitle; // entitles the GUI
-	private final JLabel documentName; // displays document name
-	public final JTextField documentNameField; // displays document name
-	private final JTextPane editArea; // a styled editable area in the GUI
-	private final JTextArea editHistory; // the edit history for the client
+	private final JLabel guiTitle; // the title of the GUI
+	// the two fields below display the current document name
+	private final JLabel documentName; 
+	public final JTextField documentNameField; 
+	// the edit area in the GUI
+	private final JTextPane editArea; 
+	 // the edit history for client
+	private final JTextArea editHistory;
 	private final JButton createNew;
 	private final JButton delete;
 	private final JButton cutButton;
 	private final JButton copyButton;
 	private final JButton pasteButton;
 	private final JButton selectAllButton;
+	// a drop-down box listing all the files in the File System
 	private final JComboBox fileList;
 	private final JFileChooser fc;
 	private final JTextArea log;
 	private final JButton openButton;
 	private final JButton saveButton;
-	private String docName;// name of the document(that a user can edit)
+	private String docName; 
 	HashMap<Object, Action> actions;
 	private HashMap<String, Integer> filenameToDocNum = new HashMap<String, Integer>();
 
@@ -393,25 +403,21 @@ public class GUI extends JFrame {
 		gui.setBackground(color);
 		splitPane.setBackground(color);
 		plafComponents.setBackground(color);
-		// guiPicture.setBackground(color);
 
-		// this.client.updateServer(eventPackage)
+
 		Thread t = new UpdateListener(client);
 		t.start();
+		
 		// at the end
 		this.setContentPane(gui);
 		this.pack();
-
 		this.setLocationRelativeTo(null);
 		try {
-			// after version 1.6; might have compatibility issue
 			this.setLocationByPlatform(true);
 			this.setMinimumSize(this.getSize());
 		} catch (Throwable ignoreAndContinue) {
 		}
-
 		this.setVisible(true);
-		// implement close for gui without close the whole program
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	}
@@ -428,16 +434,11 @@ public class GUI extends JFrame {
 		        }
 		    }
 		} catch (UnsupportedLookAndFeelException e1) {
-		    // handle exception
 		} catch (ClassNotFoundException e1) {
-		    // handle exception
 		} catch (InstantiationException e1) {
-		    // handle exception
 		} catch (IllegalAccessException e1) {
-		    // handle exception
 		}
-		
-		
+				
 		SwingUtilities.invokeLater(new Runnable(){
 			public void run(){
 				System.out.println("creating rename pop up window");
@@ -445,19 +446,15 @@ public class GUI extends JFrame {
 			}
 		});
     }
-
 	@Override
 	public void mouseEntered(MouseEvent arg0) {	
 	}
-
 	@Override
 	public void mouseExited(MouseEvent arg0) {	
 	}
-
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 	}
-
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 	}
@@ -471,7 +468,6 @@ public class GUI extends JFrame {
 				File file = fc.getSelectedFile();
 				BufferedReader reader;
 				try {
-					//reader = new BufferedReader(new FileReader(file));
 					FileInputStream fis = new FileInputStream(file);
 					InputStreamReader in = new InputStreamReader(fis, "UTF-8");
 					reader = new BufferedReader(in);
@@ -487,7 +483,6 @@ public class GUI extends JFrame {
 					String content = stringBuilder.toString();
 					client.uploadFiletoServer(file, content);
 				} catch (Exception e2) {
-					// TODO Auto-generated catch block
 					e2.printStackTrace();
 
 				}
@@ -499,7 +494,7 @@ public class GUI extends JFrame {
 		}
 	}
 
-	// Listener for uploading new document
+	// Listener for saving new document
 	protected class saveDocListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			int returnVal = fc.showSaveDialog(gui);
@@ -540,6 +535,7 @@ public class GUI extends JFrame {
 		}
 	}
 
+	// Listener for deleting new document
 	protected class deleteDocListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			String f = fileList.getSelectedItem().toString();
@@ -577,8 +573,6 @@ public class GUI extends JFrame {
                 if (d instanceof MyDocumentListener) {
                     j += 1;
                 }
-
-                // document.addDocumentListener(new MyDocumentListener());
             }
             System.out.println("number of listener =" + j);
         }
@@ -625,8 +619,7 @@ public class GUI extends JFrame {
 		}
 	}
 
-	// Listener for Document changes
-
+	// Listener for Document changes (text insertion, deletion, etc)
     protected class MyDocumentListener implements DocumentListener {
         public void insertUpdate(DocumentEvent e) {
             try {
@@ -763,7 +756,7 @@ public class GUI extends JFrame {
 	}
 
 	/**
-	 * @param docName2
+	 * @param docName2 the name of the file to be added
 	 */
 	public void addFile(String docName2, int docNum2) {
 		fileList.addItem(makeObj(docName2));
@@ -780,7 +773,7 @@ public class GUI extends JFrame {
 	}
 
 	/**
-	 * @param docname2
+	 * @param docname2 the name of the file to be deleted
 	 */
 	public void deleteFile(String docname2) {
 		if (fileList.getItemCount()<=1) return;
@@ -801,6 +794,11 @@ public class GUI extends JFrame {
 
 	}
 	
+	/**
+	 * change the name of the specified file
+	 * @param docNum: the number/index of the file to be renamed
+	 * @param newDocName: the document name to be changed to 
+	 */
 	public void changeFileName(int docNum, String newDocName){
 	    System.out.println("triggered changefilename");
 	    String oldDocName = null;
@@ -834,13 +832,13 @@ public class GUI extends JFrame {
 	}
 
 	/**
-	 * @return
+	 * @return current document number/index
 	 */
     public Integer curDocNum() {
 	    return filenameToDocNum.get(docName);
     }
 
-	/**
+	/** update the caret position in the edit area of current GUI
 	 * @param offset
 	 * @param len
 	 */
@@ -856,6 +854,11 @@ public class GUI extends JFrame {
 	    }
     }
     
+    /**
+     * 
+     * @return the last (i.e., the highest index) file in the 
+     * File System that is not null
+     */
     public int notNullIndex(){
         int position = fileSystem.getFile().size() - 1;
         while (position >=0){

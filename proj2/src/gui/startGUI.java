@@ -19,7 +19,15 @@ import javax.swing.UnsupportedLookAndFeelException;
 import client.Client;
 
 /**
- * start window
+ * Running the main method of startGUI will connect the client 
+ * to the server and initialize the GUI for this client. 
+ * 
+ * Specifically, a dialog window will first pop up, asking the 
+ * client to specify both the IP address and port number. 
+ * 
+ * If the IP address and port number result in successful 
+ * connection to the server, the main editor GUI will start
+ * for this client
  */
 
 @SuppressWarnings("serial")
@@ -74,7 +82,11 @@ public class startGUI extends JFrame {
 
 	}
 
-	// listener for ipAddress
+	/**
+	 * Listener for ipAddress and port number
+	 * 
+	 * A GUI will start for this client if the IP-Port combination is valid. 
+	 */
 	public class ipPortListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			ip = ipAddress.getText();

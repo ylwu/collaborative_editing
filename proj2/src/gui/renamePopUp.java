@@ -16,7 +16,10 @@ import FileSystem.MyFile;
 import client.Client;
 
 /**
- * Pop Up Window for Rename File
+ * Pop Up Window for Rename File. After inputting the new file name, 
+ * the user can set it by either hitting enter or selecting OK. The
+ * new name will be instantly reflected on the GUI, and get submitted
+ * to the File System in the server. 
  */
 
 @SuppressWarnings("serial")
@@ -72,7 +75,15 @@ public class renamePopUp extends JFrame {
 
 	}
 
-	// listener for file rename
+
+	/**
+	 * The changed file name is immediately reflected on the client,
+	 * and also submitted to the server (more precisely, the File System
+	 * within the server). 
+	 * 
+	 * Listener for the file name JTextField
+	 * 
+	 */
 	public class renameListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			final String newName = reNameTo.getText();

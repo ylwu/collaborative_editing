@@ -3,7 +3,9 @@ package client;
 import javax.swing.text.BadLocationException;
 
 /**
- * @author gyz
+ * A special thread responsible for transmitting the updates
+ * from the server (more precisely, the state change of the 
+ * fileSystem in the server) to the client. 
  *
  */
 public class UpdateListener extends Thread{

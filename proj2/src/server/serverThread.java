@@ -18,7 +18,19 @@ import FileSystem.FileSystem;
 import FileSystem.FilenameChangePackage;
 
 /**
- * @author gyz
+ * The serverThread class. Each thread corresponds to a particular client
+ * connected
+ * 
+ * Fields
+ * 
+ * toClient: 
+ *         socket's output stream        
+ * fromClient: 
+ *         socket's input stream
+ * fileSystem: 
+ *         file system for this client 
+ *         
+ * Please see method specifications at the start of individual method below. 
  * 
  */
 public class serverThread extends Thread {
@@ -83,6 +95,13 @@ public class serverThread extends Thread {
 
 	}
 
+	/**
+	 * update server; controlled by a thread such that we update the server 
+	 * in real time regarding the change made on the client side. 
+	 * accordingly
+	 * @param eventPackage
+	 * @throws BadLocationException
+	 */
 	private void updateServer(EventPackage eventPackage)
 			throws BadLocationException {
 		AbstractDocument d = server.fileSystem.getFile()
@@ -95,7 +114,6 @@ public class serverThread extends Thread {
 
 			d.remove(eventPackage.offset, eventPackage.len);
 		}
-		// System.out.println(d.getText(0, d.getLength()));
 	}
 
 	private void updateClient(EventPackage eventPackage) throws Exception {
@@ -103,16 +121,14 @@ public class serverThread extends Thread {
 		for (serverThread t : server.threadlist) {
 			System.out.println(server.threadlist.size());
 			if (!this.equals(t)) {
-				// System.out.println("update client start");
 				t.toClient.writeObject(eventPackage);
 				t.toClient.flush();
-				// System.out.println("update client end");
 			}
 		}
 	}
 
-	/**
-	 * @param fp
+	/** send a FilePackage to all the clients connected to server
+	 * @param fp the file package to be sent
 	 * @throws IOException
 	 */
 	private void updateClient(FilePackage fp) throws IOException {
@@ -123,6 +139,11 @@ public class serverThread extends Thread {
 
 	}
 
+	/**
+	 * send a FilenameChangePackage to all the clients connected to server
+	 * @param f the FilenameChangePackage to be sent
+	 * @throws IOException
+	 */
 	private void updateClient(FilenameChangePackage f) throws IOException {
 		for (serverThread t : server.threadlist) {
 			t.toClient.writeObject(f);
@@ -130,13 +151,24 @@ public class serverThread extends Thread {
 		}
 	}
 
+	/**
+	 * interpret the message received from the client. 
+	 * 
+	 * 4 cases:
+	 * (1) the message indicates an edit on a document
+	 * (2) the message indicates the addition of a new file
+	 * (3) the message indicates a change of file name
+	 * (4) the message indicates the deletion of a file
+	 * 
+	 * @param socket
+	 * @throws IOException
+	 * @throws Exception
+	 */
 	private void handleConnection(Socket socket) throws IOException, Exception {
 		while (true) {
 			Object o = fromClient.readObject();
 			if (o instanceof EventPackage) {
-				// System.out.println("got an EventPackage");
 				EventPackage eventPackage = (EventPackage) o;
-				// System.out.println("received update from client");
 				updateServer(eventPackage);
 				updateClient(eventPackage);
 			} else if (o instanceof FilePackage) {
@@ -155,8 +187,6 @@ public class serverThread extends Thread {
 			} else if (o instanceof String) {
 
 				String str = (String) o;
-				// System.out.println("serverThread: "+str);
-				// System.out.println("serverThread: "+str.substring(0, 5));
 				if (o.equals("new file")) {
 					String s = (String) o;
 					server.fileSystem.addEmptyFile();
@@ -175,7 +205,8 @@ public class serverThread extends Thread {
 	}
 
 	/**
-	 * @param str
+	 * notify the client that a file has been deleted
+	 * @param str the name of the deleted file
 	 */
 	private void updateClientwithFileDeletion(String str) {
 		for (serverThread t : server.threadlist) {
@@ -192,6 +223,11 @@ public class serverThread extends Thread {
 		}
 	}
 
+	/**
+	 * notify the client that an empty file has been created
+	 * @param s the name of the (empty) file generated
+	 * @throws IOException
+	 */
 	private void updateClientwithEmptyFile(String s) throws IOException {
 		for (serverThread t : server.threadlist) {
 			t.toClient.writeObject(s);

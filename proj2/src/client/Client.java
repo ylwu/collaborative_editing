@@ -24,32 +24,44 @@ import FileSystem.MyFile;
  * 
  * Fields:
  * 
- * toServer: socket's output stream
- * fromServer: socket's input stream
- * fileSystem: file system for this client
- * incomingPackage: the current package we got
+ * toServer: 
+ *         socket's output stream        
+ * fromServer: 
+ *         socket's input stream
+ * fileSystem: 
+ *         file system for this client 
+ * incomingPackage: 
+ *         the current package received
  * 
- * methods:
  * 
- * constructor: takes in ipAdress and port number, then use initialize() to do 
- *              initialization; get a message package containing the initialization data
- *              
- * updateServer: takes in eventPackage and sent it to server
  * 
- * createNewFileOnServer: notifies the server to create a new file
+ * Methods:
+ *         
+ * constructor: 
+ *         takes in ipAdress and port number, then use initialize() to do initialization; 
+ *         get a message package containing the initialization data
  * 
- * deleteFileOnServer: takes in document number and notifies server to delete the file 
- *                     corresponding to this document number
- *                     
- * uploadFiletoServer: takes in filename and content, create a file package, and tell
- *                     server to upload the corresponding file
- *                     
- * changeFileNameonServer: takes in document number and (new) document name
- *                         tells server to rename the corresponding file
- *                         
- * getUpdates: get update from server; controlled by a thread such that we can give 
- *             information from the server in real time and update the current client
- *             accordingly
+ * updateServer: 
+ *         takes in eventPackage and sent it to server
+ * 
+ * createNewFileOnServer: 
+ *         notifies the server to create a new file
+ * 
+ * deleteFileOnServer: 
+ *         takes in document number and notifies server to delete the file corresponding 
+ *         to this document number
+ * 
+ * uploadFiletoServer: 
+ *         takes in filename and content, create a file package, and tell server to upload 
+ *         the corresponding file
+ * 
+ * changeFileNameonServer: 
+ *         takes in document number and (new) document name tells server to rename the 
+ *         corresponding file
+ * 
+ * getUpdates: 
+ *         get update from server; controlled by a thread such that we can give information 
+ *         from the server in real time and update the current client accordingly
  */
 public class Client {
 	private ObjectOutputStream toServer;
@@ -70,6 +82,13 @@ public class Client {
 		port = p;
 	}
 
+	/**
+	 * 
+	 * @param eventPackage
+	 * @throws IOException
+	 * 
+	 * takes in eventPackage and send it to server
+	 */
 	public void updateServer(EventPackage eventPackage) throws IOException {
 		if (!incomingPackage.equals(eventPackage)) {
 			toServer.writeObject(eventPackage);
@@ -77,6 +96,10 @@ public class Client {
 		}
 	}
 
+	/**
+	 * create a new file in the File System in server
+	 * @throws IOException
+	 */
 	public void createNewFileOnServer() throws IOException {
 		toServer.writeObject(("new file"));
 		toServer.flush();
@@ -84,24 +107,50 @@ public class Client {
 
 	}
 
+	/**
+	 * 
+	 * @param docNum: the numbering of the document to be deleted
+	 * @throws IOException
+	 * delete the specified file
+	 */
 	public void deleteFileOnServer(int docNum) throws IOException {
 		toServer.writeObject(("delete" + docNum));
 		toServer.flush();
 	}
 
+	/**
+	 * 
+	 * @param file
+	 * @param content the content of the file
+	 * @throws IOException
+	 */
 	public void uploadFiletoServer(File file, String content)
 			throws IOException {
 		toServer.writeObject(new FilePackage(file, content));
 		toServer.flush();
 	}
 
+	/**
+	 * 
+	 * @param docNum: numbering/index of the file to be renamed
+	 * @param newFileName
+	 * @throws IOException
+	 * rename the specified file with the newFileName
+	 */
 	public void changeFileNameonServer(int docNum, String newFileName)
 			throws IOException {
 		toServer.writeObject(new FilenameChangePackage(docNum, newFileName));
 		toServer.flush();
 	}
 
-	// change here
+
+	/**
+	 * get update from server; controlled by a thread such that we can get
+	 * information from the server in real time and update the current client
+	 * accordingly
+	 * 
+	 * @throws BadLocationException
+	 */
 	public void getUpdates() throws BadLocationException {
 		try {
 			Object o = fromServer.readObject();
@@ -137,6 +186,12 @@ public class Client {
 		}
 	}
 
+	/**
+	 * When called, initialize a new socket, a new output stream and a new input stream
+	 * @throws UnknownHostException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public void initialize() throws UnknownHostException, IOException,
 			ClassNotFoundException {
 		socket = new Socket(ip, port);

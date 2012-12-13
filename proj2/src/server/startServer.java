@@ -16,7 +16,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 import FileSystem.FileSystem;
 
  /**
-  * start window
+  * Running the main of this class will start the server. 
+  * 
+  * Specifically, a dialog window will pop up, asking for the user to 
+  * input a port number. A server will then open on that port. 
   */
 
  @SuppressWarnings("serial")
@@ -54,7 +57,11 @@ public class startServer extends JFrame {
  		
  	}
  	
- 	// listener for ipAddress
+ 	/**
+ 	 * Open a new server on Telnet with the port specified
+ 	 * 
+ 	 * Listener for port number. 
+ 	 */
  	public class portListener implements ActionListener{
  		public void actionPerformed(ActionEvent e){
  			String stringPort = portNumber.getText();

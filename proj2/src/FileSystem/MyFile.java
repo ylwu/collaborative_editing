@@ -14,6 +14,8 @@ import javax.swing.text.SimpleAttributeSet;
  * 
  * The Class MyFile implements the individual file stored in the file system.
  * 
+ * Specifications for individual method can be found at their respective locations. 
+ * 
  */
 
 @SuppressWarnings("serial")
@@ -23,6 +25,11 @@ public class MyFile implements Serializable {
 	public String docName;
 	public Integer docNum;
 
+	/**
+	 * Constructor based on fileSystem only. Called only when a new untitled file
+	 * has been created. 
+	 * @param fileSystem
+	 */
 	public MyFile(FileSystem fileSystem) {
 		f = fileSystem;
 		docNum = f.getCurDocNum();
@@ -32,13 +39,18 @@ public class MyFile implements Serializable {
 
 	}
 
+
+	/**
+	 * Constructor based on fileSystem, file, and file content (i.e., text)
+	 * @param fileSystem
+	 * @param file
+	 * @param content
+	 */
 	public MyFile(FileSystem fileSystem, File file, String content) {
 		f = fileSystem;
 		docNum = f.getCurDocNum();
 		doc = new DefaultStyledDocument();
-		//System.out.println(doc.getLength());
 		docName = file.getName();
-		//System.out.println(content);
 		try {
 			doc.insertString(0, content, new SimpleAttributeSet());
 		} catch (BadLocationException e) {
@@ -47,6 +59,12 @@ public class MyFile implements Serializable {
 
 	}
 
+	/**
+	 * From the edit actions of the clients, generate a event package to be
+	 * sent to the server (and update the server's File System accordingly)
+	 * @param e Edit actions on the current document
+	 * @return the event package to be submitted to server
+	 */
 	public EventPackage DocumentEventToEventPackage(DocumentEvent e) {
 		DefaultDocumentEvent ee = (DefaultDocumentEvent) e;
 		if (ee.getType() == DocumentEvent.EventType.INSERT) {
@@ -63,19 +81,24 @@ public class MyFile implements Serializable {
 			return new EventPackage(docNum, ee.getType().toString(),
 					ee.getLength(), ee.getOffset(), "", doc.getLength());
 		}
-		// shouldn't be here
 		return new EventPackage(docNum, ee.getType().toString(),
 				ee.getLength(), ee.getOffset(), "", doc.getLength());
-
-		// then in client side
-		// insertString(int offs, String str, AttributeSet a)
-		// remove(int offs, int len)
 	}
 
+	/**
+	 * 
+	 * @return the current document being edited
+	 */
 	public AbstractDocument getDoc() {
 		return doc;
 	}
 
+	/**
+	 * update the content of the current document based on the event package
+	 * received from the server
+	 * @param eventPackage 
+	 *         event package from the server to the client
+	 */
 	public synchronized void updateDoc(EventPackage eventPackage) {
 		if (eventPackage.eventType.equals("INSERT")) {
 			try {
@@ -96,16 +119,28 @@ public class MyFile implements Serializable {
 		}
 	}
 
+	/**
+	 * Change the current document to the specified document
+	 * @param doc: the specified file
+	 */
 	public void changeDoc(AbstractDocument doc) {
 		this.doc = doc;
 	}
 
+	/**
+	 * 
+	 * @return the name of the current document
+	 */
 	public String getDocName() {
 		return docName;
 	}
 
+	/**
+	 * initialize a new document. Called only when the user creates a new
+	 * untitled document
+	 */
 	private void initDocument() {
-		// put some initial text
+		// put some initial text to indicate a new file has been created
 		String initString = "[Start this document]";
 		SimpleAttributeSet attributes = new SimpleAttributeSet();
 		try {
