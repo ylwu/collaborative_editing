@@ -7,5 +7,5 @@ Developers: {Shu Zheng, Yongling Wu, Yunzhi Gao}@mit.edu
 
 Language: Java
 
-keywords: client-server interaction | thread safety | VMC design pattern | java swing | data storage | test-driven development
+keywords: client-server interaction | thread safety | VMC design pattern | java swing | data management | test-driven development
 
