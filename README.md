@@ -1,4 +1,4 @@
-collaborative_editing
+Real-time Collaborative Editor
 =====================
 
 A realtime collaborative editor, run / proj2 / src / gui / startGUI.java to start
